@@ -24,6 +24,7 @@ set(lib_files
    ADC
    Discriminator
    Scaler
+   DAQManager
 )
 
 set(lib_Fortran_files

@@ -16,6 +16,7 @@
 #pragma link C++ class clas12::DAQ::ADC+;
 #pragma link C++ class clas12::DAQ::Trigger+;
 #pragma link C++ class clas12::DAQ::TriggerSupervisor+;
+#pragma link C++ class clas12::DAQ::DAQManager+;
 
 
 //#pragma link C++ function clas12::DriftChamber::P_j_ion_pair(double, int, double);

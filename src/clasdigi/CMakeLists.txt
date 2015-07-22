@@ -1,7 +1,7 @@
 set(exename clasdigi)
 add_executable(${exename} ${exename}.cxx)
 
-target_link_libraries(${exename} ClasHits)
+target_link_libraries(${exename} ClasDAQ ClasHits)
 
 install(TARGETS ${exename}
   # IMPORTANT: Add the bar executable to the "export-set"

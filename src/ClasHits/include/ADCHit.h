@@ -8,6 +8,7 @@ namespace clas12 {
    namespace hits {
 
       class ADCHit : public TObject {
+
          public :
             int  fChannel;
             int  fValue;

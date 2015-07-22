@@ -2,6 +2,7 @@
 #define clas12_DAQ_Scaler_HH 1
 
 #include "TObject.h"
+#include <iostream>
 
 namespace clas12 {
 
@@ -11,13 +12,12 @@ namespace clas12 {
 
          public : 
             int          fChannel;      // Channel Number
-            double       fThreshold;    // Scaler value
-
-            double       fAccumulated;  // An accumlated quantity
             int          fCounted;      // A counted quantity (eg photons)
 
-            Scaler(int ch = 0, double thr = 1.0);
+            Scaler(int ch = 0);
             virtual ~Scaler();
+
+            void Count();
 
             virtual void Clear(Option_t * o = "");
             virtual void Print(Option_t * o = "") const ;

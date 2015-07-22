@@ -9,6 +9,7 @@ set(ClasDigi_LIB_NAMES
 
 set(ClasDigi_EXE_NAMES
    clasdigi
+   tests
    )
 
 # The version number.
@@ -61,7 +62,7 @@ set(ClasDigi_CXX_INC_DIR   "-I${CMAKE_INSTALL_PREFIX}/include/ClasDigi ")
 
 #set (ClasDigi_COMPILER_FLAGS "-Wall")
 set(ClasDigi_COMPILER_FLAGS   "-Wno-unused-variable -Wno-unused-parameter")
-set(CMAKE_CXX_FLAGS         "-std=c++11 ${CMAKE_CXX_FLAGS} ${ClasDigi_COMPILER_FLAGS} ")
+set(CMAKE_CXX_FLAGS         "-std=c++14 ${CMAKE_CXX_FLAGS} ${ClasDigi_COMPILER_FLAGS} ")
 
 set(ClasDigi_PDF_GRID_DIR     "${PROJECT_SOURCE_DIR}/main/grid")
 set(ClasDigi_GRID_DATA_DIR    "${ClasDigi_GRID_DATA_DIR} ${ClasDigi_PDF_GRID_DIR}")

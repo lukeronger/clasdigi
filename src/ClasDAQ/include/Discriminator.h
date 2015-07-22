@@ -2,6 +2,7 @@
 #define clas12_DAQ_Discriminator_HH 1
 
 #include "TObject.h"
+#include <functional>
 
 namespace clas12 {
 
@@ -27,6 +28,9 @@ namespace clas12 {
 
             virtual void Clear(Option_t * o = "");
             virtual void Print(Option_t * o = "") const ;
+
+            std::vector< std::function<void()> >       fCallbacks;
+            std::vector< std::function<void(double)> > fTriggerCallbacks;
 
          protected:
             virtual bool ProcessLatch(double time); 

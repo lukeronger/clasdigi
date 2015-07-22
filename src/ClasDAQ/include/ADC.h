@@ -9,15 +9,16 @@ namespace clas12 {
 
       class ADC : public TObject {
 
-         protected :
-            int       fPedestal;    // ADC pedestal location
 
          public : 
             int       fChannel;     // Channel Number
             int       fValue;       // ADC value
+            int       fPedestal;    // ADC pedestal location
 
-            ADC();
+            ADC(int ch = 0, int ped = 100);
             virtual ~ADC();
+
+            void Count(int c = 1);
 
             void Print(Option_t * opt = "") const ;
             void Clear(Option_t * opt = "");

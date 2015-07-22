@@ -2,6 +2,7 @@
 #define clas12_DAQ_TDCC_HH 1
 
 #include "TObject.h"
+#include "Discriminator.h"
 
 namespace clas12 {
 
@@ -9,19 +10,29 @@ namespace clas12 {
 
       class TDC : public TObject {
 
-         protected :
-            int    fOffset;    // Offset of TDC peak (kind of like pedestal)
-            double fRefTime;   // Reference time (eg, trigger)
 
          public : 
             int    fChannel;   // Channel Number
             int    fValue;     // TDC value
 
-            TDC();
+            int    fOffset;    // Offset of TDC peak (kind of like pedestal)
+            double fResolution;// ns/channel
+
+            double fRefTime;   // Reference time (eg, trigger)
+            double fTime;      // stop time ;
+
+         public:
+            TDC(int ch = 0);
             virtual ~TDC();
 
-            int  Offset() const   { return fOffset; } 
-            void SetOffset(int p) { fOffset = p; } 
+            void Start(double t);
+            void Stop(double t);
+
+            double TimeDifference() { return( fTime - fRefTime ); }
+            int    Readout() { return( fValue = fOffset + int((fTime - fRefTime)/fResolution) ); }
+
+            void AddStartSignal(clas12::DAQ::Discriminator& d);
+            void AddStopSignal(clas12::DAQ::Discriminator& d);
 
             void Print(Option_t * opt = "") const;
             void Clear(Option_t * opt = "");

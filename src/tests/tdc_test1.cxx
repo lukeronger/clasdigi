@@ -2,6 +2,7 @@
 #include <random>
 #include "TriggerSupervisor.h"
 #include "Discriminator.h"
+#include "TDC.h"
 
 int main( int argc, char **argv )
 {
@@ -25,6 +26,25 @@ int main( int argc, char **argv )
    TS.AddTrigger( {5,1} );
 
    Discriminator  d0(0,1.0);
+   Discriminator  d1(1,1.0);
+
+   TDC tdc;
+   tdc.AddStartSignal(d0);
+   tdc.AddStopSignal(d1);
+
+   d0.Count(10.0);
+   d1.Count(15.0);
+
+   tdc.Print();
+   tdc.Clear();
+
+   d0.Count(100.0);
+   d1.Count(125.0);
+
+   tdc.Print();
+   tdc.Clear();
+
+   return 0;
 
    Trigger * trig = TS.GetTrigger(0);
    d0.fTriggerCallbacks.push_back( [trig](double t){ trig->Fire(t); } );
@@ -34,6 +54,9 @@ int main( int argc, char **argv )
 
    trig = TS.GetTrigger(2);
    d0.fTriggerCallbacks.push_back( [trig](double t){ trig->Fire(t); } );
+
+
+
 
    for(int i=0; i<10; i++) {
       int rn = dis(gen);

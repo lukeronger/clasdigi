@@ -2,20 +2,55 @@
 #include <iostream>
 
 //______________________________________________________________________________
-clas12::DAQ::TDC::TDC() : fOffset(0), fRefTime(0.0), fChannel(0), fValue(0)
+clas12::DAQ::TDC::TDC(int ch) : 
+   fChannel(ch), fValue(0), fOffset(0), 
+   fResolution(0.06), fRefTime(0.0), fTime(0.0)
 { }
 //______________________________________________________________________________
 clas12::DAQ::TDC::~TDC()
 { }
 //______________________________________________________________________________
+void clas12::DAQ::TDC::Start(double t)
+{
+   fRefTime = t;
+   std::cout << "start\n";
+}
+//______________________________________________________________________________
+void clas12::DAQ::TDC::Stop(double t)
+{
+   fTime = t;
+   std::cout << "stop\n";
+}
+//______________________________________________________________________________
+void clas12::DAQ::TDC::AddStartSignal(Discriminator& d)
+{
+   // Add callback to discriminator 
+   // Note that there is no way to remove these 
+   // Todo: think of how to do cleanup 
+   d.fTriggerCallbacks.push_back( [this](double t){ this->Start(t); } );
+}
+//______________________________________________________________________________
+void clas12::DAQ::TDC::AddStopSignal(Discriminator& d)
+{
+   // Add callback to discriminator 
+   // Note that there is no way to remove these 
+   // Todo: think of how to do cleanup 
+   d.fTriggerCallbacks.push_back( [this](double t){ this->Stop(t); } );
+}
+//______________________________________________________________________________
 void clas12::DAQ::TDC::Clear(Option_t * )
 {
    fValue     = 0.0;
    fRefTime   = 0.0;
+   fTime      = 0.0;
 }
 //______________________________________________________________________________
 void clas12::DAQ::TDC::Print(Option_t *) const 
 {
-   std::cout << " TDC (chan=" << fChannel << ") : " << fValue << " , offset : " << fOffset <<  "\n";
+   std::cout << " TDC (" << fChannel << ") : " << fValue 
+      << "offset(" << fOffset <<  "), "
+      << "RefTime(" << fRefTime <<  "), "
+      << "Time(" << fTime <<  "), "
+      << "Res(" << fResolution <<  ")\n";
 }
 //______________________________________________________________________________

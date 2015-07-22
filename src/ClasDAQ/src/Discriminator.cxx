@@ -39,6 +39,14 @@ bool clas12::DAQ::Discriminator::Count(double time){
    {
       fTimeFired = time;
       fLatched   = true;
+
+      for( auto callback : fCallbacks ) {
+         callback();
+      }
+      for( auto callback : fTriggerCallbacks ) {
+         callback(time);
+      }
+
       return true;
    }
 
@@ -51,6 +59,7 @@ bool clas12::DAQ::Discriminator::ProcessLatch(double time){
 
    if( time - fTimeFired >= fGateWidth ) {
       fLatched = false;
+      std::cout << "unlatched" << std::endl;
    }
    return fLatched;
 }
