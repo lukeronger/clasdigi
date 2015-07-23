@@ -1,4 +1,4 @@
-set(test_names clasdigi-test1 clasdigi-test2 tdc_test1)
+set(test_names clasdigi-test1 clasdigi-test2 tdc_test1 tdc_test2)
 
 foreach(exename ${test_names})
    add_executable(${exename} ${exename}.cxx)

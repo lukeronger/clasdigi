@@ -8,6 +8,8 @@ namespace clas12 {
 
    namespace DAQ {
 
+      class TDC;
+
       class Discriminator : public TObject {
 
          public : 
@@ -32,11 +34,16 @@ namespace clas12 {
             std::vector< std::function<void()> >       fCallbacks;
             std::vector< std::function<void(double)> > fTriggerCallbacks;
 
+            TDC& operator>>(TDC& rhs);
+
          protected:
             virtual bool ProcessLatch(double time); 
 
             ClassDef(Discriminator,1)
       };
+
+      //TDC& operator>>(Discriminator& lhs,TDC& rhs);
+      //TDC& operator<<(TDC& lhs, Discriminator& rhs);
 
    }
 }

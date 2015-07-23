@@ -10,6 +10,9 @@ namespace clas12 {
 
       class TDC : public TObject {
 
+         //friend TDC& operator>>(Discriminator& lhs, TDC& rhs);
+         //friend TDC& operator<<(TDC& lhs, Discriminator& rhs);
+
 
          public : 
             int    fChannel;   // Channel Number
@@ -25,6 +28,7 @@ namespace clas12 {
             TDC(int ch = 0);
             virtual ~TDC();
 
+
             void Start(double t);
             void Stop(double t);
 
@@ -37,11 +41,18 @@ namespace clas12 {
             void Print(Option_t * opt = "") const;
             void Clear(Option_t * opt = "");
 
+            TDC& operator<<(Discriminator& rhs)
+            {
+               this->AddStopSignal(rhs);
+               return (*this);
+            }
+
             ClassDef(TDC,1)
       };
 
    }
 }
+
 
 #endif
 

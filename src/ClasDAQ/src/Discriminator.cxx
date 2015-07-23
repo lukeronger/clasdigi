@@ -1,5 +1,6 @@
 #include "Discriminator.h"
 #include <iostream>
+#include "TDC.h"
 
 //______________________________________________________________________________
 clas12::DAQ::Discriminator::Discriminator(int ch, double thr) : 
@@ -75,4 +76,20 @@ void clas12::DAQ::Discriminator::Print(Option_t * ) const
 {
    std::cout << " Discriminator (chan=" << fChannel << ") : " << fThreshold << "\n";
 }
+//______________________________________________________________________________
+clas12::DAQ::TDC& clas12::DAQ::Discriminator::operator>>(TDC& rhs)
+{
+   rhs.AddStartSignal((*this));
+   return rhs;
+}
+//______________________________________________________________________________
+//clas12::DAQ::TDC& clas12::DAQ::operator>>(Discriminator& lhs,TDC& rhs)
+//{
+//  return lhs.operator>>(rhs);
+//}
+////______________________________________________________________________________
+//clas12::DAQ::TDC& clas12::DAQ::operator<<(TDC& lhs, Discriminator& rhs)
+//{
+//  return lhs.operator<<(rhs);
+//}
 //______________________________________________________________________________

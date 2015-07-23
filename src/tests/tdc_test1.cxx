@@ -32,16 +32,20 @@ int main( int argc, char **argv )
    tdc.AddStartSignal(d0);
    tdc.AddStopSignal(d1);
 
-   d0.Count(10.0);
-   d1.Count(15.0);
+   d0.Count(10.1234);
+   d1.Count(15.023);
 
    tdc.Print();
+   std::cout << "TDC readout : " << tdc.Readout() << std::endl;
+   std::cout << "  time diff : " << tdc.TimeDifference() << std::endl;
    tdc.Clear();
 
-   d0.Count(100.0);
-   d1.Count(125.0);
+   d0.Count(100.030);
+   d1.Count(125.230);
 
    tdc.Print();
+   std::cout << "TDC readout : " << tdc.Readout() << std::endl;
+   std::cout << "  time diff : " << tdc.TimeDifference() << std::endl;
    tdc.Clear();
 
    return 0;
