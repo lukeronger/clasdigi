@@ -19,12 +19,17 @@ include_directories(${PROJECT_SOURCE_DIR}/src/${aname}/include)
 
 # add src file names here (without the extention or src/ prefix)
 set(lib_files
-   TriggerSupervisor
-   TDC
-   ADC
-   Discriminator
-   Scaler
    DAQManager
+   TriggerSupervisor
+   Crate
+   CrateModule
+   Discriminator
+   ModuleChannel
+   Scaler
+   TDC
+   #MultiHitTDC
+   ADC
+   FlashADC
 )
 
 set(lib_Fortran_files

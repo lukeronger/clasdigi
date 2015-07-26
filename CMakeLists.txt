@@ -5,6 +5,7 @@ project(ClasDigi CXX C Fortran)
 set(ClasDigi_LIB_NAMES
    ClasHits
    ClasDAQ
+   ClasSigs
    )
 
 set(ClasDigi_EXE_NAMES
@@ -106,20 +107,36 @@ find_package(ROOT REQUIRED COMPONENTS MathCore RIO Hist MathMore Graf Graf3d
 include(${ROOT_USE_FILE})
 include_directories(${CMAKE_SOURCE_DIR} ${ROOT_INCLUDE_DIRS})
 add_definitions(${ROOT_CXX_FLAGS})
-
-
 set(LINK_DIRECTORIES
    ${ROOT_LIBRARY_DIR}
    )
-link_directories(${LINK_DIRECTORIES})
-
 set(LINK_LIBRARIES 
+   ${LINK_LIBRARIES}
    ${ROOT_LIBRARIES}
    )
+
+
+# EVIO sucks
+set(EVIO_INCLUDE_DIR $ENV{JLAB_PREFIX}/include)
+set(EVIO_LIBRARY_DIR $ENV{JLAB_PREFIX}/lib)
+set(EVIO_LIBRARIES  evio evioxx)
+
+set(LINK_DIRECTORIES
+   ${LINK_DIRECTORIES}
+   ${EVIO_LIBRARY_DIR}
+   )
+set(LINK_LIBRARIES 
+   ${LINK_LIBRARIES}
+   ${EVIO_LIBRARIES}
+   )
+
+link_directories(${LINK_DIRECTORIES})
+
 
 include_directories(
    ${ROOT_INCLUDE_DIR}
    ${CMAKE_BINARY_DIR}
+   ${EVIO_INCLUDE_DIR}
    ${INCLUDE_DIRECTORIES}
    )
 

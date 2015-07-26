@@ -12,6 +12,7 @@
 
 #pragma link C++ class clas12::hits::ADCHit+;
 #pragma link C++ class clas12::hits::TDCHit+;
+#pragma link C++ class clas12::hits::FlashADCHit+;
 
 #pragma link C++ function clas12::DriftChamber::P_j_ion_pair(double, int, double);
 

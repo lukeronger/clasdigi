@@ -10,13 +10,17 @@
 #pragma link C++ namespace clas12::DAQ;
 
 
+#pragma link C++ class clas12::DAQ::DAQManager+;
+#pragma link C++ class clas12::DAQ::Crate+;
+#pragma link C++ class clas12::DAQ::CrateModule+;
+#pragma link C++ class clas12::DAQ::Trigger+;
+#pragma link C++ class clas12::DAQ::TriggerSupervisor+;
+#pragma link C++ class clas12::DAQ::ModuleChannel+;
 #pragma link C++ class clas12::DAQ::Discriminator+;
 #pragma link C++ class clas12::DAQ::Scaler+;
 #pragma link C++ class clas12::DAQ::TDC+;
 #pragma link C++ class clas12::DAQ::ADC+;
-#pragma link C++ class clas12::DAQ::Trigger+;
-#pragma link C++ class clas12::DAQ::TriggerSupervisor+;
-#pragma link C++ class clas12::DAQ::DAQManager+;
+#pragma link C++ class clas12::DAQ::FlashADC+;
 
 
 //#pragma link C++ function clas12::DriftChamber::P_j_ion_pair(double, int, double);

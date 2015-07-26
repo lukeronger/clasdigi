@@ -1,4 +1,4 @@
-set(aname ClasHits)
+set(aname ClasSigs)
 set(needs_libs)
 set(libname "${aname}")
 set(dictname "${libname}Dict")
@@ -20,12 +20,9 @@ include_directories(${PROJECT_SOURCE_DIR}/src/${aname}/include)
 
 # add src file names here (without the extention or src/ prefix)
 set(lib_files
-   CLAS12MagneticField
-   SimpleDriftChamberHit
-   DigitizedDriftChamberHit
-   ADCHit
-   TDCHit
-   FlashADCHit
+   DigitizedSignal
+   ADCSignal
+   TDCSignal
 )
 
 set(lib_Fortran_files

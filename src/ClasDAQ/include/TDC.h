@@ -3,31 +3,26 @@
 
 #include "TObject.h"
 #include "Discriminator.h"
+#include "ModuleChannel.h"
 
 namespace clas12 {
 
    namespace DAQ {
 
-      class TDC : public TObject {
-
-         //friend TDC& operator>>(Discriminator& lhs, TDC& rhs);
-         //friend TDC& operator<<(TDC& lhs, Discriminator& rhs);
-
+      class TDC : public ModuleChannel {
 
          public : 
-            int    fChannel;   // Channel Number
-            int    fValue;     // TDC value
+            int       fValue;       // TDC value
 
-            int    fOffset;    // Offset of TDC peak (kind of like pedestal)
-            double fResolution;// ns/channel
+            int       fOffset;      // Offset of TDC peak (kind of like pedestal)
+            double    fResolution;  // ns/channel
 
-            double fRefTime;   // Reference time (eg, trigger)
-            double fTime;      // stop time ;
+            double    fRefTime;     // Reference time (eg, trigger)
+            double    fTime;        // stop time ;
 
          public:
             TDC(int ch = 0);
             virtual ~TDC();
-
 
             void Start(double t);
             void Stop(double t);

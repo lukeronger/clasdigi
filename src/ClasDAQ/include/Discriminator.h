@@ -23,6 +23,7 @@ namespace clas12 {
 
             bool         fLatched;      // The discriminator has been triggerd and is output a pulse still
 
+         public : 
             Discriminator(int ch = 0, double thr = 1.0);
             virtual ~Discriminator();
 
