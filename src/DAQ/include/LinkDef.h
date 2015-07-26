@@ -9,6 +9,8 @@
 #pragma link C++ namespace clas12;
 #pragma link C++ namespace clas12::DAQ;
 
+#pragma link C++ enum clas12::Detector;
+#pragma link C++ function clas12::ToString(clas12::Detector);
 
 #pragma link C++ class clas12::DAQ::DAQManager+;
 #pragma link C++ class clas12::DAQ::Crate+;

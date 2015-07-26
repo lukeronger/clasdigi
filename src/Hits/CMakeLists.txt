@@ -20,12 +20,11 @@ include_directories(${PROJECT_SOURCE_DIR}/src/${aname}/include)
 
 # add src file names here (without the extention or src/ prefix)
 set(lib_files
-   CLAS12MagneticField
-   SimpleDriftChamberHit
-   DigitizedDriftChamberHit
    ADCHit
    TDCHit
    FlashADCHit
+   SimpleDriftChamberHit
+   DigitizedDriftChamberHit
 )
 
 set(lib_Fortran_files
