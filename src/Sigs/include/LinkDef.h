@@ -11,6 +11,7 @@
 #pragma link C++ namespace clas12::sigs;
 
 #pragma link C++ class clas12::sigs::DigitizedSignal+;
+#pragma link C++ class clas12::sigs::FlashADCSignal+;
 #pragma link C++ class clas12::sigs::ADCSignal+;
 #pragma link C++ class clas12::sigs::TDCSignal+;
 

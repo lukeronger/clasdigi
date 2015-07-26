@@ -21,7 +21,10 @@ include_directories(${PROJECT_SOURCE_DIR}/src/${aname}/include)
 set(lib_files
    Detectors
    DAQManager
+   Trigger
    TriggerSupervisor
+   TriggerInterface
+   TriggerDistribution
    Crate
    CrateModule
    Discriminator

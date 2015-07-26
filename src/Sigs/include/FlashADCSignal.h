@@ -6,7 +6,7 @@
 
 namespace clas12 {
 
-   namespace hits {
+   namespace sigs {
 
       class FlashADCSignal : public DigitizedSignal {
 

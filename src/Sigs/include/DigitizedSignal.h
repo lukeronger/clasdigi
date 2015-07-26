@@ -11,16 +11,18 @@ namespace clas12 {
       class DigitizedSignal : public TObject {
 
          public :
-            unsigned int  fTag = 0;
-            unsigned int  fNum = 0;
+            int  fCrate   = 0;
+            int  fSlot    = 0;
+            int  fChannel = 0;
 
-            unsigned int  fCrate   = 0;
-            unsigned int  fSlot    = 0;
-            unsigned int  fChannel = 0;
+            int  fTag = 0;
+            int  fNum = 0;
+
 
             clas12::Detector  fDetector;
 
             DigitizedSignal(int ch = 0);
+            DigitizedSignal(int cr, int sl, int ch);
             virtual ~DigitizedSignal();
 
             virtual void Print(Option_t * opt = "") const;

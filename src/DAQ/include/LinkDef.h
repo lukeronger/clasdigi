@@ -17,6 +17,8 @@
 #pragma link C++ class clas12::DAQ::CrateModule+;
 #pragma link C++ class clas12::DAQ::Trigger+;
 #pragma link C++ class clas12::DAQ::TriggerSupervisor+;
+#pragma link C++ class clas12::DAQ::TriggerInterface+;
+#pragma link C++ class clas12::DAQ::TriggerDistribution+;
 #pragma link C++ class clas12::DAQ::ModuleChannel+;
 #pragma link C++ class clas12::DAQ::Discriminator+;
 #pragma link C++ class clas12::DAQ::Scaler+;

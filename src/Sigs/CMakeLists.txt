@@ -21,6 +21,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src/${aname}/include)
 # add src file names here (without the extention or src/ prefix)
 set(lib_files
    DigitizedSignal
+   FlashADCSignal
    ADCSignal
    TDCSignal
 )

@@ -3,12 +3,13 @@
 
 namespace clas12 {
 
-   enum class Detector { HTCC, LTCC, DC, FTOF, EC };
+   enum class Detector { NONE, HTCC, LTCC, DC, FTOF, EC };
 
    inline const char* ToString(Detector v)
    {
       switch (v)
       {
+         case Detector::NONE:   return "NONE";
          case Detector::HTCC:   return "HTCC";
          case Detector::LTCC:   return "LTCC";
          case Detector::FTOF:   return "FTOF";

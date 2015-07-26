@@ -6,11 +6,12 @@ set(test_names
    crate_test
    crate_test2
    flash_adc_test1
+   sigs_test1
    )
 
 foreach(exename ${test_names})
    add_executable(${exename} ${exename}.cxx)
-   target_link_libraries(${exename} ClasDAQ ClasHits)
+   target_link_libraries(${exename} ClasDAQ ClasHits ClasSigs)
    install(TARGETS ${exename}
       # IMPORTANT: Add the bar executable to the "export-set"
       RUNTIME DESTINATION "${CMAKE_BINARY_DIR}" COMPONENT bin)
