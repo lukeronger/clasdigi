@@ -3,9 +3,9 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(ClasDigi CXX C Fortran)
 
 set(ClasDigi_LIB_NAMES
-   ClasHits
-   ClasDAQ
-   ClasSigs
+   Hits
+   DAQ
+   Sigs
    )
 
 set(ClasDigi_EXE_NAMES
@@ -154,7 +154,7 @@ set(ClasDigi_CXX_LDFLAGS   "${ClasDigi_CXX_LDFLAGS} ${CMAKE_SHARED_LINKER_FLAGS}
 
 # ---------------------------------------
 foreach(aSharedLib ${ClasDigi_LIB_NAMES})
-   set(ClasDigi_CXX_LIBS      "${ClasDigi_CXX_LIBS} -l${aSharedLib} ")
+   set(ClasDigi_CXX_LIBS      "${ClasDigi_CXX_LIBS} -lClas${aSharedLib} ")
 endforeach(aSharedLib)
 
 # configure a header file to pass some of the CMake settings to the source code

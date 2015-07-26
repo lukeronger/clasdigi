@@ -1,6 +1,6 @@
-set(aname ClasDAQ)
+set(aname DAQ)
 set(needs_libs)
-set(libname "${aname}")
+set(libname "Clas${aname}")
 set(dictname "${libname}Dict")
 set(lib_LINKDEF "${PROJECT_SOURCE_DIR}/src/${aname}/include/LinkDef.h")
 set(lib_DICTIONARY_SRC "${libname}Dict.cxx")

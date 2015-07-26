@@ -1,6 +1,6 @@
-set(aname ClasSigs)
+set(aname Hits)
 set(needs_libs)
-set(libname "${aname}")
+set(libname "Clas${aname}")
 set(dictname "${libname}Dict")
 set(lib_LINKDEF "${PROJECT_SOURCE_DIR}/src/${aname}/include/LinkDef.h")
 set(lib_DICTIONARY_SRC "${libname}Dict.cxx")
@@ -20,9 +20,12 @@ include_directories(${PROJECT_SOURCE_DIR}/src/${aname}/include)
 
 # add src file names here (without the extention or src/ prefix)
 set(lib_files
-   DigitizedSignal
-   ADCSignal
-   TDCSignal
+   CLAS12MagneticField
+   SimpleDriftChamberHit
+   DigitizedDriftChamberHit
+   ADCHit
+   TDCHit
+   FlashADCHit
 )
 
 set(lib_Fortran_files
