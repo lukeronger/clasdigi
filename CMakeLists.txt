@@ -156,7 +156,7 @@ set(ClasDigi_CXX_LDFLAGS   "${ClasDigi_CXX_LDFLAGS} ${CMAKE_SHARED_LINKER_FLAGS}
 set(ClasDigi_SHARED_LIB_NAMES)
 foreach(aSharedLib ${ClasDigi_LIB_NAMES})
    set(ClasDigi_CXX_LIBS      "${ClasDigi_CXX_LIBS} -lClas${aSharedLib} ")
-   set(ClasDigi_SHARED_LIB_NAMES      "${ClasDigi_SHARED_LIB_NAMES} Clas${aSharedLib}")
+   set(ClasDigi_SHARED_LIB_NAMES    ${ClasDigi_SHARED_LIB_NAMES} Clas${aSharedLib})
 endforeach(aSharedLib)
 
 # configure a header file to pass some of the CMake settings to the source code
