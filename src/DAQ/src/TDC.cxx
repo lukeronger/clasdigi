@@ -12,14 +12,14 @@ clas12::DAQ::TDC::~TDC()
 //______________________________________________________________________________
 void clas12::DAQ::TDC::Start(double t)
 {
-   fRefTime = t;
-   std::cout << "start\n";
+   fTime = t;
+   //std::cout << "start\n";
 }
 //______________________________________________________________________________
 void clas12::DAQ::TDC::Stop(double t)
 {
-   fTime = t;
-   std::cout << "stop\n";
+   fRefTime = t;
+   //std::cout << "stop\n";
 }
 //______________________________________________________________________________
 void clas12::DAQ::TDC::AddStartSignal(Discriminator& d)

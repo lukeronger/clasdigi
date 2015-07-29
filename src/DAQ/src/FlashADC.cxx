@@ -37,11 +37,13 @@ clas12::DAQ::FlashADC::FlashADC(int ch) : ModuleChannel(ch),
 
    for(int i = 0; i<a0; i++){
       fPulse.push_back( 0.0 );
+      //std::cout << i << " " << fPulse[i] << std::endl;
    }
    for(int i = 0; i<a1; i++){
       fPulse.push_back( 2048*clas12::DAQ::pulse_waveform(4.0*i) );
-      //std::cout << i << " " << fPulse[i] << std::endl;
+      //std::cout << a0+i << " " << fPulse[a0+i] << std::endl;
    }
+   fTCs.clear();
 }
 //______________________________________________________________________________
 clas12::DAQ::FlashADC::~FlashADC()
@@ -51,7 +53,7 @@ void clas12::DAQ::FlashADC::Reset(double t)
 {
    fBuffer.clear();
    fTCs.clear();
-   fTime = t;
+   fTime    = t;
    fRefTime = t;
    fDisc.Clear();
 }
@@ -63,8 +65,10 @@ void clas12::DAQ::FlashADC::AddPulseToBuffer(int n, double amp ) {
    if( nbuf - n < npulse ) {
       fBuffer.resize(n+npulse,0.0);
    }
-   for(int i=0 ; i<npulse ; i++){
-      fBuffer[n-fPulseMax+i] += (amp*fPulse[i]);
+   for(int i=0 ; i<npulse ; i++) {
+      if(n-fNSB+i < 0 ) continue;
+      fBuffer[n-fNSB+i] += (amp*fPulse[i]);
+      //std::cout << n-fPulseMax+i << " " << fBuffer[n-fPulseMax+i] << std::endl;
    }
 }
 //______________________________________________________________________________
@@ -72,16 +76,16 @@ void clas12::DAQ::FlashADC::Stop(double t)
 {
    if( fTCs.size() == 0 ) {
       fRefTime    = t;
+   }
       //auto i      = std::distance(fBuffer.begin(), fBuffer.end()) + fNSB; 
-      fTCs.push_back( fNSB );
-      AddPulseToBuffer( fNSB);
-
+      //fTCs.push_back( fNSB );
+      //AddPulseToBuffer( fNSB);
       //fBuffer.insert( fBuffer.end(), fPulse.begin(), fPulse.end() );
-   } else {
+   //} else {
       int  i_peak = fNSB + int((t-fRefTime)/fSampleFreq);
       AddPulseToBuffer( i_peak );
       fTCs.push_back( i_peak );
-   }
+   //}
 
    fTime = t;
    //std::cout << "FlashADC::Stop\n";
@@ -140,7 +144,7 @@ void clas12::DAQ::FlashADC::Print(Option_t *) const
       << "RefTime(" << fRefTime <<  "), "
       << "Time(" << fTime <<  "), "
       << "TemRes(" << fTimeResolution <<  ")\n";
-   PrintBuffer();
+   //PrintBuffer();
 }
 //______________________________________________________________________________
 

@@ -2,16 +2,16 @@
 #define clas12_DAQ_ADCC_HH 1
 
 #include "TObject.h"
+#include "ModuleChannel.h"
 
 namespace clas12 {
 
    namespace DAQ {
 
-      class ADC : public TObject {
+      class ADC : public ModuleChannel {
 
 
          public : 
-            int       fChannel;     // Channel Number
             int       fValue;       // ADC value
             int       fPedestal;    // ADC pedestal location
 

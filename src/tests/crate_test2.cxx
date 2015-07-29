@@ -3,6 +3,7 @@
 #include "Crate.h"
 #include "CrateModule.h"
 #include "ModuleChannel.h"
+#include "Module.h"
 #include "TDC.h"
 
 int main( int argc, char **argv )
@@ -26,6 +27,8 @@ int main( int argc, char **argv )
    CrateModule * m1 = new CrateModule("customer");
    m1->SetNChannels(48);
 
+   Module<TDC> * m2 = new Module<TDC>("Template TDC module");
+   c1.AddModule(6, m2);
 
    c1.AddModule(1, new CrateModule("TDC"));
    c1.AddModule(2, new CrateModule("TDC"));

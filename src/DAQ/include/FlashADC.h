@@ -16,12 +16,12 @@ namespace clas12 {
       class FlashADC : public ModuleChannel {
 
          public : 
-            short     fNSB           = 10;  // Number of samples before TC (<512)
-            short     fNSA           = 20;  // Number of samples after TC  (<512)
-            short     fTriggerWindow = 100; // Trigger window 
+            int     fNSB           = 10;  // Number of samples before TC (<512)
+            int     fNSA           = 20;  // Number of samples after TC  (<512)
+            int     fTriggerWindow = 100; // Trigger window 
 
-            double    fRefTime = 0.0;      // Reference time (eg, trigger)
-            double    fTime    = 0.0;      // Time since last reset 
+            double    fRefTime       = 0.0; // Reference time (eg, trigger)
+            double    fTime          = 0.0; // Time since last reset 
 
             std::vector<int>     fBuffer;  // fADC buffer
             std::vector<int>     fTCs;     // Array of TCs. Stores buffer index

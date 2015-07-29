@@ -2,6 +2,7 @@
 #define clas12_DAQ_Discriminator_HH 1
 
 #include "TObject.h"
+#include "ModuleChannel.h"
 #include <functional>
 
 namespace clas12 {
@@ -10,10 +11,9 @@ namespace clas12 {
 
       class TDC;
 
-      class Discriminator : public TObject {
+      class Discriminator : public ModuleChannel {
 
          public : 
-            int          fChannel;      // Channel Number
             double       fThreshold;    // Discriminator value
             double       fGateWidth;    // Size of gate in ns 
 

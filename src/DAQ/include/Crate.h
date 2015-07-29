@@ -3,7 +3,10 @@
 
 #include "TNamed.h"
 #include "TList.h"
+
 #include "CrateModule.h"
+#include "SignalDistribution.h"
+#include "Module.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -16,14 +19,14 @@ namespace clas12 {
 
          private:
             int                 fMaxNameSize = 10;
-            int                 fMaxSlots = 24;
+            int                 fMaxSlots    = 18;
             std::map<int,int>   fSlotMap;          // Maps slot (key) to arb vector location
 
          public:
-            int fId;
-
+            int                      fId;
             std::vector<std::string> fModuleNames;
             TList                    fModules;
+            SignalDistribution       fSD;
 
          public:
             Crate(const char * n = "", const char * t = "", int         id = 0 );
@@ -32,6 +35,7 @@ namespace clas12 {
             virtual ~Crate();
 
             void AddModule(int slot, CrateModule * m) ;
+            void AddModule(int slot, Module<TDC> * m) ;
 
             void Print(Option_t * opt = "");
 
@@ -43,3 +47,4 @@ namespace clas12 {
 }
 
 #endif
+

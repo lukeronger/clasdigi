@@ -5,6 +5,10 @@
 #include "TNamed.h"
 #include "TList.h"
 #include "ModuleChannel.h"
+#include "Discriminator.h"
+#include "ADC.h"
+#include "FlashADC.h"
+#include "TDC.h"
 
 namespace clas12 {
 
@@ -25,6 +29,29 @@ namespace clas12 {
 
             void SetNChannels(int nch);
             void SetChannel(int ch, ModuleChannel * c);
+            
+            Discriminator * GetDiscriminator(int i){
+               Discriminator * disc = nullptr;
+               if(i < fNChannels) {
+                  disc = dynamic_cast<Discriminator*>(fChannels.At(i));
+               }
+               return disc;
+            }
+            TDC * GetTDC(int i){
+               TDC * atdc = nullptr;
+               if(i < fNChannels) {
+                  atdc = dynamic_cast<TDC*>(fChannels.At(i));
+               }
+               return atdc;
+            }
+            ADC * GetADC(int i){
+               ADC * aadc = nullptr;
+               if(i < fNChannels) {
+                  aadc = dynamic_cast<ADC*>(fChannels.At(i));
+               }
+               return aadc;
+            }
+
 
             ClassDef(CrateModule,1)
       };

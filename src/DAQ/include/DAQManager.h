@@ -13,8 +13,6 @@ namespace clas12 {
    namespace DAQ {
 
       class DAQManager : public TObject {
-         //DAQManager(DAQManager&) = delete;
-         //void operator=(DAQManager&) = delete;
 
          public:
             static DAQManager * GetManager();

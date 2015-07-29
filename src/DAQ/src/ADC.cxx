@@ -2,7 +2,7 @@
 #include <iostream>
 
 //______________________________________________________________________________
-clas12::DAQ::ADC::ADC(int ch, int ped) : fChannel(ch), fValue(0), fPedestal(ped) 
+clas12::DAQ::ADC::ADC(int ch, int ped) : ModuleChannel(ch), fValue(0), fPedestal(ped) 
 { }
 //______________________________________________________________________________
 clas12::DAQ::ADC::~ADC()

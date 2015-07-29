@@ -24,7 +24,9 @@ void clas12::sigs::DigitizedSignal::Print(Option_t * opt) const
       << ",sl=" << std::setw(4) << std::left << fSlot
       << ",cr=" << std::setw(4) << std::left << fCrate
       << ") = (" 
-      << clas12::ToString(fDetector)
+      << "tag=" << std::setw(4) << std::left << fTag
+      << ",num=" << std::setw(4) << std::left << fNum
+      << ", " << clas12::ToString(fDetector)
       << ")"
       << "\n";
 } 

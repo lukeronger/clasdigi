@@ -4,7 +4,7 @@
 
 //______________________________________________________________________________
 clas12::DAQ::Discriminator::Discriminator(int ch, double thr) : 
-   fChannel(ch), fThreshold(thr), fGateWidth(10.0),
+   ModuleChannel(ch), fThreshold(thr), fGateWidth(10.0),
    fAccumulated(0.0), fCounted(0.0),
    fTimeFired(0.0), fLatched(false)
 { }
@@ -70,26 +70,22 @@ void clas12::DAQ::Discriminator::Clear(Option_t * )
    fAccumulated = 0.0;
    fCounted     = 0;
    fTimeFired   = 0.0;
+   fLatched     = false;
 }
 //______________________________________________________________________________
 void clas12::DAQ::Discriminator::Print(Option_t * ) const
 {
-   std::cout << " Discriminator (chan=" << fChannel << ") : " << fThreshold << "\n";
+   std::cout << " Discriminator (chan=" << fChannel << ") :"
+      << " T_fired : " << fTimeFired 
+      << " latched : " << fLatched 
+      << " thresh  : " << fThreshold << "\n";
 }
 //______________________________________________________________________________
+
 clas12::DAQ::TDC& clas12::DAQ::Discriminator::operator>>(TDC& rhs)
 {
    rhs.AddStartSignal((*this));
    return rhs;
 }
 //______________________________________________________________________________
-//clas12::DAQ::TDC& clas12::DAQ::operator>>(Discriminator& lhs,TDC& rhs)
-//{
-//  return lhs.operator>>(rhs);
-//}
-////______________________________________________________________________________
-//clas12::DAQ::TDC& clas12::DAQ::operator<<(TDC& lhs, Discriminator& rhs)
-//{
-//  return lhs.operator<<(rhs);
-//}
-//______________________________________________________________________________
+

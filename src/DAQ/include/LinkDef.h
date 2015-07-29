@@ -19,12 +19,21 @@
 #pragma link C++ class clas12::DAQ::TriggerSupervisor+;
 #pragma link C++ class clas12::DAQ::TriggerInterface+;
 #pragma link C++ class clas12::DAQ::TriggerDistribution+;
+#pragma link C++ class clas12::DAQ::SignalDistribution+;
+#pragma link C++ class clas12::DAQ::SubSystemProcessor+;
+
 #pragma link C++ class clas12::DAQ::ModuleChannel+;
 #pragma link C++ class clas12::DAQ::Discriminator+;
 #pragma link C++ class clas12::DAQ::Scaler+;
 #pragma link C++ class clas12::DAQ::TDC+;
 #pragma link C++ class clas12::DAQ::ADC+;
 #pragma link C++ class clas12::DAQ::FlashADC+;
+
+#pragma link C++ class clas12::DAQ::Module<clas12::DAQ::TDC>+;
+#pragma link C++ class clas12::DAQ::Module<clas12::DAQ::ADC>+;
+#pragma link C++ class clas12::DAQ::Module<clas12::DAQ::Scaler>+;
+#pragma link C++ class clas12::DAQ::Module<clas12::DAQ::FlashADC>+;
+#pragma link C++ class clas12::DAQ::Module<clas12::DAQ::Discriminator>+;
 
 
 //#pragma link C++ function clas12::DriftChamber::P_j_ion_pair(double, int, double);

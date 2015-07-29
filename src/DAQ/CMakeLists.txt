@@ -25,15 +25,19 @@ set(lib_files
    TriggerSupervisor
    TriggerInterface
    TriggerDistribution
+   SignalDistribution
+   SubSystemProcessor
    Crate
    CrateModule
    Discriminator
+   Module
    ModuleChannel
    Scaler
    TDC
    #MultiHitTDC
    ADC
    FlashADC
+   CLAS12DAQ
 )
 
 set(lib_Fortran_files

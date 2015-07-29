@@ -2,16 +2,17 @@
 #define clas12_DAQ_Scaler_HH 1
 
 #include "TObject.h"
+#include "ModuleChannel.h"
+
 #include <iostream>
 
 namespace clas12 {
 
    namespace DAQ {
 
-      class Scaler : public TObject {
+      class Scaler : public ModuleChannel {
 
          public : 
-            int          fChannel;      // Channel Number
             int          fCounted;      // A counted quantity (eg photons)
 
             Scaler(int ch = 0);

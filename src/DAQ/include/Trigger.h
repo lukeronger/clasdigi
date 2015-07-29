@@ -31,19 +31,7 @@ namespace clas12 {
             void Clear(Option_t * opt = "") override;
             void Print(Option_t * opt = "") const override;
 
-            void Fire(double t) {
-               fCounted++;
-               if(fCounted%fPreScale == 0)
-               {
-                  fRefTime   = t;
-                  fTriggered = true;
-                  fRecorded++;
-                  std::cout << "Trigger FIRED" << std::endl;
-               } 
-               for(auto ts : fTSCallbacks) {
-                  ts(t);
-               }
-            }
+            void Fire(double t) ;
             bool IsTriggered() const { return fTriggered; }
 
             void AddTSCallback( std::function<void(double)> f ){ fTSCallbacks.push_back(f); }

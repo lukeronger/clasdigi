@@ -25,6 +25,8 @@ set(lib_files
    FlashADCHit
    SimpleDriftChamberHit
    DigitizedDriftChamberHit
+   CLAS12HitsEvent
+   HTCCHitsEvent
 )
 
 set(lib_Fortran_files

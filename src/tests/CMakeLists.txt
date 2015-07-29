@@ -7,6 +7,10 @@ set(test_names
    crate_test2
    flash_adc_test1
    sigs_test1
+   trigger_test1
+   catch_test
+   create_test_hits
+   template_modules
    )
 
 foreach(exename ${test_names})

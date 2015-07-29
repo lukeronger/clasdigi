@@ -153,8 +153,10 @@ set(CMAKE_Fortran_FLAGS " -D\"ClasDigi_PDF_GRID_DIR='${ClasDigi_PDF_GRID_DIR}'\"
 set(ClasDigi_CXX_LDFLAGS   "${ClasDigi_CXX_LDFLAGS} ${CMAKE_SHARED_LINKER_FLAGS}")
 
 # ---------------------------------------
+set(ClasDigi_SHARED_LIB_NAMES)
 foreach(aSharedLib ${ClasDigi_LIB_NAMES})
    set(ClasDigi_CXX_LIBS      "${ClasDigi_CXX_LIBS} -lClas${aSharedLib} ")
+   set(ClasDigi_SHARED_LIB_NAMES      "${ClasDigi_SHARED_LIB_NAMES} Clas${aSharedLib}")
 endforeach(aSharedLib)
 
 # configure a header file to pass some of the CMake settings to the source code
@@ -175,7 +177,7 @@ set(ClasDigi_PCM_FILES)
 
 # ---------------------------------------
 foreach(aSharedLib ${ClasDigi_LIB_NAMES})
-   set(ClasDigi_LIBRARIES ${ClasDigi_LIBRARIES} ClasDigi${aSharedLib})
+   set(ClasDigi_LIBRARIES ${ClasDigi_LIBRARIES} Clas${aSharedLib})
    #set(ClasDigi_SHARED_LIBS ${ClasDigi_SHARED_LIBS} "${CMAKE_BINARY_DIR}/lib/ClasDigi${aSharedLib}.so")
    set(ClasDigi_ROOT_DICTS ${ClasDigi_ROOT_DICTS} "ClasDigi${aSharedLib}Dict.h")
    set(ClasDigi_ROOT_DICT_SRCS ${ClasDigi_ROOT_DICT_SRCS} "ClasDigi${aSharedLib}Dict.cxx")
@@ -260,7 +262,7 @@ install(FILES ${PCM_FILES} DESTINATION lib)
 export(PACKAGE ${PROJECT_NAME})
 
 set(CONF_LIBRARIES 
-   ${ClasDigi_LIB_NAMES}  # TODO: Break big library into smaller ones
+   ${ClasDigi_SHARED_LIB_NAMES}  # TODO: Break big library into smaller ones
    )
 
 set(CONF_EXECUTABLES 
@@ -300,26 +302,3 @@ MESSAGE("                CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 MESSAGE("         CMAKE_LINK_FLAGS: ${CMAKE_LINK_FLAGS}")
 MESSAGE("CMAKE_SHARED_LINKER_FLAGS: ${CMAKE_SHARED_LINKER_FLAGS}")
 
-
-#---------------------------------------------------------------------------
-# ROOT compile flags
-#EXECUTE_PROCESS(COMMAND root-config --cflags OUTPUT_VARIABLE ROOT_CXX_FLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ROOT_CXX_FLAGS}")
-#EXECUTE_PROCESS(COMMAND clhep-config --include OUTPUT_VARIABLE CLHEP_CXX_FLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CLHEP_CXX_FLAGS}")
-#set(ClasDigi_CXX_CFLAGS "${ClasDigi_CXX_CFLAGS} ${CMAKE_CXX_FLAGS}")
-#----------------------------------------------------------------------------
-# Locate sources and headers for this project
-# NB: headers are included so they will show up in IDEs
-#file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.C)
-#file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.h)
-#----------------------------------------------------------------------------
-# Add the libraries 
-#add_library(myObjects ${sources})
-#---------------------------------------------------------------------------
-# ROOT linking flags 
-#EXECUTE_PROCESS(COMMAND root-config --evelibs OUTPUT_VARIABLE ROOT_LD_FLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
-#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ROOT_LD_FLAGS}")
-#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}   -lGeomPainter -lGeom -lEve -lTreeViewer -lSpectrum -lSpectrumPainter -lFoam ")
-#set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${ROOT_LD_FLAGS}")
-#set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}  -lGeomPainter -lGeom -lEve -lTreeViewer -lSpectrum -lSpectrumPainter -lFoam")

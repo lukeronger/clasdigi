@@ -19,7 +19,7 @@ namespace clas12 {
             int  fNum = 0;
 
 
-            clas12::Detector  fDetector;
+            clas12::Detector  fDetector = Detector::NONE;
 
             DigitizedSignal(int ch = 0);
             DigitizedSignal(int cr, int sl, int ch);

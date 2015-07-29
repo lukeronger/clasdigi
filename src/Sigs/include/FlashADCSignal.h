@@ -11,10 +11,16 @@ namespace clas12 {
       class FlashADCSignal : public DigitizedSignal {
 
          public :
+            std::vector<int>  fBuffer;
+            int               fIntegral;
+
+         public :
             FlashADCSignal(int ch = 0);
             virtual ~FlashADCSignal();
-
+            
+            void PrintBuffer() const;
             virtual void Print(Option_t * opt = "") const;
+            virtual void Clear(Option_t * opt = "");
 
             ClassDef(FlashADCSignal,1)
       };
