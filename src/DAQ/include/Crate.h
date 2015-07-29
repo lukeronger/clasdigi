@@ -17,7 +17,8 @@ namespace clas12 {
 
       class Crate : public TNamed {
 
-         private:
+         protected:
+
             int                 fMaxNameSize = 10;
             int                 fMaxSlots    = 18;
             std::map<int,int>   fSlotMap;          // Maps slot (key) to arb vector location
@@ -35,9 +36,51 @@ namespace clas12 {
             virtual ~Crate();
 
             void AddModule(int slot, CrateModule * m) ;
-            void AddModule(int slot, Module<TDC> * m) ;
 
-            void Print(Option_t * opt = "");
+            void Reset() {
+               for(int i = 0; i<fModules.GetEntries();i++){
+                  fModules.At(i)->Clear();
+               }
+            }
+
+            void Print(Option_t * opt = "") const override;
+
+            template <typename T>
+            void AddCrateModule(int slot, Module<T> * m )
+            {
+               std::string name = m->GetName();
+               // increment the max name size for Print()
+               if( name.length() + 1 > this->fMaxNameSize ) this->fMaxNameSize = name.length() + 1;
+               if( this->fSlotMap.count(slot) ) {
+                  std::cout << " replacing module in slot " << slot << ".\n";
+                  this->fModuleNames[this->fSlotMap[slot]] = name;
+                  this->fModules.RemoveAt( this->fSlotMap[slot] );
+                  this->fModules.AddAt( m, this->fSlotMap[slot] );
+               } else {
+                  this->fSlotMap[slot] = this->fModuleNames.size();
+                  this->fModuleNames.push_back(name);
+                  this->fModules.Add(m);
+               }
+            }
+
+            template <typename T>
+            Module<T> * GetCrateModule(int slot)//, Module<T> * m)
+            {
+               //GetCrateModule(int slot)
+               // ideally want to use C++14 features here to return auto... we'll have to wait
+               Module<T> * m = nullptr;
+               if( this->fSlotMap.count(slot) ) {
+                   m = dynamic_cast<Module<T>*>(this->fModules.At(this->fSlotMap[slot]) );
+                   if(m) {
+                      m = (Module<T>*)(this->fModules.At(this->fSlotMap[slot]));
+                      return m;
+                   }
+               } 
+               if(!m) {
+                  std::cout << "Module not found in slot " << slot << "\n";
+                  return nullptr;
+               }
+            }
 
             ClassDef(Crate,1)
       };

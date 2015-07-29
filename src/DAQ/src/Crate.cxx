@@ -28,29 +28,6 @@ clas12::DAQ::Crate::~Crate()
 { } 
 //______________________________________________________________________________
 
-void clas12::DAQ::Crate::AddModule(int slot, Module<TDC> * m) {
-   std::string name = m->GetName();
-   if( name.length() + 1 > fMaxNameSize ) fMaxNameSize = name.length() + 1;
-   if( fSlotMap.count(slot) ) {
-      std::cout << " replacing module in slot " << slot << ".\n";
-      fModuleNames[fSlotMap[slot]] = name;
-      //CrateModule * amod = dynamic_cast<CrateModule*>(
-      fModules.RemoveAt( fSlotMap[slot] );
-      //);
-      //if(amod) {
-      //   delete amod;
-      //   amod = nullptr;
-      //   //std::cout << "deleted mod" << std::endl;
-      //}
-      fModules.AddAt( m, fSlotMap[slot] );
-   } else {
-      fSlotMap[slot] = fModuleNames.size();
-      fModuleNames.push_back(name);
-      fModules.Add(m);
-   }
-}
-//______________________________________________________________________________
-
 void clas12::DAQ::Crate::AddModule(int slot, CrateModule * m) {
    std::string name = m->GetName();
    if( name.length() + 1 > fMaxNameSize ) fMaxNameSize = name.length() + 1;
@@ -73,7 +50,7 @@ void clas12::DAQ::Crate::AddModule(int slot, CrateModule * m) {
    }
 }
 //______________________________________________________________________________
-void clas12::DAQ::Crate::Print(Option_t * opt)
+void clas12::DAQ::Crate::Print(Option_t * opt) const
 {
    using namespace std;
 
@@ -89,7 +66,7 @@ void clas12::DAQ::Crate::Print(Option_t * opt)
          //CrateModule * mod = dynamic_cast<CrateModule*>( fModules.At( fSlotMap[i] ) );
          //if(!mod) mod = dynamic_cast<Module<TDC>*>( fModules.At( fSlotMap[i] ) );
          cout << setfill(' ') << setw(6) << right << i 
-            << " |" << setfill('_') << setw(fMaxNameSize) << right << fModuleNames[fSlotMap[i]] 
+            << " |" << setfill('_') << setw(fMaxNameSize) << right << fModuleNames.at(fSlotMap.at(i)) 
             << "__| " 
             << setfill(' ') << setw(8) << left << " " /*mod->fNChannels*/ << endl;
       } else {

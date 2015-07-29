@@ -20,8 +20,14 @@ namespace clas12 {
             int fRunNumber;
             int fEventNumber;
 
+            int fNADCHits;
+            int fNTDCHits;
+
             TClonesArray * fADCHits;   //->
             TClonesArray * fTDCHits;   //->
+
+            void Clear(Option_t * opt = "");
+            void Print(Option_t * opt = "") const ;
 
          ClassDef(HTCCHitsEvent,1)
       };

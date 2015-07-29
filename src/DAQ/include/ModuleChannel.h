@@ -3,6 +3,7 @@
 
 #include "TObject.h"
 #include <vector>
+#include <iostream>
 
 namespace clas12 {
 
@@ -16,6 +17,11 @@ namespace clas12 {
          public:
             ModuleChannel(int id);
             virtual ~ModuleChannel();
+
+            void Print(Option_t * opt = "") const  override
+            {
+               std::cout << " channel = " << fChannel << std::endl;
+            }
 
             ClassDef(ModuleChannel,1)
       };

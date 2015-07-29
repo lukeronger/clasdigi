@@ -25,7 +25,7 @@ namespace clas12 {
 
             void AddModule(int slot, GloabalDistributionCrateModule * m) ;
 
-            void Print(Option_t * opt = "");
+            void Print(Option_t * opt = "") const  override;
 
             ClassDef(GloabalDistributionCrate,1)
       };

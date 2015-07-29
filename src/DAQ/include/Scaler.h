@@ -20,8 +20,8 @@ namespace clas12 {
 
             void Count();
 
-            virtual void Clear(Option_t * o = "");
-            virtual void Print(Option_t * o = "") const ;
+            virtual void Clear(Option_t * o = "") override;
+            virtual void Print(Option_t * o = "") const override;
 
             ClassDef(Scaler,1)
       };

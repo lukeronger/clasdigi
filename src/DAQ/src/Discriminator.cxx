@@ -4,7 +4,7 @@
 
 //______________________________________________________________________________
 clas12::DAQ::Discriminator::Discriminator(int ch, double thr) : 
-   ModuleChannel(ch), fThreshold(thr), fGateWidth(10.0),
+   ModuleChannel(ch), fThreshold(thr), fGateWidth(1.0),
    fAccumulated(0.0), fCounted(0.0),
    fTimeFired(0.0), fLatched(false)
 { }

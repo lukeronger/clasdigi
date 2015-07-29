@@ -33,8 +33,8 @@ namespace clas12 {
             void AddStartSignal(clas12::DAQ::Discriminator& d);
             void AddStopSignal(clas12::DAQ::Discriminator& d);
 
-            void Print(Option_t * opt = "") const;
-            void Clear(Option_t * opt = "");
+            void Print(Option_t * opt = "") const override;
+            void Clear(Option_t * opt = "") override;
 
             TDC& operator<<(Discriminator& rhs)
             {

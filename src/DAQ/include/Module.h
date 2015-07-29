@@ -19,30 +19,36 @@ namespace clas12 {
       class Module : public TNamed {
 
          public:
-            int             fId        = 0 ;
             int             fNChannels = 18;
             std::vector<T>  fChannels;
 
          public:
-            Module(const char * n = "", const char * t = "", int id = 0 )
-               : TNamed(n,t), fId(id)
+            Module(const char * n = "", const char * t = "", int nch = 0 )
+               : TNamed(n,t), fNChannels(nch)
             {
                SetNChannels(fNChannels);
             }
 
-            Module(const char * n, int id)
-               : TNamed(n,n), fId(id)
+            Module(const char * n, int nch)
+               : TNamed(n,n), fNChannels(nch)
             {
                SetNChannels(fNChannels);
             }
 
-            Module(int id)
-               : Module(Form("Module-%d",id),id)
+            Module(int nch)
+               : Module(Form("Module-%d",nch),nch)
             {
                SetNChannels(fNChannels);
             }
 
             virtual ~Module() { }
+
+            void Clear(Option_t * opt) {
+               for( auto ch : fChannels ) {
+                  ch.Clear();
+               }
+            }
+
 
             void SetNChannels(int nch) {
                fChannels.resize(nch);
@@ -56,7 +62,7 @@ namespace clas12 {
                if( ch < fNChannels) {
                   fChannels[ch] = c;
                } else {
-               std::cout << "Error : " << ch << " is larger than the number of channesl " << fNChannels << std::endl;
+               std::cout << "Error : " << ch << " is larger than the number of channels " << fNChannels << std::endl;
                }
             }
 
@@ -64,17 +70,19 @@ namespace clas12 {
                if(i < fNChannels) {
                   return fChannels[i];
                }
-               std::cout << "Error : " << i << " is larger than the number of channesl " << fNChannels << std::endl;
+               std::cout << "Error : " << i << " is larger than the number of channels " << fNChannels << std::endl;
                return fChannels[fNChannels-1];
             }
 
-            void Print(Option_t * opt = "") {
+            void Print(Option_t * opt = "") const  override
+            {
                std::cout << " Module ("  
                   << fNChannels << ") : " 
                   << GetName() << "\n";
-               //std::cout << " compare " << strcmp(opt,"v") << "\n";
+               std::cout << " compare " << strcmp(opt,"v") << "\n";
                if( !strcmp(opt,"v") ){
                   for( auto ch : fChannels ) {
+                     ch.Dump();
                      ch.Print();
                   }
                }
