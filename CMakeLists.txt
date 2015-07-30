@@ -6,6 +6,7 @@ set(ClasDigi_LIB_NAMES
    Hits
    DAQ
    Sigs
+   Sim
    )
 
 set(ClasDigi_EXE_NAMES

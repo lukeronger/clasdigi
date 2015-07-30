@@ -2,9 +2,9 @@
 #include <iostream>
 
 //______________________________________________________________________________
-clas12::DAQ::TDC::TDC(int ch) : 
-   ModuleChannel(ch), fValue(0), fOffset(0), 
-   fResolution(0.06), fRefTime(0.0), fTime(0.0)
+clas12::DAQ::TDC::TDC(int ch, int o) : 
+   ModuleChannel(ch), fOffset(o), 
+   fRefTime(0.0), fTime(0.0),fValue(0) 
 { }
 //______________________________________________________________________________
 clas12::DAQ::TDC::~TDC()

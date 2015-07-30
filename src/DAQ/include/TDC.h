@@ -12,16 +12,16 @@ namespace clas12 {
       class TDC : public ModuleChannel {
 
          public : 
-            int       fValue;       // TDC value
 
-            int       fOffset;      // Offset of TDC peak (kind of like pedestal)
-            double    fResolution;  // ns/channel
+            int       fOffset       = 100;   // shift of TDC peak (added to value for readout)
+            double    fResolution   = 0.06;  // ns/channel (0.06ns is the fine grain resolution of fADC);
 
             double    fRefTime;     // Reference time (eg, trigger)
             double    fTime;        // stop time ;
+            int       fValue;       // TDC value
 
          public:
-            TDC(int ch = 0);
+            TDC(int ch = 0, int o = 100);
             virtual ~TDC();
 
             void Start(double t);
