@@ -31,9 +31,13 @@ int main( int argc, char **argv )
    //c->GetCrateModule(3,m0);
    //c->Print();
    m0 = c->GetCrateModule<TDC>(0);
+   std::cout << m0 << std::endl;
    m0 = c->GetCrateModule<TDC>(1);
+   std::cout << m0 << std::endl;
    m0 = c->GetCrateModule<TDC>(2);
+   std::cout << m0 << std::endl;
    m0 = c->GetCrateModule<TDC>(3);
+   std::cout << m0 << std::endl;
 
    c->Clear();
    Module<TDC> * m1  = c->GetCrateModule<TDC>(1);

@@ -14,20 +14,24 @@ namespace clas12 {
       class HTCCHitsEvent : public TObject {
 
          public:
-            HTCCHitsEvent();
-            virtual ~HTCCHitsEvent();
+            int            fRunNumber;
+            int            fEventNumber;
 
-            int fRunNumber;
-            int fEventNumber;
-
-            int fNADCHits;
-            int fNTDCHits;
+            int            fNADCHits;
+            int            fNTDCHits;
 
             TClonesArray * fADCHits;   //->
             TClonesArray * fTDCHits;   //->
 
-            void Clear(Option_t * opt = "");
-            void Print(Option_t * opt = "") const ;
+         public:
+            HTCCHitsEvent();
+            virtual ~HTCCHitsEvent();
+
+            TDCHit * AddTDCHit(int ch, int v, double t) ;
+            ADCHit * AddADCHit(int ch, int v) ;
+
+            void Clear(Option_t * opt = "") override ;
+            void Print(Option_t * opt = "") const override ;
 
          ClassDef(HTCCHitsEvent,1)
       };

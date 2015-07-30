@@ -3,6 +3,7 @@
 
 #include "TObject.h"
 #include "ModuleChannel.h"
+#include "Discriminator.h"
 
 #include <iostream>
 
@@ -22,6 +23,9 @@ namespace clas12 {
 
             virtual void Clear(Option_t * o = "") override;
             virtual void Print(Option_t * o = "") const override;
+
+            Scaler& operator<<(Discriminator& rhs);
+            
 
             ClassDef(Scaler,1)
       };

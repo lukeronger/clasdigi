@@ -1,7 +1,8 @@
 #include "ADCHit.h"
 
 
-clas12::hits::ADCHit::ADCHit() : fChannel(0), fValue(0)
+clas12::hits::ADCHit::ADCHit(int ch, int v) : 
+   fChannel(ch), fValue(v)
 { } 
 //______________________________________________________________________________
 

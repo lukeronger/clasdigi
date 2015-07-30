@@ -43,8 +43,10 @@ namespace clas12 {
 
             virtual ~Module() { }
 
-            void Clear(Option_t * opt) {
+            void Clear(Option_t * opt = "") override 
+            {
                for( auto ch : fChannels ) {
+                  //ch.Print();
                   ch.Clear();
                }
             }

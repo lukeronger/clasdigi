@@ -20,6 +20,8 @@ namespace clas12 {
 
             void Count(int c = 1);
 
+            int    Readout() { return( fPedestal + fValue ); }
+
             void Print(Option_t * opt = "") const override;
             void Clear(Option_t * opt = "") override;
 

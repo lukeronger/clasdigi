@@ -26,3 +26,10 @@ void clas12::DAQ::Scaler::Count()
    fCounted++;
 }
 //______________________________________________________________________________
+clas12::DAQ::Scaler& clas12::DAQ::Scaler::operator<<(Discriminator& rhs)
+{
+   rhs.fCallbacks.push_back( [this](){ this->Count(); } );
+   return (*this);
+}
+//______________________________________________________________________________
+

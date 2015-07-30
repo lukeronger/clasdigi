@@ -13,7 +13,7 @@ namespace clas12 {
             int  fChannel;
             int  fValue;
 
-            ADCHit();
+            ADCHit(int ch=0, int v=0);
             virtual ~ADCHit();
 
             ClassDef(ADCHit,1)

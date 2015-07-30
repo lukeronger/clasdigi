@@ -66,20 +66,11 @@ namespace clas12 {
             template <typename T>
             Module<T> * GetCrateModule(int slot)//, Module<T> * m)
             {
-               //GetCrateModule(int slot)
-               // ideally want to use C++14 features here to return auto... we'll have to wait
-               Module<T> * m = nullptr;
                if( this->fSlotMap.count(slot) ) {
-                   m = dynamic_cast<Module<T>*>(this->fModules.At(this->fSlotMap[slot]) );
-                   if(m) {
-                      m = (Module<T>*)(this->fModules.At(this->fSlotMap[slot]));
-                      return m;
-                   }
+                  return dynamic_cast<Module<T>*>(this->fModules.At(this->fSlotMap[slot]) );
                } 
-               if(!m) {
-                  std::cout << "Module not found in slot " << slot << "\n";
-                  return nullptr;
-               }
+               std::cout << "Module not found in slot " << slot << "\n";
+               return nullptr;
             }
 
             ClassDef(Crate,1)

@@ -14,7 +14,7 @@ namespace clas12 {
             int     fValue;
             double  fTime;
 
-            TDCHit();
+            TDCHit(int ch=0, int v=0, double t=0.0);
             virtual ~TDCHit();
 
             virtual void Print(Option_t * opt = "") const;

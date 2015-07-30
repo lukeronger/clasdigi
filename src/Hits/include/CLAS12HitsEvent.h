@@ -12,13 +12,17 @@ namespace clas12 {
       class CLAS12HitsEvent : public TObject {
 
          public:
+            int              fRunNumber;
+            int              fEventNumber;
+
+            HTCCHitsEvent    fHTCCEvent;
+
+         public:
             CLAS12HitsEvent();
             virtual ~CLAS12HitsEvent();
 
-            int fRunNumber;
-            int fEventNumber;
-
-            HTCCHitsEvent    fHTCCEvent;
+            void Clear(Option_t * opt = "" ) override;
+            void Print(Option_t * opt = "" ) const override;
 
          ClassDef(CLAS12HitsEvent,1)
       };

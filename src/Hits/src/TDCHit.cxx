@@ -2,7 +2,8 @@
 #include <iostream>
 
 
-clas12::hits::TDCHit::TDCHit() : fChannel(0), fValue(0), fTime(0.0)
+clas12::hits::TDCHit::TDCHit(int ch, int v, double t) :
+   fChannel(ch), fValue(v), fTime(t)
 { } 
 //______________________________________________________________________________
 
