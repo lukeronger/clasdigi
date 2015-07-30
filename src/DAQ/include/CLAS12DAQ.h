@@ -14,10 +14,10 @@ namespace clas12 {
       //Module<FlashADC>        BuildModule_FlashADC(int nchan = 16);
       //Module<Discriminator>   BuildModule_Discriminator(int nchan = 16);
       
-      CrateModule * BuildTDCModule(int nchan = 16);
-      CrateModule * BuildADCModule(int nchan = 16);
-      CrateModule * BuildFlashADCModule(int nchan = 16);
-      CrateModule * BuildDiscriminatorModule(int nchan = 16);
+      //CrateModule * BuildTDCModule(int nchan = 16);
+      //CrateModule * BuildADCModule(int nchan = 16);
+      //CrateModule * BuildFlashADCModule(int nchan = 16);
+      //CrateModule * BuildDiscriminatorModule(int nchan = 16);
 
       Crate * BuildCrate();
       Crate * BuildFlashADCCrate();

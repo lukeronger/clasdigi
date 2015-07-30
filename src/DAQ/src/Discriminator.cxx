@@ -1,6 +1,7 @@
 #include "Discriminator.h"
 #include <iostream>
 #include "TDC.h"
+#include "TMath.h"
 
 //______________________________________________________________________________
 clas12::DAQ::Discriminator::Discriminator(int ch, double thr) : 
@@ -47,6 +48,7 @@ bool clas12::DAQ::Discriminator::Count(double time){
       for( auto callback : fTriggerCallbacks ) {
          callback(time);
       }
+      //Print();
 
       return true;
    }
@@ -58,19 +60,24 @@ bool clas12::DAQ::Discriminator::ProcessLatch(double time){
    // If there is no latch return false
    if(!fLatched) return false;
 
-   if( time - fTimeFired >= fGateWidth ) {
+   if( TMath::Abs(time - fTimeFired) >= fGateWidth ) {
       fLatched = false;
-      std::cout << "unlatched" << std::endl;
+      //std::cout << "unlatched" << std::endl;
+      //Print();
+      Clear();
    }
    return fLatched;
 }
 //______________________________________________________________________________
 void clas12::DAQ::Discriminator::Clear(Option_t * )
 {
+   //std::cout << "Clearing disc  \n";
+   //Print();
    fAccumulated = 0.0;
    fCounted     = 0;
-   fTimeFired   = 0.0;
+   fTimeFired   = -10.0;
    fLatched     = false;
+   //Print();
 }
 //______________________________________________________________________________
 void clas12::DAQ::Discriminator::Print(Option_t * ) const

@@ -24,10 +24,10 @@ namespace clas12 {
             std::map<int,int>   fSlotMap;          // Maps slot (key) to arb vector location
 
          public:
-            int                      fId;
-            std::vector<std::string> fModuleNames;
-            TList                    fModules;
-            SignalDistribution       fSD;
+            int                         fId;
+            std::vector<std::string>    fModuleNames;
+            std::vector<CrateModule*>   fModules;
+            SignalDistribution          fSD;
 
          public:
             Crate(const char * n = "", const char * t = "", int         id = 0 );
@@ -37,10 +37,24 @@ namespace clas12 {
 
             void AddModule(int slot, CrateModule * m) ;
 
-            void Reset() {
-               for(int i = 0; i<fModules.GetEntries();i++){
-                  fModules.At(i)->Clear();
+            virtual void Clear(Option_t * opt = "") override
+            {
+               //std::cout << "clearing Crate\n";
+               for(auto mod : fModules ) {
+                  mod->Clear(opt);
                }
+               //for(int i = 0; i<fModules.size();i++){
+               //   fModules.At(i)->Clear(opt);
+               //}
+            }
+
+            virtual void Reset(Option_t * opt = "") {
+               for(auto mod : fModules ) {
+                  mod->Reset(opt);
+               }
+               //for(int i = 0; i<fModules.GetEntries();i++){
+               //   fModules.At(i)->Reset(opt);
+               //}
             }
 
             void Print(Option_t * opt = "") const override;
@@ -54,12 +68,12 @@ namespace clas12 {
                if( this->fSlotMap.count(slot) ) {
                   std::cout << " replacing module in slot " << slot << ".\n";
                   this->fModuleNames[this->fSlotMap[slot]] = name;
-                  this->fModules.RemoveAt( this->fSlotMap[slot] );
-                  this->fModules.AddAt( m, this->fSlotMap[slot] );
+                  this->fModules.erase( fModules.begin() + this->fSlotMap[slot] );
+                  this->fModules.insert(fModules.begin() + this->fSlotMap[slot],m );
                } else {
                   this->fSlotMap[slot] = this->fModuleNames.size();
                   this->fModuleNames.push_back(name);
-                  this->fModules.Add(m);
+                  this->fModules.push_back(m);
                }
             }
 
@@ -67,7 +81,7 @@ namespace clas12 {
             Module<T> * GetCrateModule(int slot)//, Module<T> * m)
             {
                if( this->fSlotMap.count(slot) ) {
-                  return dynamic_cast<Module<T>*>(this->fModules.At(this->fSlotMap[slot]) );
+                  return dynamic_cast<Module<T>*>(this->fModules.at(this->fSlotMap[slot]) );
                } 
                std::cout << "Module not found in slot " << slot << "\n";
                return nullptr;

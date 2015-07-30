@@ -29,6 +29,8 @@ namespace clas12 {
 
             virtual bool Count(double time); 
 
+
+            virtual void Reset(Option_t * o = "") override { Clear(o); }
             virtual void Clear(Option_t * o = "") override;
             virtual void Print(Option_t * o = "") const  override;
 

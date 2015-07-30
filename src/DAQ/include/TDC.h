@@ -33,6 +33,7 @@ namespace clas12 {
             void AddStartSignal(clas12::DAQ::Discriminator& d);
             void AddStopSignal(clas12::DAQ::Discriminator& d);
 
+            void Reset(Option_t * o = "") override { Clear(o); }
             void Print(Option_t * opt = "") const override;
             void Clear(Option_t * opt = "") override;
 

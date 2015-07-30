@@ -21,6 +21,7 @@ namespace clas12 {
 
             void Count();
 
+            virtual void Reset(Option_t * o = "") override;
             virtual void Clear(Option_t * o = "") override;
             virtual void Print(Option_t * o = "") const override;
 

@@ -18,10 +18,9 @@ namespace clas12 {
             ModuleChannel(int id);
             virtual ~ModuleChannel();
 
-            void Print(Option_t * opt = "") const  override
-            {
-               std::cout << " channel = " << fChannel << std::endl;
-            }
+            virtual void Reset(Option_t * o = ""){ Clear(o); }
+            virtual void Clear(Option_t * o = "") override ;
+            virtual void Print(Option_t * o = "") const  override ;
 
             ClassDef(ModuleChannel,1)
       };

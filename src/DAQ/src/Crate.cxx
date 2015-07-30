@@ -10,7 +10,7 @@
 clas12::DAQ::Crate::Crate(const char * n, const char * t, int id) : 
    TNamed(n,t), fId(id)
 {
-   fModules.SetOwner(true);
+   //fModules.SetOwner(true);
 }
 //______________________________________________________________________________
 
@@ -35,18 +35,18 @@ void clas12::DAQ::Crate::AddModule(int slot, CrateModule * m) {
       std::cout << " replacing module in slot " << slot << ".\n";
       fModuleNames[fSlotMap[slot]] = name;
       //CrateModule * amod = dynamic_cast<CrateModule*>(
-      fModules.RemoveAt( fSlotMap[slot] );
+      fModules.erase( fModules.begin() + fSlotMap[slot] );
       //);
       //if(amod) {
       //   delete amod;
       //   amod = nullptr;
       //   //std::cout << "deleted mod" << std::endl;
       //}
-      fModules.AddAt( m, fSlotMap[slot] );
+      fModules.insert( fModules.begin() + fSlotMap[slot], m );
    } else {
       fSlotMap[slot] = fModuleNames.size();
       fModuleNames.push_back(name);
-      fModules.Add(m);
+      fModules.push_back(m);
    }
 }
 //______________________________________________________________________________

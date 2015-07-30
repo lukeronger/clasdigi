@@ -40,6 +40,7 @@ void clas12::DAQ::TDC::AddStopSignal(Discriminator& d)
 //______________________________________________________________________________
 void clas12::DAQ::TDC::Clear(Option_t * )
 {
+   //std::cout << "Clearing tdc  \n";
    fValue     = 0.0;
    fRefTime   = 0.0;
    fTime      = 0.0;

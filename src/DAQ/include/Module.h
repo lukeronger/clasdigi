@@ -3,8 +3,8 @@
 
 #include <iostream>
 #include <vector>
-#include "TNamed.h"
 
+#include "CrateModule.h"
 #include "Scaler.h"
 #include "TDC.h"
 #include "ADC.h"
@@ -16,38 +16,45 @@ namespace clas12 {
    namespace DAQ {
 
       template <class T>
-      class Module : public TNamed {
+      class Module : public CrateModule {
 
          public:
-            int             fNChannels = 18;
             std::vector<T>  fChannels;
 
          public:
             Module(const char * n = "", const char * t = "", int nch = 0 )
-               : TNamed(n,t), fNChannels(nch)
+               : CrateModule(n,t,nch)
             {
                SetNChannels(fNChannels);
             }
 
             Module(const char * n, int nch)
-               : TNamed(n,n), fNChannels(nch)
+               : CrateModule(n,nch)
             {
                SetNChannels(fNChannels);
             }
 
-            Module(int nch)
-               : Module(Form("Module-%d",nch),nch)
+            Module(int nch) : CrateModule(nch)
             {
                SetNChannels(fNChannels);
             }
 
             virtual ~Module() { }
 
-            void Clear(Option_t * opt = "") override 
+            virtual void Reset(Option_t * opt = "") override
             {
                for( auto ch : fChannels ) {
                   //ch.Print();
-                  ch.Clear();
+                  ch.Reset(opt);
+               }
+            }
+
+            virtual void Clear(Option_t * opt = "") override 
+            {
+               //std::cout << "clearing Module\n";
+               for( auto ch : fChannels ) {
+                  //ch.Print();
+                  ch.Clear(opt);
                }
             }
 
@@ -84,7 +91,7 @@ namespace clas12 {
                std::cout << " compare " << strcmp(opt,"v") << "\n";
                if( !strcmp(opt,"v") ){
                   for( auto ch : fChannels ) {
-                     ch.Dump();
+                     //ch.Dump();
                      ch.Print();
                   }
                }

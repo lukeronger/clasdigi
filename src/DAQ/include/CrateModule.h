@@ -14,44 +14,31 @@ namespace clas12 {
 
    namespace DAQ {
 
+      /** Transition pure virtual class adding virtual methods to be used for
+       *  template class Module<T>.
+       */
       class CrateModule : public TNamed {
 
          public:
-            int    fId        = 0 ;
-            int    fNChannels = 12;
-            TList  fChannels;
+            int             fNChannels = 18;
 
          public:
-            CrateModule(const char * n = "", const char * t = "", int         id = 0 );
-            CrateModule(const char * n, int         id);
-            CrateModule(int         id);
-            virtual ~CrateModule();
+            CrateModule(const char * n = "", const char * t = "", int nch = 0 )
+               : TNamed(n,t), fNChannels(nch)
+            { }
 
-            void SetNChannels(int nch);
-            void SetChannel(int ch, ModuleChannel * c);
-            
-            Discriminator * GetDiscriminator(int i){
-               Discriminator * disc = nullptr;
-               if(i < fNChannels) {
-                  disc = dynamic_cast<Discriminator*>(fChannels.At(i));
-               }
-               return disc;
-            }
-            TDC * GetTDC(int i){
-               TDC * atdc = nullptr;
-               if(i < fNChannels) {
-                  atdc = dynamic_cast<TDC*>(fChannels.At(i));
-               }
-               return atdc;
-            }
-            ADC * GetADC(int i){
-               ADC * aadc = nullptr;
-               if(i < fNChannels) {
-                  aadc = dynamic_cast<ADC*>(fChannels.At(i));
-               }
-               return aadc;
-            }
+            CrateModule(const char * n, int nch)
+               : TNamed(n,n), fNChannels(nch)
+            { }
 
+            CrateModule(int nch)
+               : CrateModule(Form("Module-%d",nch),nch)
+            { }
+
+            virtual ~CrateModule() { }
+
+            virtual void Clear(Option_t * opt = "") override { }
+            virtual void Reset(Option_t * opt = "") { }
 
             ClassDef(CrateModule,1)
       };

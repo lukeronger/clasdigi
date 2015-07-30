@@ -55,6 +55,7 @@ namespace clas12 {
 
             void Print(Option_t * opt = "") const override;
             void Clear(Option_t * opt = "") override;
+            void Reset(Option_t * opt = "") override { Clear(opt); }
 
             FlashADC& operator<<(Discriminator& rhs)
             {
