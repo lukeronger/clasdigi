@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <memory>
 
 #include "CrateModule.h"
 #include "Scaler.h"
@@ -19,7 +20,7 @@ namespace clas12 {
       class Module : public CrateModule {
 
          public:
-            std::vector<T>  fChannels;
+            std::vector<std::shared_ptr<T> >  fChannels;
 
          public:
             Module(const char * n = "", const char * t = "", int nch = 0 )
@@ -44,8 +45,7 @@ namespace clas12 {
             virtual void Reset(Option_t * opt = "") override
             {
                for( auto ch : fChannels ) {
-                  //ch.Print();
-                  ch.Reset(opt);
+                  ch->Reset(opt);
                }
             }
 
@@ -53,23 +53,25 @@ namespace clas12 {
             {
                //std::cout << "clearing Module\n";
                for( auto ch : fChannels ) {
-                  //ch.Print();
-                  ch.Clear(opt);
+                  ch->Clear(opt);
                }
             }
 
 
             void SetNChannels(int nch) {
-               fChannels.resize(nch);
-               for( int i = 0 ; i<nch; i++ ) {
-                  fChannels[i].fChannel = i;
+               //fChannels.resize(nch);
+               int n0 = fChannels.size();
+               for( int i = n0 ; i<nch; i++ ) {
+                  //std::shared_ptr<T>  achan = std::make_shared<T>(i);
+                  fChannels.push_back( std::make_shared<T>( i ));
+                  //fChannels[i]->fChannel = i;
                }
                fNChannels = fChannels.size();
             }
 
             void SetChannel(int ch, const T& c) {
                if( ch < fNChannels) {
-                  fChannels[ch] = c;
+                  fChannels[ch] = std::make_shared(c) ;
                } else {
                std::cout << "Error : " << ch << " is larger than the number of channels " << fNChannels << std::endl;
                }
@@ -77,10 +79,10 @@ namespace clas12 {
 
             T&  GetChannel(int i) {
                if(i < fNChannels) {
-                  return fChannels[i];
+                  return *(fChannels[i]);
                }
                std::cout << "Error : " << i << " is larger than the number of channels " << fNChannels << std::endl;
-               return fChannels[fNChannels-1];
+               return *(fChannels[fNChannels-1]);
             }
 
             void Print(Option_t * opt = "") const  override
@@ -92,7 +94,7 @@ namespace clas12 {
                if( !strcmp(opt,"v") ){
                   for( auto ch : fChannels ) {
                      //ch.Dump();
-                     ch.Print();
+                     ch->Print();
                   }
                }
             }
