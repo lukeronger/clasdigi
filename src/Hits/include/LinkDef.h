@@ -12,15 +12,16 @@
 
 #pragma link C++ class clas12::hits::CLAS12HitsEvent+;
 #pragma link C++ class clas12::hits::HTCCHitsEvent+;
+#pragma link C++ class clas12::hits::DCHitsEvent+;
 
 #pragma link C++ class clas12::hits::ADCHit+;
 #pragma link C++ class clas12::hits::TDCHit+;
 #pragma link C++ class clas12::hits::FlashADCHit+;
 
-#pragma link C++ function clas12::DriftChamber::P_j_ion_pair(double, int, double);
+#pragma link C++ function clas12::hits::P_j_ion_pair(double, int, double);
+#pragma link C++ class clas12::hits::DriftChamberIonPairHit+;
 
-#pragma link C++ class clas12::SimpleDriftChamberHit+;
-#pragma link C++ class clas12::DigitizedDriftChamberHit+;
+//#pragma link C++ class clas12::DriftChamberIonPairHit+;
 
 //#pragma link C++ class Event+;
 //#pragma link C++ class HistogramManager+;

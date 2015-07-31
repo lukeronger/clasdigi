@@ -2,6 +2,7 @@
 #define clas12_sim_RunConfiguration_HH 1
 
 #include "TNamed.h"
+#include "TBrowser.h"
 
 namespace clas12 {
 
@@ -16,6 +17,21 @@ namespace clas12 {
             RunConfiguration(const char * n, int run);
             RunConfiguration(int run);
             virtual ~RunConfiguration();
+
+            Bool_t IsFolder() const override
+            {
+               return kTRUE;
+            }
+
+            void Browse(TBrowser* b) override
+            {
+               //b->Add(&fAsymmetries, "Asymmetries");
+               //b->Add(&fApparatus, "Apparatus");
+               //b->Add(&fResults, "Results");
+               //b->Add(&fDilution, "Dilution");
+               //b->Add(&fRunFlags, "Flags");
+               //b->Add(&fDetectors, "Detectors");
+            }
 
             ClassDef(RunConfiguration,1)
       };

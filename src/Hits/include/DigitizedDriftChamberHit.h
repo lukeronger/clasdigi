@@ -7,7 +7,9 @@
 namespace clas12 {
 
    namespace DriftChamber {
-      double P_j_ion_pair(double y, int j, double k = 28.0/*1/cm*/);
+
+      //double P_j_ion_pair(double y, int j, double k = 28.0/*1/cm*/);
+
    }
 
 class DigitizedDriftChamberHit : public TObject {

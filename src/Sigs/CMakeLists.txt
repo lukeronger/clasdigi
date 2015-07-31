@@ -24,6 +24,9 @@ set(lib_files
    FlashADCSignal
    ADCSignal
    TDCSignal
+   CLAS12SigsEvent
+   HTCCSigsEvent
+   DCSigsEvent
 )
 
 set(lib_Fortran_files

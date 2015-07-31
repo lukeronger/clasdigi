@@ -1,18 +1,33 @@
 #include <iostream>
 #include <random>
-#include "TriggerSupervisor.h"
-#include "Discriminator.h"
-#include "TFile.h"
-#include "TTree.h"
+#include <string>
+#include <fstream>
+#include "getopt.h"
+
+#include "CLAS12HitsEvent.h"
+#include "CLAS12SigsEvent.h"
+#include "HTCCHitsEvent.h"
+#include "HTCCSigsEvent.h"
+#include "DCHitsEvent.h"
+#include "DCSigsEvent.h"
 #include "TDCHit.h"
 #include "ADCHit.h"
 #include "TDCSignal.h"
 #include "ADCSignal.h"
+
 #include "TClonesArray.h"
+#include "TFile.h"
+#include "TTree.h"
 #include "TROOT.h"
-#include "getopt.h"
-#include <string>
-#include <fstream>
+
+
+void process_HTCC_sigs(
+      clas12::hits::HTCCHitsEvent& hits_event,
+      clas12::sigs::HTCCSigsEvent& sigs_event);
+
+void process_DC_sigs(
+      clas12::hits::DCHitsEvent& hits_event,
+      clas12::sigs::DCSigsEvent& sigs_event);
 
 bool fexists(const std::string& filename) {
    std::ifstream ifile(filename.c_str());
@@ -20,18 +35,19 @@ bool fexists(const std::string& filename) {
    return false;
 }
 
-
 int main( int argc, char **argv )
 {
 
    std::string input_file_name  = "";
    std::string output_file_name = "";
-
+   std::string input_tree_name  = "clasdigi_hits";
+   std::string output_tree_name = "clasdigi_sigs";
 
    const struct option longopts[] =
    {
       {"input",     required_argument,  0, 'i'},
       {"output",    required_argument,  0, 'o'},
+      {"tree",      required_argument,  0, 't'},
       {"help",      no_argument,        0, 'h'},
       {0,0,0,0}
    };
@@ -49,31 +65,38 @@ int main( int argc, char **argv )
             input_file_name = optarg;
             if( !fexists(input_file_name) ) {
                std::cout << input_file_name << " does not exist"  << std::endl;
+            exit(EXIT_FAILURE);
             }
 
+            break;
+
+         case 't':
+            output_tree_name = optarg;
             break;
 
          case 'o':
             output_file_name = optarg;
             if( fexists(output_file_name) ) {
                std::cout << "Error : " << output_file_name << " already exist"  << std::endl;
-            }
             exit(EXIT_FAILURE);
+            }
             break;
 
       }
    }
 
-   std::string theRest  = "";
-   for (int i = optind; i < argc; i++) {
-      //is_interactive  = false;
-      theRest        += argv[i];
-   }
-   std::cout << " the rest of the arguments: " << theRest << std::endl;
-   std::cout << " input : " << input_file_name << std::endl;
-   std::cout << "output : " << output_file_name << std::endl;
+   //std::string theRest  = "";
+   //for (int i = optind; i < argc; i++) {
+   //   theRest        += argv[i];
+   //}
+   //std::cout << " the rest of the arguments: " << theRest << std::endl;
 
-   using namespace clas12::DAQ;
+   std::cout << " input : " << input_file_name << std::endl;
+   std::cout << "  tree : " << input_tree_name << std::endl;
+   std::cout << "output : " << output_file_name << std::endl;
+   std::cout << "  tree : " << output_tree_name << std::endl;
+
+   //using namespace clas12::DAQ;
    using namespace clas12::hits;
    using namespace clas12::sigs;
 
@@ -81,60 +104,89 @@ int main( int argc, char **argv )
    //std::mt19937 gen(rd());
    //std::uniform_int_distribution<> dis(0, 5);
 
+   // -----------------------------------------------------------
+   CLAS12HitsEvent * event = 0;
+
    TFile * fin = new TFile(input_file_name.c_str(),"READ");
    fin->ls();
-
-   TTree * t = (TTree*)fin->FindObjectAny("clasdigi_gemc");
+   TTree * t = (TTree*)fin->FindObjectAny(input_tree_name.c_str());
    if(!t) {
-      std::cout << " Tree not found\n";
-      exit(-123);
+      std::cout << "Input tree, " 
+         << input_tree_name 
+         << " not found in file "
+         << input_file_name 
+         << "\n";
+      return(EXIT_FAILURE);
    }
 
-   TClonesArray * tdc_hits = 0;
-   TClonesArray * adc_hits = 0;
-
-   t->SetBranchAddress("tdcHits",&tdc_hits);
-   t->SetBranchAddress("adcHits",&adc_hits);
-
+   t->SetBranchAddress("HitsEvent",&event);
    int Nevents = t->GetEntries();
+
+   // -----------------------------------------------------------
+
+   CLAS12SigsEvent * sigs_event = 0;
 
    TFile * fout = new TFile(output_file_name.c_str(),"UPDATE");
    fout->cd();
 
-   TTree * tout = new TTree("digiSigs","Digitized signals"); 
-
-   TClonesArray * fTDCSigs = new TClonesArray("clas12::sigs::TDCSignal",10);
-   TClonesArray * fADCSigs = new TClonesArray("clas12::sigs::ADCSignal",10);
-   TClonesArray& tdc_sigs = (*fTDCSigs);
-   TClonesArray& adc_sigs = (*fADCSigs);
-
-   tout->Branch("tdcSigs","TClonesArray",&fTDCSigs);
-   tout->Branch("adcSigs","TClonesArray",&fADCSigs);
+   TTree * tout = new TTree(output_tree_name.c_str(),"Digitized signals"); 
+   tout->Branch("SigsEvent","clas12::sigs::CLAS12SigsEvent",&sigs_event);
 
    for(int ievent = 0; ievent<Nevents; ievent++) {
 
+      sigs_event->Clear();
+
       t->GetEntry(ievent);
-      
-      int ntdc = tdc_hits->GetEntries();
-      int nadc = adc_hits->GetEntries();
-      for(int i = 0; i< ntdc; i++) {
-         TDCHit    * ahit = (TDCHit*)(*(tdc_hits))[i];
-         TDCSignal * asig = new(tdc_sigs[i]) TDCSignal(ahit->fChannel,ahit->fValue);
-      }
-      for(int i = 0; i< nadc; i++) {
-         ADCHit    * ahit = (ADCHit*)((*adc_hits)[i]);
-         ADCSignal * asig = new(adc_sigs[i]) ADCSignal(ahit->fChannel,ahit->fValue);
-      }
+
+      process_HTCC_sigs(event->fHTCCEvent, sigs_event->fHTCCEvent);
 
       tout->Fill();
    }
 
-   tout->Write();
-   fout->Flush();
+   tout->FlushBaskets();
+
+   fout->Write();
    fout->Close();
 
-   //fOutputTree = new TTree("clasdigi_gemc","Clas12 gemc output");
-   //for(auto t : TS.Triggers() ) t.Print();
    return 0;
 }
+//______________________________________________________________________________
+
+void process_HTCC_sigs(
+      clas12::hits::HTCCHitsEvent& hits_event,
+      clas12::sigs::HTCCSigsEvent& sigs_event   )
+{
+   using namespace clas12::hits;
+   using namespace clas12::sigs;
+   int ntdc = hits_event.fNTDCHits;
+   int nadc = hits_event.fNADCHits;
+   for(int i = 0; i< ntdc; i++) {
+      TDCHit    * ahit = (TDCHit*)(*(hits_event.fTDCHits))[i];
+      TDCSignal * asig = sigs_event.AddTDCSignal(ahit->fChannel,ahit->fValue);
+   }
+   for(int i = 0; i< nadc; i++) {
+      ADCHit    * ahit = (ADCHit*)((*hits_event.fADCHits)[i]);
+      ADCSignal * asig = sigs_event.AddADCSignal(ahit->fChannel,ahit->fValue);
+   }
+}
+//______________________________________________________________________________
+
+void process_DC_sigs(
+      clas12::hits::DCHitsEvent& hits_event,
+      clas12::sigs::DCSigsEvent& sigs_event   )
+{
+   using namespace clas12::hits;
+   using namespace clas12::sigs;
+   //int ntdc = hits_event.fNTDCHits;
+   //int nadc = hits_event.fNADCHits;
+   //for(int i = 0; i< ntdc; i++) {
+   //   TDCHit    * ahit = (TDCHit*)(*(hits_event.fTDCHits))[i];
+   //   TDCSignal * asig = sigs_event.AddTDCSignal(ahit->fChannel,ahit->fValue);
+   //}
+   //for(int i = 0; i< nadc; i++) {
+   //   ADCHit    * ahit = (ADCHit*)((*hits_event.fADCHits)[i]);
+   //   ADCSignal * asig = sigs_event.AddADCSignal(ahit->fChannel,ahit->fValue);
+   //}
+}
+//______________________________________________________________________________
 

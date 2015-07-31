@@ -15,6 +15,10 @@
 #pragma link C++ class clas12::sigs::ADCSignal+;
 #pragma link C++ class clas12::sigs::TDCSignal+;
 
+#pragma link C++ class clas12::sigs::CLAS12SigsEvent+;
+#pragma link C++ class clas12::sigs::HTCCSigsEvent+;
+#pragma link C++ class clas12::sigs::DCSigsEvent+;
+
 //#pragma link C++ function clas12::DriftChamber::P_j_ion_pair(double, int, double);
 //
 //#pragma link C++ class clas12::SimpleDriftChamberHit+;

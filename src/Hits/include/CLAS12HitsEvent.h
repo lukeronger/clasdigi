@@ -4,6 +4,7 @@
 #include "TObject.h"
 
 #include "HTCCHitsEvent.h"
+#include "DCHitsEvent.h"
 
 namespace clas12 {
 
@@ -16,6 +17,7 @@ namespace clas12 {
             int              fEventNumber;
 
             HTCCHitsEvent    fHTCCEvent;
+            DCHitsEvent      fDCEvent;
 
          public:
             CLAS12HitsEvent();

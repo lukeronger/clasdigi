@@ -23,10 +23,10 @@ set(lib_files
    ADCHit
    TDCHit
    FlashADCHit
-   SimpleDriftChamberHit
-   DigitizedDriftChamberHit
+   DriftChamberIonPairHit
    CLAS12HitsEvent
    HTCCHitsEvent
+   DCHitsEvent
 )
 
 set(lib_Fortran_files
