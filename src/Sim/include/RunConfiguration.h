@@ -1,19 +1,20 @@
 #ifndef clas12_sim_RunConfiguration_HH
 #define clas12_sim_RunConfiguration_HH 1
 
-#include "TObject.h"
+#include "TNamed.h"
 
 namespace clas12 {
 
    namespace sim {
 
-      class RunConfiguration : public TObject {
+      class RunConfiguration : public TNamed {
 
          public :
-            int  fChannel;
-            int  fValue;
+            int  fRunNumber;
 
-            RunConfiguration(int ch = 0, int v = 0);
+            RunConfiguration(const char * t = "", const char * n = "", int run = 0);
+            RunConfiguration(const char * n, int run);
+            RunConfiguration(int run);
             virtual ~RunConfiguration();
 
             ClassDef(RunConfiguration,1)
