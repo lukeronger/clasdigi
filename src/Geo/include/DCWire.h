@@ -156,6 +156,14 @@ namespace clas12 {
             90*degree-(Hep3Vector(NoseTiltShift.at(2), NoseOpeningShift.at(2), NoseHeight.at(2)).angle(
                                    Hep3Vector(0.0, NoseOpeningShift.at(2), NoseHeight.at(2))) )
          };
+         const std::array<double,3> NoseToEndPlateRotationAngle = {
+            -(Hep3Vector(NoseTiltShift.at(0), NoseOpeningShift.at(0), NoseHeight.at(0)).angle(
+                                   Hep3Vector(0.0, NoseOpeningShift.at(0), NoseHeight.at(0))) ),
+            -(Hep3Vector(NoseTiltShift.at(1), NoseOpeningShift.at(1), NoseHeight.at(1)).angle(
+                                   Hep3Vector(0.0, NoseOpeningShift.at(1), NoseHeight.at(1))) ),
+            -(Hep3Vector(NoseTiltShift.at(2), NoseOpeningShift.at(2), NoseHeight.at(2)).angle(
+                                   Hep3Vector(0.0, NoseOpeningShift.at(2), NoseHeight.at(2))) )
+         };
 
          // Ref Locations (below) in the non-tilted nose-plate plane (as in 01-10-0201)
          const std::array<double,3> NoseRefLocation_Y = {
@@ -184,9 +192,9 @@ namespace clas12 {
          //   NoseSideLength 2.265*2.54*
          //};
          const std::array<Hep2Vector,3> NoseEndPlateRefLocation = {
-            Hep2Vector(NoseRefLocation_X.at(0), NoseRefLocation_Y.at(0)),
-            Hep2Vector(NoseRefLocation_X.at(1), NoseRefLocation_Y.at(1)),
-            Hep2Vector(NoseRefLocation_X.at(2), NoseRefLocation_Y.at(2))
+            ApplyRotation(Hep2Vector(NoseRefLocation_X.at(0), NoseRefLocation_Y.at(0)),NoseToEndPlateRotationAngle.at(0)),
+            ApplyRotation(Hep2Vector(NoseRefLocation_X.at(1), NoseRefLocation_Y.at(1)),NoseToEndPlateRotationAngle.at(1)),
+            ApplyRotation(Hep2Vector(NoseRefLocation_X.at(2), NoseRefLocation_Y.at(2)),NoseToEndPlateRotationAngle.at(2))
          };
 
          //_____________________________________________________________________
@@ -194,8 +202,6 @@ namespace clas12 {
          const std::array<double,3> EndPlateLongSideLength  = {        81.305 *2.54*cm, 319.2000*cm, 478.00*cm};
          const std::array<double,3> EndPlateShortSideLength = { (80.130-4.468)*2.54*cm, 306.5281*cm, 437.00*cm};
                                                              //          ^WRONG        ^WRONG need to lookup RII and III numbers
-
-
 
       }
       //________________________________________________________________________
