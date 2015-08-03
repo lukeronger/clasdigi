@@ -4,6 +4,7 @@
 #include "TObject.h"
 
 #include "HTCCSigsEvent.h"
+#include "DCSigsEvent.h"
 
 namespace clas12 {
 
@@ -16,6 +17,7 @@ namespace clas12 {
             int              fEventNumber;
 
             HTCCSigsEvent    fHTCCEvent;
+            DCSigsEvent      fDCEvent;
 
          public:
             CLAS12SigsEvent();

@@ -8,7 +8,10 @@ install(TARGETS ${exename}
   RUNTIME DESTINATION "${INSTALL_BIN_DIR}" COMPONENT bin)
 
 
-set(more_names clasdigi_HTCC clasdigi_output_format)
+set(more_names 
+   clasdigi_HTCC 
+   clasdigi_DC 
+   clasdigi_output_format)
 
 foreach(exename ${more_names})
    add_executable(${exename} ${exename}.cxx)

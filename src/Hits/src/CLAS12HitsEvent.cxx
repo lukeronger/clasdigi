@@ -14,6 +14,7 @@ clas12::hits::CLAS12HitsEvent::~CLAS12HitsEvent()
 void clas12::hits::CLAS12HitsEvent::Clear(Option_t * opt) 
 {
    fHTCCEvent.Clear(opt);
+   fDCEvent.Clear(opt);
 }
 //______________________________________________________________________________
 

@@ -4,11 +4,11 @@
 //______________________________________________________________________________
 
 clas12::hits::DCHitsEvent::DCHitsEvent() : fRunNumber(0), fEventNumber(0),
-   fNADCHits(0), fNTDCHits(0)
+   fNADCHits(0), fNTDCHits(0),fNIonPairs(0)
 {
    fADCHits  = new TClonesArray("clas12::hits::ADCHit",48);
    fTDCHits  = new TClonesArray("clas12::hits::TDCHit",10);
-   fIonPairs = new TClonesArray("TLorentzVector",10);
+   fIonPairs = new TClonesArray("clas12::hits::DriftChamberIonPairHit",10);
 } 
 //______________________________________________________________________________
 
@@ -33,9 +33,10 @@ clas12::hits::ADCHit * clas12::hits::DCHitsEvent::AddADCHit(int ch, int v) {
 }
 //______________________________________________________________________________
 
-TLorentzVector * clas12::hits::DCHitsEvent::AddIonPair(double x, double y, double z, double t)
+clas12::hits::DriftChamberIonPairHit * clas12::hits::DCHitsEvent::AddIonPairHit(
+      double x, double y, double z, double t )
 {
-   TLorentzVector * ahit = new ( (*fIonPairs)[fNIonPairs] ) TLorentzVector(x,y,z,t);
+   DriftChamberIonPairHit * ahit = new ( (*fIonPairs)[fNIonPairs] ) DriftChamberIonPairHit(x,y,z,t);
    fNIonPairs++;
    return ahit;
 

@@ -6,7 +6,7 @@
 #include "ADCHit.h"
 #include "TDCHit.h"
 #include "FlashADCHit.h"
-#include "TLorentzVector.h"
+#include "DriftChamberIonPairHit.h"
 
 namespace clas12 {
 
@@ -32,7 +32,8 @@ namespace clas12 {
 
             TDCHit         * AddTDCHit(int ch, int v, double t) ;
             ADCHit         * AddADCHit(int ch, int v) ;
-            TLorentzVector * AddIonPair(double x, double y, double z, double t);
+
+            DriftChamberIonPairHit * AddIonPairHit(double x, double y, double z, double t);
 
             void Clear(Option_t * opt = "") override ;
             void Print(Option_t * opt = "") const override ;

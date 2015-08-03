@@ -12,11 +12,12 @@ set(test_names
    create_test_hits
    template_modules
    lund_test
+   geo_test1
    )
 
 foreach(exename ${test_names})
    add_executable(${exename} ${exename}.cxx)
-   target_link_libraries(${exename} ClasDAQ ClasHits ClasSigs ClasSim)
+   target_link_libraries(${exename} ClasDAQ ClasHits ClasSigs ClasSim ClasGeo )
    install(TARGETS ${exename}
       # IMPORTANT: Add the bar executable to the "export-set"
       RUNTIME DESTINATION "${CMAKE_BINARY_DIR}" COMPONENT bin)

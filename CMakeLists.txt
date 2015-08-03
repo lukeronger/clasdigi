@@ -7,6 +7,7 @@ set(ClasDigi_LIB_NAMES
    DAQ
    Sigs
    Sim
+   Geo
    )
 
 set(ClasDigi_EXE_NAMES
@@ -116,8 +117,18 @@ set(LINK_LIBRARIES
    ${ROOT_LIBRARIES}
    )
 
+# ----------
+# CLHEP
+#set (CLHEP_CONFIG_DEBUG 1)
+find_package(CLHEP  REQUIRED)
+#  CLHEP_INCLUDE_DIRS - include directories for CLHEP
+#  CLHEP_DEFINITIONS  - compile definitions needed to use CLHEP
+#  CLHEP_LIBRARIES    - libraries to link against
+set(CLHEP_LIBRARY_DIR $ENV{JLAB_PREFIX}/lib)
+include_directories(${CLHEP_INCLUDE_DIR})
+#message(" CLHEP_DEFINITIONS = ${CLHEP_DEFINITIONS} " )
 
-# EVIO sucks
+# EVIO
 set(EVIO_INCLUDE_DIR $ENV{JLAB_PREFIX}/include)
 set(EVIO_LIBRARY_DIR $ENV{JLAB_PREFIX}/lib)
 set(EVIO_LIBRARIES  evio evioxx)
@@ -125,6 +136,7 @@ set(EVIO_LIBRARIES  evio evioxx)
 set(LINK_DIRECTORIES
    ${LINK_DIRECTORIES}
    ${EVIO_LIBRARY_DIR}
+   ${CLHEP_LIBRARY_DIR}
    )
 set(LINK_LIBRARIES 
    ${LINK_LIBRARIES}
@@ -138,6 +150,7 @@ include_directories(
    ${ROOT_INCLUDE_DIR}
    ${CMAKE_BINARY_DIR}
    ${EVIO_INCLUDE_DIR}
+   ${CLHEP_INCLUDE_DIR}
    ${INCLUDE_DIRECTORIES}
    )
 
