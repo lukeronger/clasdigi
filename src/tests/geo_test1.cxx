@@ -26,6 +26,19 @@ int main( int argc, char **argv )
    std::cout << " NoseRefLocation_Y.at(0): " << DC::NoseRefLocation_Y.at(0)/inch << std::endl;
    std::cout << " NoseEndPlateRefLocation.at(0).x(): " << DC::NoseEndPlateRefLocation.at(0).x()/inch << std::endl;
    std::cout << " NoseEndPlateRefLocation.at(0).y(): " << DC::NoseEndPlateRefLocation.at(0).y()/inch << std::endl;
+   std::cout << "\n";
+   std::cout << " EndPlateSLRefWire_Right.at(0).x(): " << DC::EndPlateSLRefWire_Right.at(0).x()/inch << std::endl;
+   std::cout << " EndPlateSLRefWire_Right.at(0).y(): " << DC::EndPlateSLRefWire_Right.at(0).y()/inch << std::endl;
+   std::cout << "\n";
+   std::cout << " EndPlateSLRefWire_Left.at(0).x(): " << DC::EndPlateSLRefWire_Left.at(0).x()/inch << std::endl;
+   std::cout << " EndPlateSLRefWire_Left.at(0).y(): " << DC::EndPlateSLRefWire_Left.at(0).y()/inch << std::endl;
+
+   std::cout << "\n";
+   std::cout << " EndPlateSLRefWire_Right.at(1).x(): " << DC::EndPlateSLRefWire_Right.at(1).x()/inch << std::endl;
+   std::cout << " EndPlateSLRefWire_Right.at(1).y(): " << DC::EndPlateSLRefWire_Right.at(1).y()/inch << std::endl;
+   std::cout << "\n";
+   std::cout << " EndPlateSLRefWire_Left.at(1).x(): " << DC::EndPlateSLRefWire_Left.at(1).x()/inch << std::endl;
+   std::cout << " EndPlateSLRefWire_Left.at(1).y(): " << DC::EndPlateSLRefWire_Left.at(1).y()/inch << std::endl;
 
 }
 

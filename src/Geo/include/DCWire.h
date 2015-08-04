@@ -181,8 +181,12 @@ namespace clas12 {
             Hep2Vector(NoseRefLocation_X.at(1), NoseRefLocation_Y.at(1)),
             Hep2Vector(NoseRefLocation_X.at(2), NoseRefLocation_Y.at(2))
          };
-
-         // The reference locations for the nose to end plate is the closest upstream and to the beam
+         //_____________________________________________________________________
+         
+         // Now working in x-y plane in tilted endplate coords
+         // y is along the wire plane and x is normal to the front window
+         //
+         // The reference location for the nose to end plate is the closest upstream and to the beam
          // of the three screw locations for the endplate to mount to the nose plate.
          // Note that  the hole placement on the plate side of the 3 screw holes 
          // is asymmetric in drawing 01-10-0201 and 01-08-2001.
@@ -197,7 +201,74 @@ namespace clas12 {
             ApplyRotation(Hep2Vector(NoseRefLocation_X.at(2), NoseRefLocation_Y.at(2)),NoseToEndPlateRotationAngle.at(2))
          };
 
-         //_____________________________________________________________________
+
+         // 
+         const std::array<Hep2Vector,3> EndPlateRefLocation_D = {
+            NoseEndPlateRefLocation.at(0) + Hep2Vector( -0.280*2.54*cm, 1.655*2.54*cm),
+            NoseEndPlateRefLocation.at(1) + Hep2Vector( -0.280*2.54*cm, 1.655*2.54*cm),
+            NoseEndPlateRefLocation.at(2) + Hep2Vector( -0.280*2.54*cm, 1.655*2.54*cm)
+         };
+
+         const std::array<Hep2Vector,6> EndPlateSLRefWire_Left = {
+            EndPlateRefLocation_D.at(0) + Hep2Vector(  1.447*2.54*cm,  0.453*2.54*cm),
+            EndPlateRefLocation_D.at(0) + Hep2Vector(  5.710*2.54*cm, -0.588*2.54*cm),
+            EndPlateRefLocation_D.at(1) + Hep2Vector(  1.447*2.54*cm,  0.453*2.54*cm),
+            EndPlateRefLocation_D.at(1) + Hep2Vector(  5.710*2.54*cm, -0.588*2.54*cm),
+            EndPlateRefLocation_D.at(2) + Hep2Vector(  1.447*2.54*cm,  0.453*2.54*cm),
+            EndPlateRefLocation_D.at(2) + Hep2Vector(  5.710*2.54*cm, -0.588*2.54*cm)
+         };
+
+         const std::array<Hep2Vector,6> EndPlateSLRefWire_Right = {
+            EndPlateRefLocation_D.at(0) + Hep2Vector(  1.440*2.54*cm,  1.079*2.54*cm),
+            EndPlateRefLocation_D.at(0) + Hep2Vector(  5.717*2.54*cm, -1.221*2.54*cm),
+            EndPlateRefLocation_D.at(1) + Hep2Vector(  1.440*2.54*cm,  1.079*2.54*cm),
+            EndPlateRefLocation_D.at(1) + Hep2Vector(  5.717*2.54*cm, -1.221*2.54*cm),
+            EndPlateRefLocation_D.at(2) + Hep2Vector(  1.440*2.54*cm,  1.079*2.54*cm),
+            EndPlateRefLocation_D.at(2) + Hep2Vector(  5.717*2.54*cm, -1.221*2.54*cm)
+         };
+
+         // Wire spacing in a layer
+         const std::array<double,6> EndPlateWireSpacing_Left = {
+            0.565*2.54*cm, 0.658*2.54*cm,
+            0.600*2.54*cm, 0.600*2.54*cm,
+            0.600*2.54*cm, 0.600*2.54*cm
+         };
+
+         const std::array<double,6> EndPlateWireSpacing_Right = {
+            0.629*2.54*cm, 0.591*2.54*cm,
+            0.700*2.54*cm, 0.700*2.54*cm,
+            0.700*2.54*cm, 0.700*2.54*cm
+         };
+
+         // Spacing 
+         const std::array<double,6> EndPlateLayerSpacing_Left = {
+            0.155*2.54*cm, 0.163*2.54*cm,
+            0.100*2.54*cm, 0.100*2.54*cm,
+            0.100*2.54*cm, 0.100*2.54*cm
+         }; 
+         const std::array<double,6> EndPlateLayerSpacing_Right = {
+            0.155*2.54*cm, 0.163*2.54*cm,
+            0.100*2.54*cm, 0.100*2.54*cm,
+            0.100*2.54*cm, 0.100*2.54*cm
+         };
+
+         // 
+         const std::array<Hep2Vector,6> EndPlateLayerTranslate1_Right = {
+            Hep2Vector(0.155*2.54*cm, 0.336*2.54*cm),
+            Hep2Vector(0.163*2.54*cm, 0.309*2.54*cm),
+            Hep2Vector(0.155*2.54*cm, 0.336*2.54*cm),
+            Hep2Vector(0.163*2.54*cm, 0.309*2.54*cm),
+            Hep2Vector(0.155*2.54*cm, 0.336*2.54*cm),
+            Hep2Vector(0.163*2.54*cm, 0.309*2.54*cm)
+         };
+         const std::array<Hep2Vector,6> EndPlateLayerTranslate2_Right = {
+            Hep2Vector(2.0*0.155*2.54*cm, 0.042*2.54*cm),
+            Hep2Vector(2.0*0.163*2.54*cm, 0.026*2.54*cm),
+            Hep2Vector(2.0*0.155*2.54*cm, 0.042*2.54*cm),
+            Hep2Vector(2.0*0.163*2.54*cm, 0.042*2.54*cm),
+            Hep2Vector(2.0*0.155*2.54*cm, 0.042*2.54*cm),
+            Hep2Vector(2.0*0.163*2.54*cm, 0.042*2.54*cm)
+         };
 
          const std::array<double,3> EndPlateLongSideLength  = {        81.305 *2.54*cm, 319.2000*cm, 478.00*cm};
          const std::array<double,3> EndPlateShortSideLength = { (80.130-4.468)*2.54*cm, 306.5281*cm, 437.00*cm};
