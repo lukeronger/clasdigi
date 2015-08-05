@@ -40,5 +40,12 @@ int main( int argc, char **argv )
    std::cout << " EndPlateSLRefWire_Left.at(1).x(): " << DC::EndPlateSLRefWire_Left.at(1).x()/inch << std::endl;
    std::cout << " EndPlateSLRefWire_Left.at(1).y(): " << DC::EndPlateSLRefWire_Left.at(1).y()/inch << std::endl;
 
+   std::cout << " RegionTrapCorner_z(1): " << RegionTrapCorner_z(1)/cm << std::endl;
+   std::cout << " RegionTrapCorner_y(1): " << RegionTrapCorner_y(1)/cm << std::endl;
+
+   std::cout << "\n";
+   std::cout << " RegionTranslation(1).x(): " << RegionTranslation(1,1).x()/cm << std::endl;
+   std::cout << " RegionTranslation(2).x(): " << RegionTranslation(2,1).x()/cm << std::endl;
+   std::cout << " RegionTranslation(3).x(): " << RegionTranslation(3,1).x()/cm << std::endl;
 }
 
