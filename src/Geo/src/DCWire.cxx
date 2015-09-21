@@ -65,15 +65,15 @@ std::vector<CLHEP::Hep2Vector> clas12::geo::RegionTrapPoints(int region)
 
    std::cout << "Rough check : " << extra_back << " vs " << l2-l1 << std::endl;
 
-   Hep2Vector p0( 0.0,0.0);// nose_width, nose_height );
-   Hep2Vector p1( 0.0,0.0);//-nose_width, nose_height );
+   Hep2Vector p0(  nose_width, nose_height );
+   Hep2Vector p1( -nose_width, nose_height );
    Hep2Vector p2( -x1,  h1);
    Hep2Vector p3(  x1,  h1);
 
    double dx = RegionLength*TMath::Tan( RegionTilt[index]  );
 
-   Hep2Vector p4(   0,-dx);//nose_width, nose_height-dx );
-   Hep2Vector p5(  0,-dx);//-nose_width, nose_height-dx );
+   Hep2Vector p4(  nose_width, nose_height-dx );
+   Hep2Vector p5( -nose_width, nose_height-dx );
    Hep2Vector p6( -x2, h2-dx);
    Hep2Vector p7(  x2, h2-dx);
 
@@ -123,10 +123,6 @@ double clas12::geo::SuperLayerRefWire_z(int sl)
 {
    using namespace clas12::geo::DC;
    int index = sl-1;
-   //double extra = FrontGap[index] + MidGap[index] + BackGap[index];
-   //double s = Sin( RegionTilt[SuperLayerRegionIndex[index]] );
-   //double c = Cos( RegionTilt[SuperLayerRegionIndex[index]] );
-   //return( (DistanceToTarget[index])*c + LayerWirePlaneLength[index]*s/2.0 );
    return DistanceToRefWire.at(index)*Cos(ThetaMin.at(index));
 }
 //______________________________________________________________________________
@@ -136,10 +132,6 @@ double clas12::geo::SuperLayerRefWire_y(int sl)
    using namespace clas12::geo::DC;
    using namespace TMath; 
    int index = sl-1;
-   //double s = Sin( RegionTilt[SuperLayerRegionIndex[index]] );
-   //double c = Cos( RegionTilt[SuperLayerRegionIndex[index]] );
-   //double extra = FrontGap[index] + MidGap[index] + BackGap[index];
-   //return( (DistanceToTarget[index])*s - LayerWirePlaneLength[index]*c/2.0 );
    return DistanceToRefWire.at(index)*Sin(ThetaMin.at(index));
 }
 //______________________________________________________________________________
@@ -153,7 +145,7 @@ double clas12::geo::RegionTrapCorner_z(int region)
    int index = region-1;
    double z_sl =  SuperLayerRefWire_z(RegionSuperLayers[index][0]);
    double c = Cos( RegionTilt[index] );
-   return( z_sl + - FrontGap[index]*c );
+   return( z_sl - FrontGap[index]*c );
 }
 //______________________________________________________________________________
 
@@ -164,6 +156,38 @@ double clas12::geo::RegionTrapCorner_y(int region)
    using namespace clas12::geo::DC;
    int index = region-1;
    return( RegionXOffset[index] );
+}
+//______________________________________________________________________________
+CLHEP::HepRotation clas12::geo::LayerWireRotation(int sl)
+{
+   using namespace clas12::geo::DC;
+   HepRotation  rot;
+   rot.rotateZ( ThetaStero[sl-1] );
+   return rot;
+}
+//______________________________________________________________________________
+
+CLHEP::Hep3Vector clas12::geo::ToWireMidPlane(int sl, int layer, int wire)
+{
+   using namespace clas12::geo::DC;
+   using namespace CLHEP;
+//   SuperLayerZOffset
+
+   int index = SuperLayerRegionIndex.at(sl-1);
+   double RegionLength = FrontGap[index] + MidGap[index] + BackGap[index];
+   RegionLength += 21.0*LayerSep.at( RegionSuperLayerIndex[index][0] ) ;
+   RegionLength += 21.0*LayerSep.at( RegionSuperLayerIndex[index][1] ) ;
+
+   double arb_offset = 4*cm;
+   int    i = (layer%2);
+   double y = arb_offset + (0.5*double(i) + double(wire-1))*LayerWireSpacing[sl-1];
+   double z = -RegionLength/2.0;
+   z += SuperLayerZOffset.at(sl-1);
+   z += double(layer)*3.0*LayerSep[sl-1];
+   Hep3Vector  vec(   0.0, y, z);
+   Hep3Vector  offset(0.0, RefWireOffset.at(sl-1).y(), RefWireOffset.at(sl-1).x());
+   vec += offset;
+   return vec;
 }
 //______________________________________________________________________________
 
@@ -182,15 +206,12 @@ CLHEP::Hep3Vector clas12::geo::RegionTranslation(int sec, int region)
 {
    using namespace clas12::geo::DC;
    using namespace CLHEP;
-   //HepRotation  rot;
-   //rot.rotateZ( SectorRotation[sec-1] );
    CLHEP::Hep3Vector  vec(
-         0.0,//SuperLayerRefWire_y(RegionSuperLayers[region-1][0]),
+         0.0,
          RegionTrapCorner_y(region),
          RegionTrapCorner_z(region)
          );
    vec.rotateZ( SectorRotation[sec-1] );
-   //vec.transform(rot);
    return vec;
 }
 //______________________________________________________________________________

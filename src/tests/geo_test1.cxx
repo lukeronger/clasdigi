@@ -6,6 +6,7 @@
 int main( int argc, char **argv )
 {
    using namespace clas12::geo;
+   using namespace clas12::geo::DC;
    using namespace CLHEP;
 
    //RegionTrapPoints(1);
@@ -47,5 +48,23 @@ int main( int argc, char **argv )
    std::cout << " RegionTranslation(1).x(): " << RegionTranslation(1,1).x()/cm << std::endl;
    std::cout << " RegionTranslation(2).x(): " << RegionTranslation(2,1).x()/cm << std::endl;
    std::cout << " RegionTranslation(3).x(): " << RegionTranslation(3,1).x()/cm << std::endl;
+
+   for(int sl = 1;sl<=6;sl++) {
+      std::cout << " RefWireOffset.at(sl-1).x(): " << RefWireOffset.at(sl-1).x() << std::endl;
+      std::cout << " RefWireOffset.at(sl-1).y(): " << RefWireOffset.at(sl-1).y() << std::endl;
+   }
+   for(int sl = 1;sl<=6;sl++) {
+      std::cout << " CenterToRefWire.at(sl-1): " << CenterToRefWire.at(sl-1)/cm << std::endl;
+   }
+   for(int sl = 1;sl<=6;sl++) {
+      std::cout << " DistanceToRefWire.at(sl-1): " << DistanceToRefWire.at(sl-1)/cm<< std::endl;
+   }
+
+   std::cout << ToWireMidPlane(1,1,89) << std::endl; 
+   std::cout << ToWireMidPlane(1,1,90) << std::endl; 
+   std::cout << ToWireMidPlane(1,1,91) << std::endl; 
+   std::cout << ToWireMidPlane(1,2,89) << std::endl; 
+   std::cout << ToWireMidPlane(1,2,90) << std::endl; 
+   std::cout << ToWireMidPlane(1,2,91) << std::endl; 
 }
 

@@ -17,6 +17,7 @@ namespace clas12 {
       class DriftChamberIonPairHit : public TObject {
          public : 
             double          fStepLength;   // Step length used to determine ion pair probabilty
+            int             fChannel;      // Channel number .
             int             fPDGCode;      // PDG code of particle.
             TLorentzVector  fPosition;      // Location where ion pair was produced position and time 
             DriftChamberIonPairHit(double x = 0.0, double y = 0.0, double z = 0.0, double t = 0.0);

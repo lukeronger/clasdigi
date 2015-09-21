@@ -50,19 +50,22 @@ namespace clas12 {
          const std::array<double,3> MidGap        = {2.500*cm, 7.1613*cm, 2.5*cm};
          const std::array<double,3> BackGap       = {2.500*cm, 2.5000*cm, 2.5*cm};
 
+         //const std::array<double,3> RegionWidth   = {59.0*degree, 60.0*degree, 59.0*degree};
 
          const std::array<double,3> EndPlateAngle = {59.0*degree, 60.0*degree, 59.0*degree};
          const std::array<double,3> RegionTilt    = {25.0*degree, 25.0*degree, 25.0*degree};
 
-         const std::array<double,3> RegionXOffset = {7.2664*cm, 17.8603*cm, 18.0536*cm};
+         const std::array<double,3> RegionXOffset = {
+            8.298*cm, 20.296*cm, 18.054*cm
+         };
 
          const std::array<double,6> SectorRotation = {
              90.0*degree, 150.0*degree, 210.0*degree,
              270.0*degree, 330.0*degree, 30.0*degree
          };
 
-         const std::array<int,6> SuperLayerRegion      = {1,1,2,2,3,3};
-         const std::array<int,6> SuperLayerRegionIndex = {0,0,1,1,2,2};
+         const std::array<int,6> SuperLayerRegion      = { 1,1,2,2,3,3 };
+         const std::array<int,6> SuperLayerRegionIndex = { 0,0,1,1,2,2 };
 
          const std::array<std::array<int,2>,3> RegionSuperLayers = { 
             std::array<int,2>{1,2}, 
@@ -80,9 +83,9 @@ namespace clas12 {
             6.0*degree, -6.0*degree
          };
          const std::array<double,6> ThetaMin = {
-            5.1050*degree, 5.1050*degree,
-            4.6661*degree, 4.6661*degree,
-            4.6708*degree, 4.6708*degree
+            4.694*degree,  4.495*degree,
+            4.812*degree, 4.771*degree,
+            4.333*degree, 4.333*degree
          };
 
          const std::array<double,6> LayerSep = {
@@ -104,10 +107,34 @@ namespace clas12 {
          // Distance from target to first wire plane in super layer
          // This we call center 
          const std::array<double,6> DistanceToTarget = {
-            228.08*cm, 238.69*cm,
-            350.47*cm, 370.47*cm,
-            483.23*cm, 505.36*cm
+            228.078*cm, 238.687*cm,
+            351.544*cm, 371.773*cm,
+            489.099*cm, 511.236*cm
          };
+
+         const std::array<double,6> SuperLayerXOffset = {
+            8.298*cm,  8.298*cm, 
+            14.296*cm, 14.296*cm,
+            18.054*cm, 18.054*cm
+         };
+
+         // Width of superlayer from front to back gaurd wires  
+         const std::array<double,6> SuperLayerWidth = {
+            21.0*LayerSep.at(0), 21.0*LayerSep.at(1), 
+            21.0*LayerSep.at(2), 21.0*LayerSep.at(3),
+            21.0*LayerSep.at(4), 21.0*LayerSep.at(5)
+         };
+
+         // offset of first superlayer from front window for given region.
+         const std::array<double,6> SuperLayerZOffset = {
+            FrontGap.at(0) + 1.5*LayerSep.at(0), 
+            FrontGap.at(0) + SuperLayerWidth.at(0) + MidGap.at(0)+1.5*LayerSep.at(1),
+            FrontGap.at(1) + 3.5*LayerSep.at(2), 
+            FrontGap.at(1) + SuperLayerWidth.at(2) + MidGap.at(1)+1.5*LayerSep.at(3),
+            FrontGap.at(2) + 1.5*LayerSep.at(4), 
+            FrontGap.at(2) + SuperLayerWidth.at(4) + MidGap.at(2)+1.5*LayerSep.at(5)
+         };
+
 
          // Distance from target to first guard wire (at ThetaMin)
          const std::array<double,6> CenterToRefWire = {
@@ -128,6 +155,23 @@ namespace clas12 {
             Sqrt( Power(DistanceToTarget.at(4),2.0) +  Power(CenterToRefWire.at(4),2.0) ),
             Sqrt( Power(DistanceToTarget.at(5),2.0) +  Power(CenterToRefWire.at(5),2.0) )
          };
+
+         // Offset in the end-plate coordinates (tilted)
+         const std::array<CLHEP::Hep2Vector,6> RefWireOffset = {
+            Hep2Vector( Cos(RegionTilt.at(0))*(DistanceToRefWire.at(0)*Sin( ThetaMin.at(0) ) - SuperLayerXOffset.at(0)),
+                        Sin(RegionTilt.at(0))*(DistanceToRefWire.at(0)*Sin( ThetaMin.at(0) ) - SuperLayerXOffset.at(0)) ),
+            Hep2Vector( Cos(RegionTilt.at(0))*(DistanceToRefWire.at(1)*Sin( ThetaMin.at(1) ) - SuperLayerXOffset.at(1)),
+                        Sin(RegionTilt.at(0))*(DistanceToRefWire.at(1)*Sin( ThetaMin.at(1) ) - SuperLayerXOffset.at(1)) ),
+            Hep2Vector( Cos(RegionTilt.at(1))*(DistanceToRefWire.at(2)*Sin( ThetaMin.at(2) ) - SuperLayerXOffset.at(2)),
+                        Sin(RegionTilt.at(1))*(DistanceToRefWire.at(2)*Sin( ThetaMin.at(2) ) - SuperLayerXOffset.at(2)) ),
+            Hep2Vector( Cos(RegionTilt.at(1))*(DistanceToRefWire.at(3)*Sin( ThetaMin.at(3) ) - SuperLayerXOffset.at(3)),
+                        Sin(RegionTilt.at(1))*(DistanceToRefWire.at(3)*Sin( ThetaMin.at(3) ) - SuperLayerXOffset.at(3)) ),
+            Hep2Vector( Cos(RegionTilt.at(2))*(DistanceToRefWire.at(4)*Sin( ThetaMin.at(4) ) - SuperLayerXOffset.at(4)),
+                        Sin(RegionTilt.at(2))*(DistanceToRefWire.at(4)*Sin( ThetaMin.at(4) ) - SuperLayerXOffset.at(4)) ),
+            Hep2Vector( Cos(RegionTilt.at(2))*(DistanceToRefWire.at(5)*Sin( ThetaMin.at(5) ) - SuperLayerXOffset.at(5)),
+                        Sin(RegionTilt.at(2))*(DistanceToRefWire.at(5)*Sin( ThetaMin.at(5) ) - SuperLayerXOffset.at(5)) )
+         };
+
 
          const std::array<double,6> LeftFeedThruOffset = {
             0.4745*cm, 0.5254*cm,
@@ -157,7 +201,7 @@ namespace clas12 {
          // the depth along z in the untilted frame
          const std::array<double,3> NoseDepth = {
             (12.405 - 2.0*Tan(RegionTilt.at(0)) + (1.547*Tan(RegionTilt.at(0))-0.311) )*2.54*cm,
-            23.419*2.54*cm,
+            25.419*2.54*cm,
             23.419*2.54*cm  // from drawing 01-10-0201
          };
          const std::array<double,3> NoseHeight = {
@@ -322,6 +366,9 @@ namespace clas12 {
 
       }
       //________________________________________________________________________
+
+      CLHEP::HepRotation             LayerWireRotation(int sl);
+      CLHEP::Hep3Vector              ToWireMidPlane(int sl, int layer, int wire);
 
       std::vector<CLHEP::Hep2Vector> RegionTrapPoints(int region);
       double                         RegionTrapWidth(int region);

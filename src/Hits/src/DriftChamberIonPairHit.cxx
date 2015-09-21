@@ -12,7 +12,7 @@ bool clas12::hits::does_step_create_ion_pair(double y, int j, double k) {
    // Todo: check this
    double prob = clas12::hits::P_j_ion_pair(y,j,k);
    double uni  = gRandom->Uniform();
-   //std::cout << "step(prob,uni) = " << y << " (" << prob << ", " << uni <<  ")\n";
+   std::cout << "step(prob,uni) = " << y << " (" << prob << ", " << uni <<  ")\n";
    if( uni <= prob ) return true;
    return false;
 }
@@ -21,7 +21,7 @@ bool clas12::hits::does_step_create_ion_pair(double y, int j, double k) {
 
 clas12::hits::DriftChamberIonPairHit::DriftChamberIonPairHit(
       double x,double y,double z,double t) : 
-   fStepLength(0.0), fPDGCode(0), fPosition(x,y,z,t)
+   fStepLength(0.0), fChannel(0), fPDGCode(0), fPosition(x,y,z,t)
 { }
 //______________________________________________________________________________
 
