@@ -32,6 +32,8 @@ namespace clas12 {
             DCWire(int sec=0, int reg=0, int sl=0, int l=0, int w=0);
             virtual ~DCWire();
 
+            void Print(Option_t * opt = "") const;
+
             ClassDef(DCWire,1)
       };
       //________________________________________________________________________

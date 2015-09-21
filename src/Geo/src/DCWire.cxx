@@ -1,5 +1,6 @@
 #include "DCWire.h"
 #include "TMath.h"
+#include <iomanip>
 
 
 //______________________________________________________________________________
@@ -13,6 +14,18 @@ clas12::geo::DCWire::~DCWire()
 { } 
 //______________________________________________________________________________
 
+void clas12::geo::DCWire::Print(Option_t *) const
+{
+   std::cout 
+      << "sector: "     << std::setw(3) << fSector
+      << "region: "     << std::setw(3) << fRegion
+      << "superlayer: " << std::setw(3) << fSuperLayer
+      << "layer: "      << std::setw(3) << fLayer
+      << "wire: "       << std::setw(3) << fWire
+      << "\n";
+}
+
+//______________________________________________________________________________
 CLHEP::Hep2Vector clas12::geo::ApplyRotation(CLHEP::Hep2Vector v, double angle)
 {
    v.rotate(angle);
