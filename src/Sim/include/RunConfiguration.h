@@ -3,6 +3,7 @@
 
 #include "TNamed.h"
 #include "TBrowser.h"
+#include <string>
 
 namespace clas12 {
 
@@ -10,13 +11,21 @@ namespace clas12 {
 
       class RunConfiguration : public TNamed {
 
-         public :
-            int  fRunNumber;
+         public:
+            int          fRunNumber;
+            int          fNSimulated;
+            std::string  fInputFileName;
+            std::string  fInputTreeName;
+            std::string  fOutputFileName;
+            std::string  fOutputTreeName;
 
-            RunConfiguration(const char * t = "", const char * n = "", int run = 0);
+         public:
+            RunConfiguration(const char * n = "", const char * t = "", int run = 0);
             RunConfiguration(const char * n, int run);
             RunConfiguration(int run);
             virtual ~RunConfiguration();
+
+            void Print(Option_t * opt = "") const override;
 
             Bool_t IsFolder() const override
             {
@@ -33,7 +42,7 @@ namespace clas12 {
                //b->Add(&fDetectors, "Detectors");
             }
 
-            ClassDef(RunConfiguration,1)
+            ClassDef(RunConfiguration,2)
       };
 
    }

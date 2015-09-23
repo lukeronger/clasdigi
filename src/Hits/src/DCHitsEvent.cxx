@@ -9,6 +9,7 @@ clas12::hits::DCHitsEvent::DCHitsEvent() : fRunNumber(0), fEventNumber(0),
    fADCHits  = new TClonesArray("clas12::hits::ADCHit",48);
    fTDCHits  = new TClonesArray("clas12::hits::TDCHit",10);
    fIonPairs = new TClonesArray("clas12::hits::DriftChamberIonPairHit",10);
+   fParticleHits = new TClonesArray("clas12::hits::DriftChamberParticleHit",10);
 } 
 //______________________________________________________________________________
 
@@ -39,7 +40,23 @@ clas12::hits::DriftChamberIonPairHit * clas12::hits::DCHitsEvent::AddIonPairHit(
    DriftChamberIonPairHit * ahit = new ( (*fIonPairs)[fNIonPairs] ) DriftChamberIonPairHit(x,y,z,t);
    fNIonPairs++;
    return ahit;
+}
+//______________________________________________________________________________
 
+clas12::hits::DriftChamberParticleHit * clas12::hits::DCHitsEvent::AddParticleHit()
+{
+   DriftChamberParticleHit * ahit = new ((*fParticleHits)[fNParticleHits]) DriftChamberParticleHit();
+   fNParticleHits++;
+   return ahit;
+}
+//______________________________________________________________________________
+
+clas12::hits::DriftChamberParticleHit * clas12::hits::DCHitsEvent::GetParticleHit(int i)
+{
+   if( i < fNParticleHits ) {
+      return (DriftChamberParticleHit*)((*fParticleHits)[i]) ;
+   }
+   return nullptr;
 }
 //______________________________________________________________________________
 
@@ -48,9 +65,11 @@ void clas12::hits::DCHitsEvent::Clear(Option_t * opt)
    fNADCHits = 0;
    fNTDCHits = 0;
    fNIonPairs = 0;
+   fNParticleHits = 0;
    fADCHits->Clear();
    fTDCHits->Clear();
    fIonPairs->Clear();
+   fParticleHits->Clear();
 }
 //______________________________________________________________________________
 
@@ -61,7 +80,8 @@ void clas12::hits::DCHitsEvent::Print(Option_t * opt) const
       << ", event=" << fEventNumber 
       << ", nTDC=" << fNTDCHits 
       << ", nADC=" << fNADCHits 
-      << ", nIonPairs=" << fNIonPairs 
+      << ", nIonPairs=" << fNIonPairs
+      << ", nParticleHIts=" << fNParticleHits
       << "\n";
 }
 //______________________________________________________________________________

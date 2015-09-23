@@ -1,4 +1,5 @@
 #include "DAQManager.h"
+#include <algorithm>
 
 
 clas12::DAQ::DAQManager * clas12::DAQ::DAQManager::fInstance = nullptr;

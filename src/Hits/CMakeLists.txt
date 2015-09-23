@@ -24,6 +24,7 @@ set(lib_files
    TDCHit
    FlashADCHit
    DriftChamberIonPairHit
+   DriftChamberParticleHit
    CLAS12HitsEvent
    HTCCHitsEvent
    DCHitsEvent

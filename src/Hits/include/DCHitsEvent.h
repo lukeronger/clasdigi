@@ -7,6 +7,7 @@
 #include "TDCHit.h"
 #include "FlashADCHit.h"
 #include "DriftChamberIonPairHit.h"
+#include "DriftChamberParticleHit.h"
 
 namespace clas12 {
 
@@ -21,24 +22,28 @@ namespace clas12 {
             int            fNADCHits;
             int            fNTDCHits;
             int            fNIonPairs;
+            int            fNParticleHits;
 
             TClonesArray * fADCHits;   //->
             TClonesArray * fTDCHits;   //->
             TClonesArray * fIonPairs;  //->
+            TClonesArray * fParticleHits;  //->
 
          public:
             DCHitsEvent();
             virtual ~DCHitsEvent();
 
-            TDCHit         * AddTDCHit(int ch, int v, double t) ;
-            ADCHit         * AddADCHit(int ch, int v) ;
+            TDCHit                  * AddTDCHit(int ch, int v, double t) ;
+            ADCHit                  * AddADCHit(int ch, int v) ;
+            DriftChamberIonPairHit  * AddIonPairHit(double x, double y, double z, double t);
+            DriftChamberParticleHit * AddParticleHit();
 
-            DriftChamberIonPairHit * AddIonPairHit(double x, double y, double z, double t);
+            DriftChamberParticleHit * GetParticleHit(int );
 
             void Clear(Option_t * opt = "") override ;
             void Print(Option_t * opt = "") const override ;
 
-         ClassDef(DCHitsEvent,1)
+         ClassDef(DCHitsEvent,2)
       };
 
    }

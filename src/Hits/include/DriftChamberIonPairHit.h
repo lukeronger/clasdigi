@@ -14,7 +14,6 @@ namespace clas12 {
       using clas12::geo::DCWire;
 
       double P_j_ion_pair(double y, int j=1, double k = 28.0/*1/cm*/);
-
       bool   does_step_create_ion_pair(double y, int j=1, double k = 28.0/*1/cm*/);
 
       class DriftChamberIonPairHit : public TObject {

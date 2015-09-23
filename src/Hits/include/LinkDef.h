@@ -20,7 +20,9 @@
 
 #pragma link C++ function clas12::hits::P_j_ion_pair(double, int, double);
 #pragma link C++ function clas12::hits::does_step_create_ion_pair(double, int, double);
+
 #pragma link C++ class clas12::hits::DriftChamberIonPairHit+;
+#pragma link C++ class clas12::hits::DriftChamberParticleHit+;
 
 //#pragma link C++ class clas12::DriftChamberIonPairHit+;
 

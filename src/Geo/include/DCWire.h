@@ -8,6 +8,8 @@
 #include "CLHEP/Units/SystemOfUnits.h"
 #include "CLHEP/Vector/Rotation.h"
 #include <array>
+#include <map>
+#include <unordered_map>
 
 //______________________________________________________________________________
 
@@ -19,6 +21,36 @@ namespace clas12 {
 
       CLHEP::Hep2Vector ApplyRotation(CLHEP::Hep2Vector v, double angle);
 
+      //________________________________________________________________________
+
+      class DCSuperLayer {
+         public:
+            int fSector     = 0;
+            int fRegion     = 0;
+            int fSuperLayer = 0;
+
+         public:
+            DCSuperLayer() { } 
+            DCSuperLayer(int s, int r, int sl) :
+               fSector(s), fRegion(r), fSuperLayer(sl) { }
+            DCSuperLayer(const DCSuperLayer&) = default;
+            DCSuperLayer(DCSuperLayer&&)      = default;
+            DCSuperLayer& operator=(const DCSuperLayer&) = default;
+            DCSuperLayer& operator=(DCSuperLayer&&)      = default;
+            virtual ~DCSuperLayer() = default;
+
+            int GlobalChannel() const { return( 6*(fSector-1) + (fSuperLayer-1) ); }
+
+            bool operator< (const DCSuperLayer& rhs) const {return( GlobalChannel() < rhs.GlobalChannel() ); }
+            bool operator> (const DCSuperLayer& rhs) const {return rhs < (*this);}
+            bool operator<=(const DCSuperLayer& rhs) const {return !((*this) > rhs);}
+            bool operator>=(const DCSuperLayer& rhs) const {return !((*this) < rhs);}
+            bool operator==(const DCSuperLayer& rhs) const {return( GlobalChannel() == rhs.GlobalChannel() ); }
+            bool operator!=(const DCSuperLayer& rhs) const {return !((*this) == rhs);}
+
+            ClassDef(DCSuperLayer,1)
+      };
+      //________________________________________________________________________
 
       class DCWire {
 
@@ -38,7 +70,11 @@ namespace clas12 {
       };
       //________________________________________________________________________
 
+
+
       namespace DC {
+
+
 
          using namespace CLHEP;
          using namespace TMath;

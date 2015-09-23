@@ -108,6 +108,7 @@ find_package(ROOT REQUIRED COMPONENTS MathCore RIO Hist MathMore Graf Graf3d
    Physics Spectrum Thread Tree TreeViewer)
 include(${ROOT_USE_FILE})
 include_directories(${CMAKE_SOURCE_DIR} ${ROOT_INCLUDE_DIRS})
+message("ROOT_CXX_FLAGS : ${ROOT_CXX_FLAGS}")
 add_definitions(${ROOT_CXX_FLAGS})
 set(LINK_DIRECTORIES
    ${ROOT_LIBRARY_DIR}
