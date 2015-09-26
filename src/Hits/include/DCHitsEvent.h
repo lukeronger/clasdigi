@@ -23,11 +23,13 @@ namespace clas12 {
             int            fNTDCHits;
             int            fNIonPairs;
             int            fNParticleHits;
+            int            fNRegionHits;
 
             TClonesArray * fADCHits;   //->
             TClonesArray * fTDCHits;   //->
             TClonesArray * fIonPairs;  //->
             TClonesArray * fParticleHits;  //->
+            TClonesArray * fRegionHits;  //->
 
          public:
             DCHitsEvent();
@@ -37,13 +39,15 @@ namespace clas12 {
             ADCHit                  * AddADCHit(int ch, int v) ;
             DriftChamberIonPairHit  * AddIonPairHit(double x, double y, double z, double t);
             DriftChamberParticleHit * AddParticleHit();
+            DriftChamberParticleHit * AddRegionHit();
 
             DriftChamberParticleHit * GetParticleHit(int );
+            DriftChamberParticleHit * GetRegionHit(int );
 
             void Clear(Option_t * opt = "") override ;
             void Print(Option_t * opt = "") const override ;
 
-         ClassDef(DCHitsEvent,2)
+         ClassDef(DCHitsEvent,3)
       };
 
    }
