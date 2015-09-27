@@ -69,7 +69,8 @@ set(CMAKE_CXX_FLAGS         "-std=c++14 ${CMAKE_CXX_FLAGS} ${ClasDigi_COMPILER_F
 
 set(ClasDigi_PDF_GRID_DIR     "${PROJECT_SOURCE_DIR}/main/grid")
 set(ClasDigi_GRID_DATA_DIR    "${ClasDigi_GRID_DATA_DIR} ${ClasDigi_PDF_GRID_DIR}")
-set(PROJECT_USE_ROOT6        ${CMAKE_USE_ROOT6})
+set(CMAKE_USE_ROOT6        ON)
+set(PROJECT_USE_ROOT6      ${CMAKE_USE_ROOT6})
 
 #-------------------------------------------------------
 set(CMAKE_MODULE_PATH
@@ -132,16 +133,19 @@ include_directories(${CLHEP_INCLUDE_DIR})
 # EVIO
 set(EVIO_INCLUDE_DIR $ENV{JLAB_PREFIX}/include)
 set(EVIO_LIBRARY_DIR $ENV{JLAB_PREFIX}/lib)
-set(EVIO_LIBRARIES  evio evioxx)
+set(EVIO_LIBRARIES  evio evioxx expat)
 
 set(LINK_DIRECTORIES
    ${LINK_DIRECTORIES}
    ${EVIO_LIBRARY_DIR}
    ${CLHEP_LIBRARY_DIR}
+   ${ROOT_LIBRARY_DIR}
    )
 set(LINK_LIBRARIES 
    ${LINK_LIBRARIES}
+   ${ROOT_LIBRARIES}
    ${EVIO_LIBRARIES}
+   ${CLHEP_LIBRARIES}
    )
 
 link_directories(${LINK_DIRECTORIES})
