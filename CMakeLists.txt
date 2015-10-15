@@ -8,6 +8,7 @@ set(ClasDigi_LIB_NAMES
    Sigs
    Sim
    Geo
+   Kine
    )
 
 set(ClasDigi_EXE_NAMES
