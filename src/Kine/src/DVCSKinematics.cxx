@@ -3,11 +3,16 @@
 #include "CLHEP/Units/SystemOfUnits.h"
 
 DVCSKinematics::DVCSKinematics() : fSolved(false),
-   fVariable(ConstrainedVariable::kPhotonEnergy)
+   fVariable(ConstrainedVariable::kCase3)
 {
-   SetP1_PThetaPhi(0.0,0,0);
-   SetP2_PThetaPhi(0.3,30.0*CLHEP::degree,130*CLHEP::degree);
    SetEEprimeTheta(11.0,2.0,25.0*CLHEP::degree);
+   //SetK2_PThetaPhi(2.0,20.0*CLHEP::degree,180*CLHEP::degree);
+   //SetP1_PThetaPhi(0.2,180.0*CLHEP::degree,0);
+   //SetP2_PThetaPhi(0.3,30.0*CLHEP::degree,180*CLHEP::degree);
+
+   fK2 = {-0.841946,0.000000,8.981686,9.021062};
+   fP1 = {0.000000,0.000000,-0.200000,0.959085};
+   fP2 = {-0.003290,0.000000,0.005698,0.938023};
 }
 //______________________________________________________________________________
 
@@ -24,6 +29,14 @@ void DVCSKinematics::SetEEprimeTheta(double E0, double Eprime, double theta)
    fe2 = {0.0,0.0, pp, Eprime};
    fe2.SetTheta(theta);
    fK1 = fe1 - fe2;
+}
+void DVCSKinematics::SetK2_PThetaPhi(double k, double theta, double phi)
+{
+   fK2 = {0, 0, k, k};
+   if(k > 0 ){
+      fK2.SetTheta(theta);
+      fK2.SetPhi(phi);
+   }
 }
 void DVCSKinematics::SetP1_PThetaPhi(double p, double theta, double phi)
 {
@@ -86,7 +99,7 @@ void   DVCSKinematics::SetQ2(double Q2)
 }
 double DVCSKinematics::GetQ2() const 
 {
-   return -1.0*fK1.Mag2();
+   return -1.0*(fK1*fK1);
 }
 //______________________________________________________________________________
 
@@ -117,24 +130,33 @@ void   DVCSKinematics::SetQ2nu(double Q2,double nu)
 
 int DVCSKinematics::Solve()
 {
-   //if( fVariable == ConstrainedVariable::kPhotonEnergy ) {
-
-   p2_case1();
-   TVector3  k2 = fe1.Vect() + fP1.Vect() - fe2.Vect() - fP2.Vect();
-   fK2.SetVect(k2);
-   fK2.SetE(k2.Mag());
-   //}
+   if( fVariable == ConstrainedVariable::kCase1 ) {
+      p2_case1();
+   } else if( fVariable == ConstrainedVariable::kCase2 ) {
+      p1_case2();
+   } else if( fVariable == ConstrainedVariable::kCase3 ) {
+      k2_case3();
+   } else if( fVariable == ConstrainedVariable::kCase4 ) {
+      p2_case4();
+   } else if( fVariable == ConstrainedVariable::kCase5 ) {
+      k2_case5();
+   } else if( fVariable == ConstrainedVariable::kCase6 ) {
+      p1_case6();
+   } else {
+      p2_case1();
+   }
    return 0;
 }
 //______________________________________________________________________________
+
 void DVCSKinematics::Print()
 {
-   fe1.Print();
-   fe2.Print();
-   fK1.Print();
-   fK2.Print();
-   fP1.Print();
-   fP2.Print();
+   std::cout << "e1 "; fe1.Print();
+   std::cout << "e2 "; fe2.Print();
+   std::cout << "K1 "; fK1.Print();
+   std::cout << "K2 "; fK2.Print();
+   std::cout << "P1 "; fP1.Print();
+   std::cout << "P2 "; fP2.Print();
 
    std::cout << " Q2          = " << GetQ2() << " (GeV/c)^2" << std::endl;
    std::cout << " nu          = " << Getnu() << " GeV" << std::endl;
@@ -149,17 +171,18 @@ void DVCSKinematics::Print()
    std::cout << " sqrt(pe2^2)  = " << TMath::Sqrt(fe2*fe2) << " GeV^2" << std::endl;
    std::cout << "  s1    = " << (fe1+fP1)*(fe1+fP1)   << std::endl;
    std::cout << "  s2    = " << (fe2+fK2+fP2)*(fe2+fK2+fP2)   << std::endl;
-   fe1.Vect().Print();
-   fe2.Vect().Print();
-   fK1.Vect().Print();
-   fK2.Vect().Print();
-   fP1.Vect().Print();
-   fP2.Vect().Print();
+   std::cout << "e1 "; fe1.Vect().Print();
+   std::cout << "e2 "; fe2.Vect().Print();
+   std::cout << "K1 "; fK1.Vect().Print();
+   std::cout << "K2 "; fK2.Vect().Print();
+   std::cout << "P1 "; fP1.Vect().Print();
+   std::cout << "P2 "; fP2.Vect().Print();
 
 }
 //______________________________________________________________________________
 
-double DVCSKinematics::p2_case1(){
+double DVCSKinematics::p2_case1(bool high_t){
+//  1) P1 is fixed, p2 direction is fixed. Solve for E2  then K2
    using namespace TMath;
    double Q2  = GetQ2();
    double M1  = GetM1();
@@ -204,10 +227,271 @@ double DVCSKinematics::p2_case1(){
 
    std::cout << " P2 solution = " << sol << std::endl;
    std::cout << " sol2        = " << sol2 << std::endl;
-   TVector3 p2_vec = fP2.Vect();
-   p2_vec.SetMag(sol2);
-   fP2.SetVect(p2_vec);
-   fP2.SetE(TMath::Sqrt(sol2*sol2+GetM2()*GetM2()));
 
-   return sol2;
+   double p = sol2;
+   if( high_t ) {
+      p = sol;
+   }
+
+   TVector3 p2_vec = fP2.Vect();
+   p2_vec.SetMag(p);
+   fP2.SetVect(p2_vec);
+   fP2.SetE(TMath::Sqrt(p*p + GetM2()*GetM2()));
+
+   TVector3  k2 = fe1.Vect() + fP1.Vect() - fe2.Vect() - fP2.Vect();
+   fK2.SetVect(k2);
+   fK2.SetE(k2.Mag());
+
+   return p;
 }
+//______________________________________________________________________________
+
+double DVCSKinematics::p1_case2(bool high_t)
+{
+   //  2) P2 is fixed, p1 direction is fixed. Solve for E1  then K2 
+
+   // Need direction vector to be nonzero
+   if( fP1.Vect().Mag() == 0.0 ){
+      fP1.SetVect({0,0,-1.0});
+   }
+   using namespace TMath;
+   double Q2  = GetQ2();
+   double M1  = GetM1();
+   double M2  = GetM2();
+   double p2  = fP2.Vect().Mag();
+   double E2  = fP2.E();
+   double k1  = fK1.Vect().Mag();
+   double nu1 = fK1.E();
+   double cosThetaK1P2 = Cos( fK1.Vect().Angle( fP2.Vect() ) );
+   double cosThetaP1P2 = Cos( fP1.Vect().Angle( fP2.Vect() ) );
+   double cosThetaK1P1 = Cos( fK1.Vect().Angle( fP1.Vect() ) );
+
+   double sqrt_term = (Power(-4*cosThetaK1P1*k1*Power(M1,2) - 4*cosThetaK1P1*k1*Power(M2,2) + 8*cosThetaK1P1*E2*k1*nu1 - 
+            8*cosThetaK1P1*cosThetaK1P2*Power(k1,2)*p2 + 4*cosThetaP1P2*Power(M1,2)*p2 + 4*cosThetaP1P2*Power(M2,2)*p2 - 
+            8*cosThetaP1P2*E2*nu1*p2 + 8*cosThetaK1P2*cosThetaP1P2*k1*Power(p2,2) + 4*cosThetaK1P1*k1*Q2 - 4*cosThetaP1P2*p2*Q2,2)
+         - 4*(-4*Power(E2,2) + 4*Power(cosThetaK1P1,2)*Power(k1,2) + 8*E2*nu1 - 4*Power(nu1,2) - 
+            8*cosThetaK1P1*cosThetaP1P2*k1*p2 + 4*Power(cosThetaP1P2,2)*Power(p2,2))*
+         (-4*Power(E2,2)*Power(M1,2) + Power(M1,4) + 2*Power(M1,2)*Power(M2,2) + Power(M2,4) + 4*E2*Power(M1,2)*nu1 - 
+          4*E2*Power(M2,2)*nu1 + 4*Power(E2,2)*Power(nu1,2) - 4*Power(M1,2)*Power(nu1,2) + 4*cosThetaK1P2*k1*Power(M1,2)*p2 + 
+          4*cosThetaK1P2*k1*Power(M2,2)*p2 - 8*cosThetaK1P2*E2*k1*nu1*p2 + 4*Power(cosThetaK1P2,2)*Power(k1,2)*Power(p2,2) - 
+          2*Power(M1,2)*Q2 - 2*Power(M2,2)*Q2 + 4*E2*nu1*Q2 - 4*cosThetaK1P2*k1*p2*Q2 + Power(Q2,2)));
+
+   //if(sqrt_term < 0.0) sqrt_term *= -1.0;
+
+   double sol = (4*cosThetaK1P1*k1*Power(M1,2) + 4*cosThetaK1P1*k1*Power(M2,2) - 8*cosThetaK1P1*E2*k1*nu1 + 
+         8*cosThetaK1P1*cosThetaK1P2*Power(k1,2)*p2 - 4*cosThetaP1P2*Power(M1,2)*p2 - 4*cosThetaP1P2*Power(M2,2)*p2 + 
+         8*cosThetaP1P2*E2*nu1*p2 - 8*cosThetaK1P2*cosThetaP1P2*k1*Power(p2,2) - 4*cosThetaK1P1*k1*Q2 + 4*cosThetaP1P2*p2*Q2 + 
+         Sqrt(sqrt_term))/
+      (2.*(-4*Power(E2,2) + 4*Power(cosThetaK1P1,2)*Power(k1,2) + 8*E2*nu1 - 4*Power(nu1,2) - 8*cosThetaK1P1*cosThetaP1P2*k1*p2 + 
+           4*Power(cosThetaP1P2,2)*Power(p2,2)));
+
+   double sol2 = (4*cosThetaK1P1*k1*Power(M1,2) + 4*cosThetaK1P1*k1*Power(M2,2) - 8*cosThetaK1P1*E2*k1*nu1 + 
+         8*cosThetaK1P1*cosThetaK1P2*Power(k1,2)*p2 - 4*cosThetaP1P2*Power(M1,2)*p2 - 4*cosThetaP1P2*Power(M2,2)*p2 + 
+         8*cosThetaP1P2*E2*nu1*p2 - 8*cosThetaK1P2*cosThetaP1P2*k1*Power(p2,2) - 4*cosThetaK1P1*k1*Q2 + 4*cosThetaP1P2*p2*Q2 - 
+         Sqrt(sqrt_term))/
+      (2.*(-4*Power(E2,2) + 4*Power(cosThetaK1P1,2)*Power(k1,2) + 8*E2*nu1 - 4*Power(nu1,2) - 8*cosThetaK1P1*cosThetaP1P2*k1*p2 + 
+           4*Power(cosThetaP1P2,2)*Power(p2,2)));
+
+
+   std::cout << " P1 solution = " << sol << std::endl;
+   std::cout << " sol2        = " << sol2 << std::endl;
+
+   double p = sol2;
+   if( high_t ) {
+      p = sol;
+   }
+
+   TVector3 p1_vec = fP1.Vect();
+   p1_vec.SetMag(p);
+   fP1.SetVect(p1_vec);
+   fP1.SetE(TMath::Sqrt(p*p + GetM1()*GetM1()));
+
+   TVector3  k2 = fe1.Vect() + fP1.Vect() - fe2.Vect() - fP2.Vect();
+   fK2.SetVect(k2);
+   fK2.SetE(k2.Mag());
+
+   return p;
+}
+//______________________________________________________________________________
+
+double DVCSKinematics::k2_case3()
+{
+   //  3) P2 is fixed, k2 direction is fixed. Solve for nu2 then P1
+   using namespace TMath;
+   double Q2  = GetQ2();
+   double M1  = GetM1();
+   double M2  = GetM2();
+   double p2  = fP2.Vect().Mag();
+   double E2  = fP2.E();
+   double k1  = fK1.Vect().Mag();
+   double nu1 = fK1.E();
+   double cosThetaP2K1 = Cos( fP2.Vect().Angle( fK1.Vect() ) );
+   double cosThetaK1K2 = Cos( fK1.Vect().Angle( fK2.Vect() ) );
+   double cosThetaP2K2 = Cos( fP2.Vect().Angle( fK2.Vect() ) );
+
+   double k = (Power(M1,2) - Power(M2,2) + 2*E2*nu1 - 2*cosThetaP2K1*k1*p2 + Q2)/(2.*(E2 + cosThetaK1K2*k1 - nu1 - cosThetaP2K2*p2));
+
+   std::cout << " k sol        = " << k << std::endl;
+
+   TVector3 k2_vec = fK2.Vect();
+   k2_vec.SetMag(k);
+   fK2.SetVect(k2_vec);
+   fK2.SetE(k);
+
+   TVector3  p1 = fe2.Vect() + fP2.Vect() - fe1.Vect() + fK2.Vect();
+   fP1.SetVect(p1);
+   fP1.SetE( Sqrt(p1.Mag2() + GetM1()*GetM1()) );
+
+   return k;
+}
+//______________________________________________________________________________
+double DVCSKinematics::p2_case4(bool high_t)
+{
+   //  4) K2 is fixed, p2 direction is fixed. Solve for E2  then P1
+   using namespace TMath;
+   double Q2  = GetQ2();
+   double M1  = GetM1();
+   double M2  = GetM2();
+   //double p2  = fP2.Vect().Mag();
+   //double E2  = fP2.E();
+   double k2  = fK2.Vect().Mag();
+   double k1  = fK1.Vect().Mag();
+   double nu1 = fK1.E();
+   double cosThetaK1K2 = Cos( fK1.Vect().Angle( fK2.Vect() ) );
+   double cosThetaP2K1 = Cos( fP2.Vect().Angle( fK1.Vect() ) );
+   double cosThetaP2K2 = Cos( fP2.Vect().Angle( fK2.Vect() ) );
+
+   double sqrt_term = (Power(-8*cosThetaK1K2*k1*Power(k2,2) + 4*k2*Power(M1,2) - 4*k2*Power(M2,2) + 8*cosThetaK1K2*k1*k2*nu1 + 
+               8*Power(k2,2)*nu1 - 4*Power(M1,2)*nu1 + 4*Power(M2,2)*nu1 - 8*k2*Power(nu1,2) + 4*k2*Q2 - 4*nu1*Q2,2) - 
+            4*(4*Power(cosThetaP2K1,2)*Power(k1,2) - 8*cosThetaP2K1*cosThetaP2K2*k1*k2 - 4*Power(k2,2) + 
+               4*Power(cosThetaP2K2,2)*Power(k2,2) + 8*k2*nu1 - 4*Power(nu1,2))*
+            (-4*Power(cosThetaK1K2,2)*Power(k1,2)*Power(k2,2) + 4*cosThetaK1K2*k1*k2*Power(M1,2) - Power(M1,4) - 
+             4*Power(cosThetaP2K1,2)*Power(k1,2)*Power(M2,2) - 4*cosThetaK1K2*k1*k2*Power(M2,2) + 
+             8*cosThetaP2K1*cosThetaP2K2*k1*k2*Power(M2,2) - 4*Power(cosThetaP2K2,2)*Power(k2,2)*Power(M2,2) + 
+             2*Power(M1,2)*Power(M2,2) - Power(M2,4) + 8*cosThetaK1K2*k1*Power(k2,2)*nu1 - 4*k2*Power(M1,2)*nu1 + 
+             4*k2*Power(M2,2)*nu1 - 4*Power(k2,2)*Power(nu1,2) + 4*cosThetaK1K2*k1*k2*Q2 - 2*Power(M1,2)*Q2 + 2*Power(M2,2)*Q2 - 
+             4*k2*nu1*Q2 - Power(Q2,2)));
+
+   double sol = (8*cosThetaK1K2*k1*Power(k2,2) - 4*k2*Power(M1,2) + 4*k2*Power(M2,2) - 8*cosThetaK1K2*k1*k2*nu1 - 8*Power(k2,2)*nu1 + 
+         4*Power(M1,2)*nu1 - 4*Power(M2,2)*nu1 + 8*k2*Power(nu1,2) - 4*k2*Q2 + 4*nu1*Q2 - 
+         Sqrt(sqrt_term))/
+      (2.*(4*Power(cosThetaP2K1,2)*Power(k1,2) - 8*cosThetaP2K1*cosThetaP2K2*k1*k2 - 4*Power(k2,2) + 
+           4*Power(cosThetaP2K2,2)*Power(k2,2) + 8*k2*nu1 - 4*Power(nu1,2)));
+
+   double sol2 = (8*cosThetaK1K2*k1*Power(k2,2) - 4*k2*Power(M1,2) + 4*k2*Power(M2,2) - 8*cosThetaK1K2*k1*k2*nu1 - 8*Power(k2,2)*nu1 + 
+         4*Power(M1,2)*nu1 - 4*Power(M2,2)*nu1 + 8*k2*Power(nu1,2) - 4*k2*Q2 + 4*nu1*Q2 + 
+         Sqrt(sqrt_term))/
+      (2.*(4*Power(cosThetaP2K1,2)*Power(k1,2) - 8*cosThetaP2K1*cosThetaP2K2*k1*k2 - 4*Power(k2,2) + 
+           4*Power(cosThetaP2K2,2)*Power(k2,2) + 8*k2*nu1 - 4*Power(nu1,2)));
+
+   std::cout << " P1 solution = " << sol << std::endl;
+   std::cout << " sol2        = " << sol2 << std::endl;
+
+   double E2 = sol2;
+   if( high_t ) {
+      E2 = sol;
+   }
+
+   double p2 = TMath::Sqrt(E2*E2 - GetM2()*GetM2());
+
+   TVector3 p2_vec = fP2.Vect();
+   p2_vec.SetMag(p2);
+   fP2.SetVect(p2_vec);
+   fP2.SetE(E2);
+
+   TVector3  p1 = fe2.Vect() + fP2.Vect() - fe1.Vect() + fK2.Vect();
+   fP1.SetVect(p1);
+   fP1.SetE(TMath::Sqrt(p1*p1 + GetM1()*GetM1()));
+
+   return p2;
+}
+//______________________________________________________________________________
+double DVCSKinematics::k2_case5()
+{
+   //  5) P1 is fixed, k2 direction is fixed. Solve for nu2 then P2
+   using namespace TMath;
+   double Q2  = GetQ2();
+   double M1  = GetM1();
+   double M2  = GetM2();
+   double p1  = fP1.Vect().Mag();
+   double E1  = fP1.E();
+   double k1  = fK1.Vect().Mag();
+   double nu1 = fK1.E();
+   double cosThetaP1K1 = Cos( fP1.Vect().Angle( fK1.Vect() ) );
+   double cosThetaK1K2 = Cos( fK1.Vect().Angle( fK2.Vect() ) );
+   double cosThetaP1K2 = Cos( fP1.Vect().Angle( fK2.Vect() ) );
+
+   double k2 = (Power(M1,2) - 2*cosThetaP1K1*k1*Sqrt(Power(E1,2) - Power(M1,2)) - Power(M2,2) + 2*E1*nu1 - Q2)/
+        (2.*(E1 - cosThetaK1K2*k1 - cosThetaP1K2*Sqrt(Power(E1,2) - Power(M1,2)) + nu1)); 
+
+   TVector3 k2_vec = fK2.Vect();
+   k2_vec.SetMag(k2);
+   fK2.SetVect(k2_vec);
+   fK2.SetE(k2);
+
+   TVector3  p2 = fe1.Vect() + fP1.Vect() - fe2.Vect() - fK2.Vect();
+   fP2.SetVect(p2);
+   fP2.SetE( Sqrt(p2.Mag2() + GetM2()*GetM2()) );
+
+   return k2;
+}
+//______________________________________________________________________________
+double DVCSKinematics::p1_case6(bool high_t)
+{
+   //  6) K2 is fixed, p1 direction is fixed. Solve for E1  then P2
+   using namespace TMath;
+   double Q2  = GetQ2();
+   double M1  = GetM1();
+   double M2  = GetM2();
+   double k2  = fK2.Vect().Mag();
+   double k1  = fK1.Vect().Mag();
+   double nu1 = fK1.E();
+   double cosThetaK1K2 = Cos( fK1.Vect().Angle( fK2.Vect() ) );
+   double cosThetaP1K1 = Cos( fP1.Vect().Angle( fK1.Vect() ) );
+   double cosThetaP1K2 = Cos( fP1.Vect().Angle( fK2.Vect() ) );
+
+   double sqrt_term = (Power(8*cosThetaK1K2*k1*Power(k2,2) + 4*k2*Power(M1,2) - 4*k2*Power(M2,2) - 8*cosThetaK1K2*k1*k2*nu1 - 
+               8*Power(k2,2)*nu1 - 4*Power(M1,2)*nu1 + 4*Power(M2,2)*nu1 + 8*k2*Power(nu1,2) - 4*k2*Q2 + 4*nu1*Q2,2) - 
+            4*(4*Power(cosThetaP1K1,2)*Power(k1,2) - 8*cosThetaP1K1*cosThetaP1K2*k1*k2 - 4*Power(k2,2) + 
+               4*Power(cosThetaP1K2,2)*Power(k2,2) + 8*k2*nu1 - 4*Power(nu1,2))*
+            (-4*Power(cosThetaK1K2,2)*Power(k1,2)*Power(k2,2) - 4*Power(cosThetaP1K1,2)*Power(k1,2)*Power(M1,2) - 
+             4*cosThetaK1K2*k1*k2*Power(M1,2) + 8*cosThetaP1K1*cosThetaP1K2*k1*k2*Power(M1,2) - 
+             4*Power(cosThetaP1K2,2)*Power(k2,2)*Power(M1,2) - Power(M1,4) + 4*cosThetaK1K2*k1*k2*Power(M2,2) + 
+             2*Power(M1,2)*Power(M2,2) - Power(M2,4) + 8*cosThetaK1K2*k1*Power(k2,2)*nu1 + 4*k2*Power(M1,2)*nu1 - 
+             4*k2*Power(M2,2)*nu1 - 4*Power(k2,2)*Power(nu1,2) + 4*cosThetaK1K2*k1*k2*Q2 + 2*Power(M1,2)*Q2 - 2*Power(M2,2)*Q2 - 
+             4*k2*nu1*Q2 - Power(Q2,2)));
+   double sol = (-8*cosThetaK1K2*k1*Power(k2,2) - 4*k2*Power(M1,2) + 4*k2*Power(M2,2) + 8*cosThetaK1K2*k1*k2*nu1 + 8*Power(k2,2)*nu1 + 
+         4*Power(M1,2)*nu1 - 4*Power(M2,2)*nu1 - 8*k2*Power(nu1,2) + 4*k2*Q2 - 4*nu1*Q2 - 
+         Sqrt(sqrt_term))/
+      (2.*(4*Power(cosThetaP1K1,2)*Power(k1,2) - 8*cosThetaP1K1*cosThetaP1K2*k1*k2 - 4*Power(k2,2) + 
+           4*Power(cosThetaP1K2,2)*Power(k2,2) + 8*k2*nu1 - 4*Power(nu1,2)));
+
+   double sol2 = (-8*cosThetaK1K2*k1*Power(k2,2) - 4*k2*Power(M1,2) + 4*k2*Power(M2,2) + 8*cosThetaK1K2*k1*k2*nu1 + 8*Power(k2,2)*nu1 + 
+         4*Power(M1,2)*nu1 - 4*Power(M2,2)*nu1 - 8*k2*Power(nu1,2) + 4*k2*Q2 - 4*nu1*Q2 + 
+         Sqrt(sqrt_term))/
+      (2.*(4*Power(cosThetaP1K1,2)*Power(k1,2) - 8*cosThetaP1K1*cosThetaP1K2*k1*k2 - 4*Power(k2,2) + 
+           4*Power(cosThetaP1K2,2)*Power(k2,2) + 8*k2*nu1 - 4*Power(nu1,2)));
+
+   std::cout << " P1 solution = " << sol << std::endl;
+   std::cout << " sol2        = " << sol2 << std::endl;
+
+   double E1 = sol2;
+   if( high_t ) {
+      E1 = sol;
+   }
+
+   double p1 = TMath::Sqrt(E1*E1 - GetM1()*GetM1());
+
+   TVector3 p1_vec = fP1.Vect();
+   p1_vec.SetMag(p1);
+   fP1.SetVect(p1_vec);
+   fP1.SetE(E1);
+
+   TVector3  p2 = fe1.Vect() + fP1.Vect() - fe2.Vect() - fK2.Vect();
+   fP2.SetVect(p2);
+   fP2.SetE( Sqrt(p2.Mag2() + GetM2()*GetM2()) );
+
+
+   return p1;
+}
+//______________________________________________________________________________
