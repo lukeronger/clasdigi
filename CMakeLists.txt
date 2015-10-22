@@ -131,9 +131,9 @@ include_directories(${CLHEP_INCLUDE_DIR})
 #message(" CLHEP_DEFINITIONS = ${CLHEP_DEFINITIONS} " )
 
 # EVIO
-set(EVIO_INCLUDE_DIR $ENV{JLAB_PREFIX}/include)
-set(EVIO_LIBRARY_DIR $ENV{JLAB_PREFIX}/lib)
-set(EVIO_LIBRARIES  evio evioxx expat)
+#set(EVIO_INCLUDE_DIR $ENV{JLAB_PREFIX}/include)
+#set(EVIO_LIBRARY_DIR $ENV{JLAB_PREFIX}/lib)
+#set(EVIO_LIBRARIES  evio evioxx expat)
 
 set(LINK_DIRECTORIES
    ${LINK_DIRECTORIES}
