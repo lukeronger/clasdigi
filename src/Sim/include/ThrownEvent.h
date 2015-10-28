@@ -2,10 +2,10 @@
 #define clas12_hits_ThrownEvent_HH 1
 
 #include "TObject.h"
-#include "TParticle.h"
-#include "TClonesArray.h"
 #include <iostream>
-#include <fstream>
+
+class TParticle;
+class TClonesArray;
 
 namespace clas12 {
 
@@ -20,24 +20,21 @@ namespace clas12 {
             double    fBeamPol; 
             double    fTargetPol; 
 
-            TClonesArray * fParticles;
+            TClonesArray * fParticles; //->
 
          public :
             ThrownEvent();
             virtual ~ThrownEvent();
 
-            TParticle * AddParticle()
-            {
-               TParticle * part = new( (*fParticles)[fNParticles] ) TParticle();
-               fNParticles++;
-               return part;
-            }
+            TParticle * AddParticle();
+            TParticle * GetParticle(int i);
+            int         GetNParticles() const {return fNParticles;}
 
             virtual void Print(Option_t * opt = "") const override;
             virtual void Clear(Option_t * opt = "") override;
 
-            void ReadLundEvent(std::ifstream& in);
-            int  ReadLundHeader(std::ifstream& in);
+            void ReadLundEvent(   std::ifstream& in);
+            int  ReadLundHeader(  std::ifstream& in);
             int  ReadLundParticle(std::ifstream& in);
 
             //void LundFormat( std::ostream& s = std::cout );

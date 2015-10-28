@@ -5,6 +5,7 @@
 
 #include "HTCCHitsEvent.h"
 #include "DCHitsEvent.h"
+#include "RCHitsEvent.h"
 
 namespace clas12 {
 
@@ -18,6 +19,7 @@ namespace clas12 {
 
             HTCCHitsEvent    fHTCCEvent;
             DCHitsEvent      fDCEvent;
+            RCHitsEvent      fRCEvent;
 
          public:
             CLAS12HitsEvent();

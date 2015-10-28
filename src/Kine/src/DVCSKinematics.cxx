@@ -3,7 +3,7 @@
 #include "CLHEP/Units/SystemOfUnits.h"
 
 DVCSKinematics::DVCSKinematics() : fSolved(false),
-   fVariable(ConstrainedVariable::kCase3)
+   fVariable(ConstrainedVariable::kCase5)
 {
    SetEEprimeTheta(11.0,2.0,25.0*CLHEP::degree);
    //SetK2_PThetaPhi(2.0,20.0*CLHEP::degree,180*CLHEP::degree);

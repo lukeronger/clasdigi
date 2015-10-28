@@ -9,6 +9,7 @@ set(ClasDigi_LIB_NAMES
    Sim
    Geo
    Kine
+   Mag
    )
 
 set(ClasDigi_EXE_NAMES
@@ -57,7 +58,7 @@ set(ClasDigi_CXX_LDFLAGS)
 set(ClasDigi_CXX_LIBS)
 set(ClasDigi_CXX_INC_DIR)
 set(ClasDigi_FC_CFLAGS)
-set(ClasDigi_GRID_DATA_DIR)
+set(ClasDigi_DATA_DIR $ENV{JLAB_ROOT}/noarch/data)
 set(ClasDigi_PREFIX)
 
 set(ClasDigi_CXX_LIBS      "-L${CMAKE_INSTALL_PREFIX}/lib ")

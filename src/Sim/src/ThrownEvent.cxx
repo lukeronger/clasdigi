@@ -2,6 +2,9 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <fstream>
+#include "TParticle.h"
+#include "TClonesArray.h"
 
 //______________________________________________________________________________
 
@@ -14,6 +17,27 @@ clas12::sim::ThrownEvent::ThrownEvent() :
 
 clas12::sim::ThrownEvent::~ThrownEvent()
 { } 
+//______________________________________________________________________________
+
+TParticle * clas12::sim::ThrownEvent::AddParticle()
+{
+   TParticle * part = new( (*fParticles)[fNParticles] ) TParticle();
+   fNParticles++;
+   return part;
+}
+//______________________________________________________________________________
+
+TParticle * clas12::sim::ThrownEvent::GetParticle(int i)
+{
+   if( i < fNParticles) {
+      TParticle * part = (TParticle*)((*fParticles)[i]);
+      return part;
+   } else {
+      std::cout << " error  particle index out of range clas12::sim::ThrownEvent::GetParticle("   << i << ")\n";
+      TParticle * part = (TParticle*)((*fParticles)[0]);
+      return part;
+   }
+}
 //______________________________________________________________________________
 
 void clas12::sim::ThrownEvent::Clear(Option_t * opt)

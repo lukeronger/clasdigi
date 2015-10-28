@@ -1,5 +1,5 @@
-set(aname Hits)
-set(needs_libs  ${CLHEP_LIBRARIES})
+set(aname Mag)
+set(needs_libs)
 set(libname "Clas${aname}")
 set(dictname "${libname}Dict")
 set(lib_LINKDEF "${PROJECT_SOURCE_DIR}/src/${aname}/include/LinkDef.h")
@@ -20,15 +20,9 @@ include_directories(${PROJECT_SOURCE_DIR}/src/${aname}/include)
 
 # add src file names here (without the extention or src/ prefix)
 set(lib_files
-   ADCHit
-   TDCHit
-   FlashADCHit
-   DriftChamberIonPairHit
-   DriftChamberParticleHit
-   CLAS12HitsEvent
-   HTCCHitsEvent
-   DCHitsEvent
-   RCHitsEvent
+   Field
+   ToroidField
+   SolenoidField
 )
 
 set(lib_Fortran_files

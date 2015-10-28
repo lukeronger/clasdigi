@@ -13,6 +13,7 @@
 #pragma link C++ class clas12::hits::CLAS12HitsEvent+;
 #pragma link C++ class clas12::hits::HTCCHitsEvent+;
 #pragma link C++ class clas12::hits::DCHitsEvent+;
+#pragma link C++ class clas12::hits::RCHitsEvent+;
 
 #pragma link C++ class clas12::hits::ADCHit+;
 #pragma link C++ class clas12::hits::TDCHit+;

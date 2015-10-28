@@ -98,12 +98,12 @@ class DVCSKinematics {
       TLorentzVector P1() const {return fP1;}
       TLorentzVector P2() const {return fP2;}
 
-      TLorentzVector Gete1() {return fe1;}
-      TLorentzVector Gete2() {return fe2;}
-      TLorentzVector GetK1() {return fK1;}
-      TLorentzVector GetK2() {return fK2;}
-      TLorentzVector GetP1() {return fP1;}
-      TLorentzVector GetP2() {return fP2;}
+      TLorentzVector Gete1() {if(!fSolved)Solve(); return fe1;}
+      TLorentzVector Gete2() {if(!fSolved)Solve(); return fe2;}
+      TLorentzVector GetK1() {if(!fSolved)Solve(); return fK1;}
+      TLorentzVector GetK2() {if(!fSolved)Solve(); return fK2;}
+      TLorentzVector GetP1() {if(!fSolved)Solve(); return fP1;}
+      TLorentzVector GetP2() {if(!fSolved)Solve(); return fP2;}
 
       ClassDef(DVCSKinematics,1)
 };
