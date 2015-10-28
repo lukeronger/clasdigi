@@ -14,7 +14,7 @@ namespace clas12 {
 
       class SolenoidField {
 
-         protected :
+         public :
             double fDelta_r;   // m
             double fDelta_z;   // m
             double fr_min;     // m
@@ -37,14 +37,19 @@ namespace clas12 {
 
          public :
             SolenoidField();
-            ~SolenoidField();
+            virtual ~SolenoidField();
+            SolenoidField(const SolenoidField&) = default;
+            SolenoidField(SolenoidField&&)      = default;
+            SolenoidField& operator=(const SolenoidField&) = default;
+            SolenoidField& operator=(SolenoidField&&)      = default;
 
             void Print(const char * opt = "") const;
             void Clear(const char * opt = "");
 
             void ReadMap();
 
-            TVector3 GetField(double x, double y, double z);
+            TVector3 GetField(double x, double y, double z) const;
+            TVector3 GetField(const TVector3& v) const;
 
             //ClassDef(SolenoidField,1)
       };

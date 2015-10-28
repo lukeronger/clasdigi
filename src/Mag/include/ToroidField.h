@@ -14,6 +14,7 @@ namespace clas12 {
 
       class ToroidField  {
 
+
          protected :
             double fDelta_phi; // deg
             double fDelta_r;   // cm
@@ -37,12 +38,14 @@ namespace clas12 {
             std::string          fMapFileName;
             std::ifstream        fMapFile;
 
+         private:
             std::vector<double>  fphi;
             std::vector<double>  fr;
             std::vector<double>  fz;
             std::vector<double>  fBphi;
             std::vector<double>  fBr;
             std::vector<double>  fBz;
+
 
          public :
             ToroidField();
@@ -53,7 +56,8 @@ namespace clas12 {
 
             void ReadMap();
 
-            TVector3 GetField(double x, double y, double z);
+            TVector3 GetField(double x, double y, double z) const ;
+            TVector3 GetField(const TVector3& v) const ;
 
             //void CheckMap();
 

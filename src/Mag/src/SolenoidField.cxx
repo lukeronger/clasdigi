@@ -9,20 +9,26 @@
 
 //______________________________________________________________________________
 
-clas12::mag::SolenoidField::SolenoidField():
-   fDelta_r(0.005), // m
-   fDelta_z(0.005), // m
-   fr_min(0.0),     // m
-   fr_max(3.0),     // m
-   fz_min(-3.0),    // m
-   fz_max(3.0),      // m
-   fStride_r(601),
-   fStride_z(1201),
-   fr_offset(0.0),     // m
-   fz_offset(3.0)    // m
+clas12::mag::SolenoidField::SolenoidField() :
+   fDelta_r(0.005), fDelta_z(0.005), fr_min(0.0), fr_max(3.0),     
+   fz_min(-3.0), fz_max(3.0),  fStride_r(601), fStride_z(1201),
+   fr_offset(0.0), fz_offset(3.0) 
 {
    fMapFileName = ClasDigi_DATA_DIR"/clas12SolenoidFieldMap.dat";
    //clas12SolenoidFieldMap.dat  clas12TorusOriginalMap.dat
+   //fr_min = 0.0;     // m
+   //fr_max = 3.0 ;    // m
+   //fz_min = -3.0;    // m
+   //fz_max = 3.0;     // m
+
+   std::cout << " fz_min " << fz_min << std::endl;
+   std::cout << " fz_max " << fz_max << std::endl;
+   std::cout << " fr_min " << fr_min << std::endl;
+   std::cout << " fr_max " << fr_max << std::endl;
+   std::cout << " fStride_z " << fStride_z << std::endl;
+   std::cout << " fStride_r " << fStride_r << std::endl;
+   std::cout << " fz_offset " << fz_offset << std::endl;
+   std::cout << " fr_offset " << fr_offset << std::endl;
 
 
    ReadMap();
@@ -95,38 +101,59 @@ void clas12::mag::SolenoidField::ReadMap()
    //fNParticles = 0;
 } 
 //______________________________________________________________________________
-TVector3 clas12::mag::SolenoidField::GetField(double x, double y, double z)
+
+TVector3 clas12::mag::SolenoidField::GetField(const TVector3& v) const
+{
+   return GetField(v.x(), v.y(), v.z());
+}
+//______________________________________________________________________________
+
+TVector3 clas12::mag::SolenoidField::GetField(double x, double y, double z) const
 {
    double Bx = 0.0;
    double By = 0.0;
    double Bz = 0.0;
 
-   // To get information on the TVector3 in spherical (rho,phi,theta) or
-   // cylindrical (z,r,theta) coordinates, the
-   // the member functions Mag() (=magnitude=rho in spherical coordinates), Mag2(),
-   // Theta(), CosTheta(), Phi(), Perp() (the transverse component=r in cylindrical coordinates),
-
    TVector3 thePositionVector(x,y,z);
+   //thePositionVector.Print();
    //thePositionVector.RotateY(-fPolarizationAngle);
+   double phi = thePositionVector.Phi();
 
-   // Now if we were polarized at 80 degrees and wanted B at zero degrees,
-   // We would rotate our position
-   // back to polangle=0, interpolate the field. Get the vector.
-   // Then rotate the field vector back to 80 degrees
+   //fr_min = 0.0;     // m
+   //fr_max = 3.0 ;    // m
+   //fz_min = -3.0;    // m
+   //fz_max = 3.0;     // m
+   //fStride_z =  1201;
+   //fStride_r =  601;
+   //fr_offset = 0.0;
+   //fz_offset = 3.0; 
 
    //Double_t z   = thePositionVector.Z();
    //Double_t r   = thePositionVector.Perp();
    double zz = z/100.0;
    double rr = TMath::Sqrt(x*x + y*y)/100.0; // meters
 
-   // zz -> i, rr -> j
+   //std::cout << " zz " << zz << std::endl;
+   //std::cout << " rr " << rr << std::endl;
+   //// zz -> i, rr -> j
+   //std::cout << " fz_min " << fz_min << std::endl;
+   //std::cout << " fz_max " << fz_max << std::endl;
+   //std::cout << " fr_min " << fr_min << std::endl;
+   //std::cout << " fr_max " << fr_max << std::endl;
+   //std::cout << " fStride_z " << fStride_z << std::endl;
+   //std::cout << " fStride_r " << fStride_r << std::endl;
+   //std::cout << " fz_offset " << fz_offset << std::endl;
+   //std::cout << " fr_offset " << fr_offset << std::endl;
+   //std::cout << " fDelta_z " << fDelta_z << std::endl;
+   //std::cout << " fDelta_r " << fDelta_r << std::endl;
 
-   if( (zz >= fz_min) && (zz <= fz_max) && (rr >= fr_min) && (rr <= fr_max) ) {
+   if( (zz >= fz_min) && (zz < fz_max) && (rr >= fr_min) && (rr < fr_max) ) {
       int ii = (int)TMath::Floor((zz + fz_offset)/fDelta_z);
       int jj = (int)TMath::Floor((rr + fr_offset)/fDelta_r);
-      double phi = thePositionVector.Phi();
 
       //  std::cout << "jj=" << jj<< " ii =" << ii<< " phi=" << phi*180.0/TMath::Pi() << std::endl;
+      //std::cout << "ii " << ii << std::endl;
+      //std::cout << "jj " << jj << std::endl;
 
       //double corners[4] = {ii * 2.0, (ii + 1) * 2.0, jj * 2.0, (jj + 1) * 2.0};
 
@@ -135,13 +162,13 @@ TVector3 clas12::mag::SolenoidField::GetField(double x, double y, double z)
       int k1 = (ii+1) + fStride_z*jj;
       int k2 = ii     + fStride_z*(jj+1);
       int k3 = (ii+1) + fStride_z*(jj+1);
-      double corners[4] = {fz[k0], fz[k1], fr[k1], fr[k2]};
+      double corners[4] = {fz.at(k0), fz.at(k1), fr.at(k1), fr.at(k2)};
 
-      double cornerDataPoints[4] = {fBz[k0], fBz[k1], fBz[k2], fBz[k3]};
+      double cornerDataPoints[4] = {fBz.at(k0), fBz.at(k1), fBz.at(k2), fBz.at(k3)};
       double interpBz = BilinearInterpolation(&cornerDataPoints[0], &corners[0], zz , rr);
 
       // get interpoolated Br value
-      double cornerDataPoints2[4] = {fBr[k0], fBr[k1], fBr[k2], fBr[k3]};
+      double cornerDataPoints2[4] = {fBr.at(k0), fBr.at(k1), fBr.at(k2), fBr.at(k3)};
       double interpBr = BilinearInterpolation(&cornerDataPoints2[0], &corners[0], zz , rr);
       //double cornerDataPoints2[4] = {BrFieldRaw[ii][jj], BrFieldRaw[ii+1][jj], BrFieldRaw[ii][jj+1], BrFieldRaw[ii+1][jj+1] };
       //double interpBr = BilinearInterpolation(&cornerDataPoints2[0], &corners[0], Z, R);

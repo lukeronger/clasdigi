@@ -14,6 +14,8 @@ set(test_names
    lund_test
    geo_test1
    field_test
+   field_test_solenoid
+   field_test_toroid
    )
 
 foreach(exename ${test_names})
