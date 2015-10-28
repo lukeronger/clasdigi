@@ -26,6 +26,14 @@ namespace clas12 {
             double fz_min;   // cm
             double fz_max;   // cm
 
+            int    fStride_phi;
+            int    fStride_r;
+            int    fStride_z;
+
+            double fphi_offset; // m offset added to get: index = (r+r_offset)/delta_r
+            double fr_offset; // m offset added to get: index = (r+r_offset)/delta_r
+            double fz_offset; // m
+
             std::string          fMapFileName;
             std::ifstream        fMapFile;
 
@@ -44,6 +52,8 @@ namespace clas12 {
             void Clear(const char * opt = "") ;
 
             void ReadMap();
+
+            TVector3 GetField(double x, double y, double z);
 
             //void CheckMap();
 

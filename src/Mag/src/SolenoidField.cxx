@@ -129,13 +129,14 @@ TVector3 clas12::mag::SolenoidField::GetField(double x, double y, double z)
       //  std::cout << "jj=" << jj<< " ii =" << ii<< " phi=" << phi*180.0/TMath::Pi() << std::endl;
 
       //double corners[4] = {ii * 2.0, (ii + 1) * 2.0, jj * 2.0, (jj + 1) * 2.0};
-      double corners[4] = {ii * 2.0, (ii + 1) * 2.0, jj * 2.0, (jj + 1) * 2.0};
 
       // get interpolated Bz value
       int k0 = ii     + fStride_z*jj;
       int k1 = (ii+1) + fStride_z*jj;
       int k2 = ii     + fStride_z*(jj+1);
       int k3 = (ii+1) + fStride_z*(jj+1);
+      double corners[4] = {fz[k0], fz[k1], fr[k1], fr[k2]};
+
       double cornerDataPoints[4] = {fBz[k0], fBz[k1], fBz[k2], fBz[k3]};
       double interpBz = BilinearInterpolation(&cornerDataPoints[0], &corners[0], zz , rr);
 
