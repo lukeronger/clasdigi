@@ -31,7 +31,6 @@ clas12::mag::ToroidField::ToroidField() :
    fMapFileName = ClasDigi_DATA_DIR"/clas12TorusOriginalMap.dat";
    //clas12SolenoidFieldMap.dat  clas12TorusOriginalMap.dat
 
-   ReadMap();
 } 
 //______________________________________________________________________________
 

@@ -31,7 +31,6 @@ clas12::mag::SolenoidField::SolenoidField() :
    std::cout << " fr_offset " << fr_offset << std::endl;
 
 
-   ReadMap();
 } 
 //______________________________________________________________________________
 
