@@ -11,7 +11,8 @@ install(TARGETS ${exename}
 set(more_names 
    clasdigi_HTCC 
    clasdigi_DC 
-   clasdigi_output_format)
+   #clasdigi_output_format
+   )
 
 foreach(exename ${more_names})
    add_executable(${exename} ${exename}.cxx)
