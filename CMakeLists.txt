@@ -323,3 +323,13 @@ MESSAGE("                CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 MESSAGE("         CMAKE_LINK_FLAGS: ${CMAKE_LINK_FLAGS}")
 MESSAGE("CMAKE_SHARED_LINKER_FLAGS: ${CMAKE_SHARED_LINKER_FLAGS}")
 
+message("ClasDigi_MAJOR_VERSION   ${ClasDigi_MAJOR_VERSION}")
+message("ClasDigi_MINOR_VERSION   ${ClasDigi_MINOR_VERSION}")
+message("ClasDigi_PATCH_VERSION   ${ClasDigi_PATCH_VERSION}")
+message("ClasDigi_DATA_DIR      ${ClasDigi_DATA_DIR}")
+message("ClasDigi_CXX_CFLAGS    ${ClasDigi_CXX_CFLAGS}")
+message("ClasDigi_CXX_LDFLAGS   ${ClasDigi_CXX_LDFLAGS}")
+message("ClasDigi_CXX_LIBS      ${ClasDigi_CXX_LIBS}")
+message("ClasDigi_CXX_INC_DIR   ${ClasDigi_CXX_INC_DIR}")
+message("ClasDigi_PREFIX        ${CMAKE_INSTALL_PREFIX}")
+
