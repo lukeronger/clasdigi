@@ -1,5 +1,5 @@
 set(aname Hits)
-set(needs_libs  ${CLHEP_LIBRARIES})
+set(needs_libs  ${CLHEP_LIBRARIES} ClasGeo)
 set(libname "Clas${aname}")
 set(dictname "${libname}Dict")
 set(lib_LINKDEF "${PROJECT_SOURCE_DIR}/src/${aname}/include/LinkDef.h")
@@ -48,7 +48,9 @@ endforeach(infileName)
 
 
 #MESSAGE("(${dictname} ${lib_HEADERS} LINKDEF ${lib_LINKDEF}) ")
-ROOT_GENERATE_DICTIONARY(${dictname} ${lib_HEADERS} LINKDEF ${lib_LINKDEF} OPTIONS -p)
+ROOT_GENERATE_DICTIONARY(${dictname} 
+  ${lib_HEADERS} -I${PROJECT_SOURCE_DIR}/src/Geo/include 
+  LINKDEF ${lib_LINKDEF} OPTIONS -p)
 
 SET(lib_HEADERS ${lib_HEADERS})
 SET(lib_SRCS ${lib_Fortran_SRCs} ${lib_SRCS} ${lib_DICTIONARY_SRC})
