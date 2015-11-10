@@ -1,6 +1,6 @@
 #----------------------------------------------------------------------------
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-project(ClasDigi CXX C Fortran)
+project(ClasDigi CXX C)
 
 set(ClasDigi_LIB_NAMES
    Hits
