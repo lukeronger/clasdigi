@@ -24,6 +24,10 @@ set(ClasDigi_PATCH_VERSION 0)
 SET(ClasDigi_VERSION "${ClasDigi_MAJOR_VERSION}.${ClasDigi_MINOR_VERSION}.${ClasDigi_PATCH_VERSION}")
 
 # ---------------------------------------------------------------------------
+# load additional OS dependent settings
+include(cmake/os.cmake)
+
+# ---------------------------------------------------------------------------
 # Configure the find_package outputs for this library
 # Offer the user the choice of overriding the installation directories
 set(INSTALL_LIB_DIR lib CACHE PATH "Installation directory for libraries")
@@ -120,6 +124,8 @@ set(LINK_LIBRARIES
    ${LINK_LIBRARIES}
    ${ROOT_LIBRARIES}
    )
+## extra root settings
+include(cmake/root.cmake)
 
 # ----------
 # CLHEP
