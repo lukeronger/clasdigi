@@ -1,4 +1,5 @@
 #include "Field.h"
+#include "gzstream.h"
 
 double clas12::mag::BilinearInterpolation(double * cornerDataPoints, double * corners, double x, double y)
 {
