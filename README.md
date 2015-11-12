@@ -19,6 +19,19 @@ cmake ../clasdigi/. -DCMAKE_INSTALL_PREFIX=$HOME
 make install
 ```
 
+###Using with root
+
+To use these libraries seamlessly in root add this to your rootlogon.C
+   gInterpreter->AddIncludePath("$HOME/include/ClasDigi");
+   gSystem->AddIncludePath(" -I$HOME/include/ClasDigi");
+   gSystem->Load("libClasGeo.so");
+   gSystem->Load("libClasHits.so");
+   gSystem->Load("libClasSim.so");
+   gSystem->Load("libClasDAQ.so");
+   gSystem->Load("libClasSigs.so");
+   gSystem->Load("libClasKine.so");
+   gSystem->Load("libClasMag.so");
+
 Status
 ------
 
