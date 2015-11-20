@@ -13,6 +13,8 @@ DVCSKinematics::DVCSKinematics() : fSolved(false),
    fK2 = {-0.841946,0.000000,8.981686,9.021062};
    fP1 = {0.000000,0.000000,-0.200000,0.959085};
    fP2 = {-0.003290,0.000000,0.005698,0.938023};
+   SetM1(0.938);
+   SetM2(0.938);
 }
 //______________________________________________________________________________
 
@@ -30,6 +32,8 @@ void DVCSKinematics::SetEEprimeTheta(double E0, double Eprime, double theta)
    fe2.SetTheta(theta);
    fK1 = fe1 - fe2;
 }
+//______________________________________________________________________________
+
 void DVCSKinematics::SetK2_PThetaPhi(double k, double theta, double phi)
 {
    fK2 = {0, 0, k, k};
@@ -38,23 +42,46 @@ void DVCSKinematics::SetK2_PThetaPhi(double k, double theta, double phi)
       fK2.SetPhi(phi);
    }
 }
+//______________________________________________________________________________
+
 void DVCSKinematics::SetP1_PThetaPhi(double p, double theta, double phi)
 {
-   double E0 = TMath::Sqrt(p*p + GetM1()*GetM1());
+   double m = GetM1();
+   double E0 = TMath::Sqrt(p*p + m*m);
    fP1 = {0, 0, p, E0};
    if(p > 0 ){
       fP1.SetTheta(theta);
       fP1.SetPhi(phi);
    }
 }
+//______________________________________________________________________________
+
 void DVCSKinematics::SetP2_PThetaPhi(double p, double theta, double phi)
 {
-   double E0 = TMath::Sqrt(p*p + GetM2()*GetM2());
+   double m = GetM2();
+   double E0 = TMath::Sqrt(p*p + m*m);
    fP2 = {0, 0, p, E0};
    fP2.SetTheta(theta);
    fP2.SetPhi(phi);
 }
 //______________________________________________________________________________
+
+void DVCSKinematics::SetM1(double m)
+{
+  double p = fP1.P(); 
+  double E = TMath::Sqrt(p*p + m*m);
+  fP1.SetE(E);
+}
+//______________________________________________________________________________
+
+void DVCSKinematics::SetM2(double m)
+{
+  double p = fP2.P(); 
+  double E = TMath::Sqrt(p*p + m*m);
+  fP2.SetE(E);
+}
+//______________________________________________________________________________
+
 double DVCSKinematics::Gett_min() const 
 {
    double eps = 4.0*GetM1()*GetM1()*Getx()*Getx()/GetQ2();
@@ -225,18 +252,19 @@ double DVCSKinematics::p2_case1(bool high_t){
       (2.*(4*Power(cosThetaK1P2,2)*Power(k1,2) - 4*Power(nu1,2) + 8*cosThetaK1P2*cosThetaP1P2*k1*p1 + 
            4*Power(cosThetaP1P2,2)*Power(p1,2) - 8*nu1*Sqrt(Power(M1,2) + Power(p1,2)) - 4*(Power(M1,2) + Power(p1,2))));
 
-   std::cout << " P2 solution = " << sol << std::endl;
-   std::cout << " sol2        = " << sol2 << std::endl;
+   std::cout << " sol1  = " << sol << std::endl;
+   std::cout << " sol2  = " << sol2 << std::endl;
 
    double p = sol2;
    if( high_t ) {
       p = sol;
    }
 
+   double m = GetM2();
    TVector3 p2_vec = fP2.Vect();
    p2_vec.SetMag(p);
    fP2.SetVect(p2_vec);
-   fP2.SetE(TMath::Sqrt(p*p + GetM2()*GetM2()));
+   fP2.SetE(TMath::Sqrt(p*p + m*m));
 
    TVector3  k2 = fe1.Vect() + fP1.Vect() - fe2.Vect() - fP2.Vect();
    fK2.SetVect(k2);

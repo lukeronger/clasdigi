@@ -11,10 +11,10 @@
 // Notation
 // --------
 // Four vectors:
-// K1(nu1,|k1|=k1)
-// K2(nu2,|k2|=k2)
-// P1(E1, |P1|=p1)
-// P2(E2, |P2|=p2)
+// K1(nu1,|k1|=k1) virtual photon
+// K2(nu2,|k2|=k2) real photon
+// P1(E1, |P1|=p1) initial target      
+// P2(E2, |P2|=p2) recoil 
 // 
 // Q^2= K1^2 = k1^2-nu1^2
 // 
@@ -70,8 +70,12 @@ class DVCSKinematics {
       void  SetP1_PThetaPhi(double p, double theta, double phi = 0);
       void  SetP2_PThetaPhi(double p, double theta, double phi = 0);
 
-      double GetM1() const { return 0.938 ;}
-      double GetM2() const { return 0.938 ;}
+      // Set the mass keeping the momentum fixed
+      void SetM1(double m) ;
+      void SetM2(double m) ;
+
+      double GetM1() const { return fP1.M() ;}
+      double GetM2() const { return fP2.M() ;}
       double Gett_min() const;
 
       void   SetQ2(double Q2);
