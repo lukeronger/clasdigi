@@ -71,29 +71,31 @@ class DVCSKinematics {
       void  SetP2_PThetaPhi(double p, double theta, double phi = 0);
 
       // Set the mass keeping the momentum fixed
-      void SetM1(double m) ;
-      void SetM2(double m) ;
+      void  SetM1(double m) ;
+      void  SetM2(double m) ;
+
+      void  SetQ2nu(double Q2,double nu);
+      void  SetQ2(double Q2);
+      void  Setnu(double nu, bool Q2fixed = true);
+
+      void  SetK1(const TLorentzVector& v);
+      void  SetK2(const TLorentzVector& v);
+      void  SetP1(const TLorentzVector& v);
+      void  SetP2(const TLorentzVector& v);
+
+      // -------------------------------------------------------------------
 
       double GetM1() const { return fP1.M() ;}
       double GetM2() const { return fP2.M() ;}
+
+      double Gett()     const { return( (fP1-fP2)*(fP1-fP2) ); }
       double Gett_min() const;
+      double Gett_max() const;
 
-      void   SetQ2(double Q2);
       double GetQ2() const ;
-
-      void   Setnu(double nu, bool Q2fixed = true);
+      double Getx()  const ;
       double Getnu() const ;
-
-      double Getx()const { return( GetQ2()/(2.0*GetM1()*Getnu()) ); }
-      double Gett() const { return( (fP1-fP2)*(fP1-fP2) ); }
-
-      void   SetQ2nu(double Q2,double nu);
-
-      void SetK1(const TLorentzVector& v);
-      void SetK2(const TLorentzVector& v);
-      void SetP1(const TLorentzVector& v);
-      void SetP2(const TLorentzVector& v);
-
+      double GetW2() const ;
 
       TLorentzVector e1() const {return fK1;}
       TLorentzVector e2() const {return fK2;}
@@ -112,5 +114,5 @@ class DVCSKinematics {
       ClassDef(DVCSKinematics,1)
 };
 
-
 #endif
+

@@ -25,7 +25,7 @@ DVCSKinematics::~DVCSKinematics()
 
 void DVCSKinematics::SetEEprimeTheta(double E0, double Eprime, double theta)
 {
-   double p0 = TMath::Sqrt(E0*E0 - 0.000511*0.000511);
+   double p0 = TMath::Sqrt(    E0*E0     - 0.000511*0.000511);
    double pp = TMath::Sqrt(Eprime*Eprime - 0.000511*0.000511);
    fe1 = {0.0,0.0, p0, E0};
    fe2 = {0.0,0.0, pp, Eprime};
@@ -84,8 +84,42 @@ void DVCSKinematics::SetM2(double m)
 
 double DVCSKinematics::Gett_min() const 
 {
-   double eps = 4.0*GetM1()*GetM1()*Getx()*Getx()/GetQ2();
-   double res = -GetQ2()*2.0*(1.0-Getx())*(1+ eps*eps - TMath::Sqrt(1+eps*eps))/(4.0*Getx()*(1.0-Getx())+eps*eps);
+   double m  = GetM1();
+   double m2 = GetM2();
+   double Q2   = GetQ2();
+   double W2   = GetW2();
+   double W    = TMath::Sqrt(W2);
+   double v1LAB = fK1.E();
+   double k1LAB = fK1.Vect().Mag();
+   double k1 = k1LAB*(m/W);
+   double v1 = W - TMath::Sqrt(k1*k1 + m2*m2);
+   //double nu   = Getnu();
+   //double eps2 = Q2/(nu*nu);
+   //double x    = Getx();
+   //double res = -Q2*(2.0*(1.0-x)*(1.0-TMath::Sqrt(1.0+eps2)) + eps2 )/(4.0*x*(1.0-x) + eps2);
+   double tmin = -Q2 - 2.0*(v1 - k1)*(W2 - m*m)/(2.0*W);
+   //std::cout << " diff: " << res - tmin << std::endl;
+   return tmin;
+}
+//______________________________________________________________________________
+
+double DVCSKinematics::Gett_max() const 
+{
+   double m  = GetM1();
+   double Q2 = GetQ2();
+   double x  = Getx();
+   double W2 = GetW2();
+   double W  = TMath::Sqrt(W2);
+   double v1LAB = fK1.E();
+   double k1LAB = fK1.Vect().Mag();
+   double k1 = k1LAB*(m/W);
+   double v1 = W - TMath::Sqrt(k1*k1 + m*m);
+   double tmax    = -Q2 - 2.0*(v1 + k1)*(W2 - m*m)/(2.0*W);
+   double minus_s = -W2;
+   double res = tmax;
+   if( res < minus_s ) {
+      res = minus_s;
+   }
    return res;
 }
 //______________________________________________________________________________
@@ -107,12 +141,14 @@ void DVCSKinematics::SetP1(const TLorentzVector& v)
    fSolved = false;
 }
 //______________________________________________________________________________
+
 void DVCSKinematics::SetP2(const TLorentzVector& v)
 {
    fP2     = v;
    fSolved = false;
 }
 //______________________________________________________________________________
+
 void   DVCSKinematics::SetQ2(double Q2)
 {
    // Adjust the momentum so that the photon energy remains the same.
@@ -123,10 +159,6 @@ void   DVCSKinematics::SetQ2(double Q2)
    q.SetMag(TMath::Sqrt(q2));
    fK1.SetVect(q);
    fSolved = false;
-}
-double DVCSKinematics::GetQ2() const 
-{
-   return -1.0*(fK1*fK1);
 }
 //______________________________________________________________________________
 
@@ -143,15 +175,37 @@ void   DVCSKinematics::Setnu(double nu, bool Q2fixed)
    }
    fSolved = false;
 }
+//______________________________________________________________________________
+
+void   DVCSKinematics::SetQ2nu(double Q2,double nu)
+{
+   Setnu(nu,false);
+   SetQ2(Q2);
+}
+//______________________________________________________________________________
+
+double DVCSKinematics::Getx()  const {
+   return( GetQ2()/(2.0*GetM1()*Getnu()) );
+}
+//______________________________________________________________________________
+
+double DVCSKinematics::GetQ2() const 
+{
+   return -1.0*(fK1*fK1);
+}
+//______________________________________________________________________________
+
 double DVCSKinematics::Getnu() const
 {
    return fK1.E();
 }
 //______________________________________________________________________________
-void   DVCSKinematics::SetQ2nu(double Q2,double nu)
-{
-   Setnu(nu,false);
-   SetQ2(Q2);
+
+double DVCSKinematics::GetW2() const {
+   double m  = GetM1();
+   double Q2 = GetQ2();
+   double x  = Getx();
+   return( m*m - Q2 + Q2/x );
 }
 //______________________________________________________________________________
 
@@ -185,19 +239,24 @@ void DVCSKinematics::Print()
    std::cout << "P1 "; fP1.Print();
    std::cout << "P2 "; fP2.Print();
 
+   std::cout << " M1          = " << GetM1() << " GeV" << std::endl;
+   std::cout << " M2          = " << GetM2() << " GeV" << std::endl;
    std::cout << " Q2          = " << GetQ2() << " (GeV/c)^2" << std::endl;
    std::cout << " nu          = " << Getnu() << " GeV" << std::endl;
    std::cout << " x           = " << Getx()  << "      " << std::endl;
    std::cout << " t           = " << Gett()  << "      " << std::endl;
    std::cout << " t_min       = " << Gett_min()  << "      " << std::endl;
+   std::cout << " t_max       = " << Gett_max()  << "      " << std::endl;
+   std::cout << " W2          = " << GetW2()  << "      " << std::endl;
    std::cout << " k1^2        = " << fK1*fK1 << " GeV^2" << std::endl;
    std::cout << " k2^2        = " << fK2*fK2 << " GeV^2" << std::endl;
    std::cout << " sqrt(P1^2)  = " << TMath::Sqrt(fP1*fP1) << " GeV^2" << std::endl;
    std::cout << " sqrt(P2^2)  = " << TMath::Sqrt(fP2*fP2) << " GeV^2" << std::endl;
-   std::cout << " sqrt(pe1^2)  = " << TMath::Sqrt(fe1*fe1) << " GeV^2" << std::endl;
-   std::cout << " sqrt(pe2^2)  = " << TMath::Sqrt(fe2*fe2) << " GeV^2" << std::endl;
-   std::cout << "  s1    = " << (fe1+fP1)*(fe1+fP1)   << std::endl;
-   std::cout << "  s2    = " << (fe2+fK2+fP2)*(fe2+fK2+fP2)   << std::endl;
+   std::cout << " sqrt(pe1^2) = " << TMath::Sqrt(fe1*fe1) << " GeV^2" << std::endl;
+   std::cout << " sqrt(pe2^2) = " << TMath::Sqrt(fe2*fe2) << " GeV^2" << std::endl;
+   std::cout << " s1          = " << (fe1-fe2+fP1)*(fe1-fe2+fP1)   << std::endl;
+   std::cout << " s1          = " << (fK1+fP1)*(fK1+fP1)   << std::endl;
+   std::cout << " s2          = " << (fK2+fP2)*(fK2+fP2)   << std::endl;
    std::cout << "e1 "; fe1.Vect().Print();
    std::cout << "e2 "; fe2.Vect().Print();
    std::cout << "K1 "; fK1.Vect().Print();
