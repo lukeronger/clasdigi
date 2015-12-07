@@ -9,6 +9,7 @@
 #pragma link C++ namespace clas12;
 #pragma link C++ namespace clas12::mag;
 
+#pragma link C++ class clas12::mag::CLAS12MagneticField+;
 //#pragma link C++ class clas12::mag::SolenoidField+;
 //#pragma link C++ class clas12::mag::ToroidField+;
 

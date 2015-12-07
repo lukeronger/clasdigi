@@ -23,6 +23,7 @@ set(lib_files
    Field
    ToroidField
    SolenoidField
+   CLAS12MagneticField
 )
 
 set(lib_Fortran_files

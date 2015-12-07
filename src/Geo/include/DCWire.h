@@ -126,16 +126,23 @@ namespace clas12 {
             4.333*degree, 4.333*degree
          };
 
+         // This is the wire separation for each superlayer
+         // Each side of the hexagon forming the wire volume is of length 2*LayerSep
          const std::array<double,6> LayerSep = {
             0.3861*cm, 0.4042*cm,
             0.6219*cm, 0.6586*cm,
             0.9351*cm, 0.9780*cm
          };
+
+         // This is the spacing between wires that are in the same wire plane. This 
+         // measured separation is perpendicular to LayerSep.
          const std::array<double,6> LayerWireSpacing = {
             2.0*TMath::Sqrt(3.0)*LayerSep.at(0), 2.0*TMath::Sqrt(3.0)*LayerSep.at(1),
             2.0*TMath::Sqrt(3.0)*LayerSep.at(2), 2.0*TMath::Sqrt(3.0)*LayerSep.at(3),
             2.0*TMath::Sqrt(3.0)*LayerSep.at(4), 2.0*TMath::Sqrt(3.0)*LayerSep.at(5)
          };
+
+         // 
          const std::array<double,6> LayerWirePlaneLength = {
             113.0*LayerWireSpacing.at(0), 113.0*LayerWireSpacing.at(1),
             113.0*LayerWireSpacing.at(2), 113.0*LayerWireSpacing.at(3),

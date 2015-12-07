@@ -90,11 +90,16 @@ void clas12::mag::ToroidField::ReadMap()
       fBphi.push_back(Bphi);
       fBr.push_back(Br);
       fBz.push_back(Bz);
-      //std::cout << phi << " " << r << " " << z << " " << Bphi << " " << Br << " " << Bz << "\n";
-      //if(n_lines > 200) break;
+      //if(n_lines < 50) {
+      //   std::cout << phi << " " << r << " " << z << " " << Bphi << " " << Br << " " << Bz << "\n";
+      //}
    }
    std::cout << "ToroidField has " << n_lines << " data points\n";
    std::cout << "done reading solenoid field map \n";
+   std::cout << " n_phi : " << fBphi.size() << std::endl;
+   std::cout << " n_r   : " << fBr.size() << std::endl;
+   std::cout << " n_z   : " << fBz.size() << std::endl;
+   std::cout << " fStride_phi*fStride_r*fStride_z   : " << fStride_phi*fStride_r*fStride_z << std::endl;
    //fParticles->Clear();
    //fNParticles = 0;
 } 
@@ -111,47 +116,41 @@ TVector3 clas12::mag::ToroidField::GetField(double x, double y, double z) const
    double By = 0.0;
    double Bz = 0.0;
 
-   // To get information on the TVector3 in spherical (rho,phi,theta) or
-   // cylindrical (z,r,theta) coordinates, the
-   // the member functions Mag() (=magnitude=rho in spherical coordinates), Mag2(),
-   // Theta(), CosTheta(), Phi(), Perp() (the transverse component=r in cylindrical coordinates),
-
    TVector3 thePositionVector(x,y,z);
-   //thePositionVector.RotateY(-fPolarizationAngle);
 
-   // Now if we were polarized at 80 degrees and wanted B at zero degrees,
-   // We would rotate our position
-   // back to polangle=0, interpolate the field. Get the vector.
-   // Then rotate the field vector back to 80 degrees
+   double phi = thePositionVector.Phi() - 0.0*CLHEP::degree;
 
-   //Double_t z   = thePositionVector.Z();
-   //Double_t r   = thePositionVector.Perp();
-   double phi = thePositionVector.Phi();
-   //std::cout << "phi: "  << phi << std::endl;
+   double zz   = z;                      // cm
+   double rr   = TMath::Sqrt(x*x + y*y); // cm
+   double pphi = phi/CLHEP::degree;//(phi + 2.0*CLHEP::pi)/CLHEP::degree; 
+   int    nPhi = 0.0;//(int(pphi+30)/60);
 
-   double zz = z;//cm
-   double rr = TMath::Sqrt(x*x + y*y); //cm
-   double pphi = (phi + 2.0*CLHEP::pi)/CLHEP::degree; 
-   //std::cout << "pphi: "  << pphi << std::endl;
-   int  nPhi = (int(pphi)/60);
-   //std::cout << "nPhi: "  << nPhi << std::endl;
-   pphi = pphi - nPhi*60.0;
-   //std::cout << "pphi2: "  << pphi << std::endl;
-   nPhi = nPhi%6;
-   //std::cout << "nPhi2: "  << nPhi << std::endl;
+   if( pphi < 0 ) pphi += 360.0; 
+   while( pphi > 30.0 ){
+      pphi -= 60.0;
+      nPhi++;
+   }
+
+   //pphi = pphi - nPhi*60.0;
+   //nPhi = nPhi%6;
 
    // z    -> i, 
    // r    -> j
    // phi  -> k
 
    double sign = 1.0;
-   double pp = pphi;
-   if( (pphi >= fphi_min) && (pphi < 2.0*fphi_max) 
+   double pp   = pphi;
+
+   //std::cout << pphi << std::endl;
+   //std::cout << nPhi << std::endl;
+
+   if( (pphi > -fphi_max ) && (pphi <=fphi_max) 
          && (zz >= fz_min) && (zz < fz_max) 
          && (rr >= fr_min) && (rr < fr_max) ) {
-      if( pphi >= fphi_max ) {
+
+      if( pphi < 0.0 ) {
          sign = -1.0;
-         pp = (60.0-pphi);
+         pp = TMath::Abs(pphi);
       }
       // Fix the problem when the value is at the upper limit
       if( pp == fphi_max ) pp -= 0.000001;
@@ -159,15 +158,6 @@ TVector3 clas12::mag::ToroidField::GetField(double x, double y, double z) const
       int ii = (int)TMath::Floor((zz + fz_offset)/fDelta_z);
       int jj = (int)TMath::Floor((rr + fr_offset)/fDelta_r);
       int kk = (int)TMath::Floor((pp + fphi_offset)/fDelta_phi);
-      //std::cout << " pp = " << pp << std::endl;
-
-      //std::cout << "derP" << std::endl;;
-      //double corners[4] = {ii * 2.0, (ii + 1) * 2.0, jj * 2.0, (jj + 1) * 2.0};
-      //double corners[4] = {ii * 2.0, (ii + 1) * 2.0, jj * 2.0, (jj + 1) * 2.0};
-
-      //std::cout << "ii " << ii << std::endl;;
-      //std::cout << "jj " << jj << std::endl;;
-      //std::cout << "kk " << kk << std::endl;;
 
       // get interpolated Bz value
       int k0 = (ii)   + fStride_z*jj     + fStride_z*fStride_r*kk;
@@ -179,49 +169,61 @@ TVector3 clas12::mag::ToroidField::GetField(double x, double y, double z) const
       int k6 = (ii+1) + fStride_z*(jj+1) + fStride_z*fStride_r*(kk+1);
       int k7 = (ii)   + fStride_z*(jj+1) + fStride_z*fStride_r*(kk+1);
 
-      //std::cout << "fz size: " << fz.size() << std::endl;
-      //std::cout << "fr size: " << fr.size() << std::endl;
-      //std::cout << "fphi size: " << fphi.size() << std::endl;
-      //std::cout << "k0 " << k0 << std::endl;
-      //std::cout << "k1 " << k1 << std::endl;
-      //std::cout << "k2 " << k2 << std::endl;
-      //std::cout << "k3 " << k3 << std::endl;
-      //std::cout << "k4 " << k4 << std::endl;
+      //check
+      //std::cout << fz.at(k0) << " < " << zz << " < " << fz.at(k1) << std::endl;
+      //std::cout << fr.at(k1) << " < " << rr << " < " << fr.at(k2) << std::endl;
+      //std::cout << fphi.at(k3) << " < " << pp << " < " << fphi.at(k4) << std::endl;
 
-      //std::cout << "k0 " << k0 << " z= " << fz.at(k0)<< std::endl;
-      //std::cout << "k1 " << k1 << " z= " << fz.at(k1)<< std::endl;
-      //std::cout << "k2 " << k2 << " z= " << fz.at(k2)<< std::endl;
-      //std::cout << "k3 " << k3 << " z= " << fz.at(k3)<< std::endl;
-      //std::cout << "k4 " << k4 << " z= " << fz.at(k4)<< std::endl;
+      std::array<double,6> corners  = {fz.at(k0), fz.at(k1), fr.at(k1), fr.at(k2), fphi.at(k3), fphi.at(k4)};
 
-      std::array<double,6> corners = {fz.at(k0), fz.at(k1), fr.at(k1), fr.at(k2), fphi.at(k3), fphi.at(k4)};
-
-      //std::cout << "der0" << std::endl;;
       std::array<double,8> cornerBz = {fBz.at(k0), fBz.at(k1), fBz.at(k2), fBz.at(k3), fBz.at(k4), fBz.at(k5), fBz.at(k6), fBz.at(k7)};
       double interpBz = clas12::mag::TrilinearInterpolation(cornerBz, corners, zz , rr, pp);
-
-      //std::cout << "der1" << std::endl;;
 
       std::array<double,8> cornerBr = {fBr.at(k0), fBr.at(k1), fBr.at(k2), fBr.at(k3), fBr.at(k4), fBr.at(k5), fBr.at(k6), fBr.at(k7)};
       double interpBr = clas12::mag::TrilinearInterpolation(cornerBr, corners, zz , rr, pp);
 
-      //std::cout << "der2" << std::endl;;
-
       std::array<double,8> cornerBphi = {fBphi.at(k0), fBphi.at(k1), fBphi.at(k2), fBphi.at(k3), fBphi.at(k4), fBphi.at(k5), fBphi.at(k6), fBphi.at(k7)};
       double interpBphi = clas12::mag::TrilinearInterpolation(cornerBphi, corners, zz , rr, pp);
-      //double cornerDataPoints2[4] = {BrFieldRaw[ii][jj], BrFieldRaw[ii+1][jj], BrFieldRaw[ii][jj+1], BrFieldRaw[ii+1][jj+1] };
-      //double interpBr = BilinearInterpolation(&cornerDataPoints2[0], &corners[0], Z, R);
-      //std::cout << "der3" << std::endl;;
 
       interpBz    *= 0.1; // kG->T
       interpBr    *= 0.1; // kG->T
       interpBphi  *= 0.1; // kG->T
 
+      double extra_rot = 0.0*CLHEP::degree;
+
+      //std::cout << " pp   " << pp << "\n";
+      //std::cout << " pphi " << pphi << "\n";
+      //std::cout << " phi_k3 " << fphi.at(k3) << "\n";
+      //std::cout << " phi_k4 " << fphi.at(k4) << "\n";
+
+      //TVector3 theField(
+      //      sign*interpBr*TMath::Cos(pp*CLHEP::degree) - interpBphi*TMath::Sin(pp*CLHEP::degree), 
+      //      sign*interpBr*TMath::Sin(pp*CLHEP::degree) + interpBphi*TMath::Cos(pp*CLHEP::degree), 
+      //      sign*interpBz);
+
       TVector3 theField(
-            sign*interpBr * TMath::Cos(pphi*CLHEP::degree) - interpBphi*TMath::Sin(pphi*CLHEP::degree), 
-            sign*interpBr * TMath::Sin(pphi*CLHEP::degree) + interpBphi*TMath::Cos(pphi*CLHEP::degree), 
-            sign*interpBz);
-      theField.RotateZ(nPhi*60.0*CLHEP::degree);
+                       sign*interpBr*TMath::Sin(0.0*CLHEP::degree) + interpBphi*TMath::Cos(0.0*CLHEP::degree), 
+                       sign*interpBr*TMath::Cos(0.0*CLHEP::degree) - interpBphi*TMath::Sin(0.0*CLHEP::degree), 
+                       sign*interpBz );
+
+      if( sign == -1.0 ) {
+      //   //extra_rot = (30.0+pp)*CLHEP::degree;
+      //   //theField.RotateZ(extra_rot);
+
+      //   extra_rot = 60.0*CLHEP::degree + 2.0*pp*CLHEP::degree;
+      theField = TVector3(
+                       -1.0*(sign*interpBr*TMath::Sin(0.0*CLHEP::degree) + interpBphi*TMath::Cos(0.0*CLHEP::degree)), 
+                       -1.0*(sign*interpBr*TMath::Cos(0.0*CLHEP::degree) - interpBphi*TMath::Sin(0.0*CLHEP::degree)), 
+                       -1.0*sign*interpBz );
+
+      //   theField.SetXYZ(sign*theField.X(),
+      //                        theField.Y(),
+      //                   sign*theField.Z() );
+      //////   theField.RotateZ( (30.0+pp)*CLHEP::degree);
+      }
+
+      theField.RotateZ( (double(nPhi))*60.0*CLHEP::degree + extra_rot );
+
       Bx = theField.X();// * fScalingCoefficient;
       By = theField.Y();// * fScalingCoefficient;
       Bz = theField.Z();// * fScalingCoefficient;
@@ -231,6 +233,7 @@ TVector3 clas12::mag::ToroidField::GetField(double x, double y, double z) const
       By = 0.0;
       Bz = 0.0;
    }
+   //std::cout << "x (" << x << ", " << y << ", " << z << ")\n";
    //std::cout << "B (" << Bx << ", " << By << ", " << Bz << ")\n";
 
    return TVector3(Bx,By,Bz);

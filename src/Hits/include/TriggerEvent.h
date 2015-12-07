@@ -1,6 +1,7 @@
 #ifndef TriggerEvent_HH
 #define TriggerEvent_HH
 
+#include "TObject.h"
 namespace clas12 {
 
    namespace hits {

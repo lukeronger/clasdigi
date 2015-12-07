@@ -1,5 +1,5 @@
-#ifndef clas12_hits_ToroidField_HH
-#define clas12_hits_ToroidField_HH 1
+#ifndef clas12_mag_ToroidField_HH
+#define clas12_mag_ToroidField_HH 1
 
 #include <vector>
 #include <fstream>
@@ -60,6 +60,8 @@ namespace clas12 {
             TVector3 GetField(const TVector3& v) const ;
 
             //void CheckMap();
+
+            //TVector3 GetField(double x, double y, double z) const ;
 
             //ClassDef(ToroidField,1)
       };

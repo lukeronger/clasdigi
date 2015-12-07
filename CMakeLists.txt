@@ -277,6 +277,23 @@ INSTALL(FILES ${files} DESTINATION include/ClasDigi)
 install(FILES ${PCM_FILES} DESTINATION lib)
 #install(TARGETS ClasDigi-config DESTINATION bin)
 
+#----------------------------------------------------------------------------
+# Configure and install "share" files.  
+# These include mostly root scripts and examples.
+set(SHARE_SCRIPTS
+  share/plot_field.cxx
+  share/plot_field_xy.cxx
+  )
+foreach(_script ${SHARE_SCRIPTS})
+  configure_file(
+    ${PROJECT_SOURCE_DIR}/${_script}
+    ${PROJECT_BINARY_DIR}/${_script}
+    COPYONLY
+    )
+endforeach()
+
+install(FILES ${SHARE_SCRIPTS} DESTINATION "${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}" )
+
 
 # ----------------------------------------------------------------------------
 # The cmake stuff goes here
