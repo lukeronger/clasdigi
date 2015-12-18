@@ -6,10 +6,10 @@ Int_t plot_field_xy(){
    Int_t  nXbins = 500;
    Int_t  nYbins = 500;
 
-   double xmin = -50.0;
-   double xmax =  50.0;
-   double ymin = -50.0;
-   double ymax =  50.0;
+   double xmin = -400.0;
+   double xmax =  400.0;
+   double ymin = -400.0;
+   double ymax =  400.0;
 
    TH2F * hBx = new TH2F("hBx","CLAS 12 magnetic field - Bx", nXbins,     xmin,xmax, nYbins,ymin,ymax);
    TH2F * hBy = new TH2F("hBy","CLAS 12 magnetic field - By", nXbins,     xmin,xmax, nYbins,ymin,ymax);

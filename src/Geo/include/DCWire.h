@@ -9,6 +9,7 @@
 #include "CLHEP/Vector/Rotation.h"
 #include <array>
 #include <map>
+#include <tuple>
 #include <unordered_map>
 
 //______________________________________________________________________________
@@ -52,6 +53,12 @@ namespace clas12 {
       };
       //________________________________________________________________________
 
+      // Wire channel numbering convention
+      // the smallest channel number in a layer starts 
+      // nearest the beam pipe.
+      // Numbering starts first by completing a sector.
+      // Each sector has 6 superlayers, and each superlayer
+      // has 6 layers, each layer has 
       class DCWire {
 
          public :
@@ -60,21 +67,90 @@ namespace clas12 {
             int  fSuperLayer;   // redundant information Region I: (1,2), Region II: (3,4) R III: (5,6)
             int  fLayer;
             int  fWire;       
+            int  fChannel; // Unique channel number
 
             DCWire(int sec=0, int reg=0, int sl=0, int l=0, int w=0);
             virtual ~DCWire();
 
+            static int GetChannel(int sector, int sl, int layer, int wire) {
+               int sec_ind  = sector-1;
+               int sl_ind   = sl-1;
+               int lay_ind  = layer-1;
+               int wire_ind = wire-1;
+
+               const int WiresPerLayer   = 112;
+               const int WiresPerSL      = 6*112;
+               const int WiresPerSector  = 6*6*112;
+               const int TotalWires      = 6*6*6*112;
+
+               int res = WiresPerSector*sec_ind + WiresPerSL*sl_ind + WiresPerLayer*lay_ind + WiresPerLayer*wire_ind;
+               return res;
+            }
+
+            static int GetSector    (int channel) {
+               //const int WiresPerLayer   = 112;
+               //const int WiresPerSL      = 6*112;
+               const int WiresPerSector  = 6*6*112;
+               int sec_ind  = channel/WiresPerSector;
+               return( sec_ind+1 );
+            }
+            static int GetSuperLayer(int channel) {
+               //const int WiresPerLayer   = 112;
+               const int WiresPerSL      = 6*112;
+               const int WiresPerSector  = 6*6*112;
+               int sec_ind   = channel/WiresPerSector;
+               int sec_chan  = channel - sec_ind*WiresPerSector;
+               int sl_ind    = sec_chan/WiresPerSL;
+               return( sl_ind+1 );
+            }
+            static int GetLayer     (int channel) {
+               const int WiresPerLayer   = 112;
+               const int WiresPerSL      = 6*112;
+               const int WiresPerSector  = 6*6*112;
+               int sec_ind   = channel/WiresPerSector;
+               int sec_chan  = channel - sec_ind*WiresPerSector;
+               int sl_ind    = sec_chan/WiresPerSL;
+               int sl_chan   = sec_chan - sl_ind*WiresPerSL;
+               int lay_ind   = sl_chan/WiresPerLayer;
+               return( lay_ind+1 );
+            }
+            static int GetWire      (int channel) {
+               const int WiresPerLayer   = 112;
+               const int WiresPerSL      = 6*112;
+               const int WiresPerSector  = 6*6*112;
+               int sec_ind   = channel/WiresPerSector;
+               int sec_chan  = channel - sec_ind*WiresPerSector;
+               int sl_ind    = sec_chan/WiresPerSL;
+               int sl_chan   = sec_chan - sl_ind*WiresPerSL;
+               int lay_ind   = sl_chan/WiresPerLayer;
+               int wire_ind  = sl_chan - lay_ind*WiresPerLayer ;
+               return( wire_ind+1 );
+            }
+            static int GetRegion    (int channel) {
+               return( GetSuperLayer(channel)/2 + 1);
+            }
+            //static std::tuple<int,int,int,int,int,int> GetWireID(int channel) {
+            //   const int WiresPerLayer   = 112;
+            //   const int WiresPerSL      = 6*112;
+            //   const int WiresPerSector  = 6*6*112;
+            //   int sec_ind   = channel/WiresPerSector;
+            //   int sec_chan  = channel - sec_ind*WiresPerSector;
+            //   int sl_ind    = sec_chan/WiresPerSL;
+            //   int sl_chan   = sec_chan - sl_ind*WiresPerSL;
+            //   int lay_ind   = sl_chan/WiresPerLayer;
+            //   int wire_ind  = sl_chan - sl_chan/WiresPerLayer ;
+            //   return( wire_ind+1 );
+            //}
+
             void Print(Option_t * opt = "") const;
 
-            ClassDef(DCWire,1)
+            ClassDef(DCWire,3)
       };
       //________________________________________________________________________
 
 
 
       namespace DC {
-
-
 
          using namespace CLHEP;
          using namespace TMath;
@@ -115,7 +191,7 @@ namespace clas12 {
             std::array<int,2>{2,3}, 
             std::array<int,2>{4,5} };
 
-         const std::array<double,6> ThetaStero = {
+         const std::array<double,6> ThetaStereo = {
             6.0*degree, -6.0*degree,
             6.0*degree, -6.0*degree,
             6.0*degree, -6.0*degree
@@ -126,7 +202,7 @@ namespace clas12 {
             4.333*degree, 4.333*degree
          };
 
-         // This is the wire separation for each superlayer
+         // This is the wire separation (for each superlayer)
          // Each side of the hexagon forming the wire volume is of length 2*LayerSep
          const std::array<double,6> LayerSep = {
             0.3861*cm, 0.4042*cm,
@@ -399,21 +475,28 @@ namespace clas12 {
          };
 
          const std::array<double,3> EndPlateLongSideLength  = {
-            81.305 *2.54*cm,
-            319.2000*cm,      // Wrong
-            478.00*cm         // Wrong
+            81.305 *2.54*cm+20.0*cm,
+            319.2000*cm +50.0*cm,      // Wrong
+            478.00*cm   +50.0*cm      // Wrong
          };
          const std::array<double,3> EndPlateShortSideLength = {
-            (80.130-4.468)*2.54*cm,
-            306.5281*cm,      // Wrong
-            437.00*cm         // Wrong
+            (80.130-4.468)*2.54*cm+20.0*cm,
+            306.5281*cm+50.0*cm,      // Wrong
+            437.00*cm  +50.0*cm       // Wrong
          };
 
       }
       //________________________________________________________________________
 
       CLHEP::HepRotation             LayerWireRotation(int sl);
+
+
+      // Returns the vector used to translate the wire in the midplane from the
+      //  
       CLHEP::Hep3Vector              ToWireMidPlane(int sl, int layer, int wire);
+      double                         WireLength(int sl,int layer,int wire);
+      double                         WireShift(int sl,int layer,int wire);
+      CLHEP::Hep3Vector              WireStereoShift(int sl, int layer, int wire);
 
       std::vector<CLHEP::Hep2Vector> RegionTrapPoints(int region);
       double                         RegionTrapWidth(int region);

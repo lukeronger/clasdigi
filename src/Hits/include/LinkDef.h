@@ -7,7 +7,6 @@
 #pragma link C++ nestedclass;
 
 #pragma link C++ namespace clas12;
-//#pragma link C++ namespace clas12::DriftChamber;
 #pragma link C++ namespace clas12::hits;
 
 #pragma link C++ class clas12::hits::TriggerEvent+;
@@ -15,6 +14,10 @@
 #pragma link C++ class clas12::hits::HTCCHitsEvent+;
 #pragma link C++ class clas12::hits::DCHitsEvent+;
 #pragma link C++ class clas12::hits::RCHitsEvent+;
+
+#pragma link C++ class clas12::hits::RecoilScintHit+;
+#pragma link C++ class clas12::hits::PhotonHit+;
+#pragma link C++ class clas12::hits::RecoilScintEvent+;
 
 #pragma link C++ class clas12::hits::ADCHit+;
 #pragma link C++ class clas12::hits::TDCHit+;

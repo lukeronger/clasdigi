@@ -1,4 +1,4 @@
-Int_t plot_field(double x_plane = 100){
+Int_t plot_field(double x_plane = 20){
 
    clas12::mag::CLAS12MagneticField * mf = new clas12::mag::CLAS12MagneticField();
 

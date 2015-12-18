@@ -6,7 +6,7 @@
 //______________________________________________________________________________
 
 clas12::geo::DCWire::DCWire(int sec, int reg, int sl, int l, int w) : 
-   fSector(sec), fRegion(reg), fSuperLayer(sl), fLayer(l), fWire(w) 
+   fSector(sec), fRegion(reg), fSuperLayer(sl), fLayer(l), fWire(w), fChannel(0) 
 { } 
 //______________________________________________________________________________
 
@@ -22,6 +22,7 @@ void clas12::geo::DCWire::Print(Option_t *) const
       << "superlayer: " << std::setw(3) << fSuperLayer
       << "layer: "      << std::setw(3) << fLayer
       << "wire: "       << std::setw(3) << fWire
+      << "channel: "    << std::setw(3) << fChannel
       << "\n";
 }
 
@@ -58,6 +59,11 @@ std::vector<CLHEP::Hep2Vector> clas12::geo::RegionTrapPoints(int region)
 
    // The mid plane cross section is a rectangle plus a right triangle. 
    // extra_back is the length of the triangle on the back window plane
+   //    ______
+   //   /| 
+   //  /_|_____ 
+   //   e        
+   // The line segment above e is extra_back
    double extra_back = RegionLength*TMath::Tan(RegionTilt[index]);
 
    double l1 = EndPlateShortSideLength[index];
@@ -66,24 +72,25 @@ std::vector<CLHEP::Hep2Vector> clas12::geo::RegionTrapPoints(int region)
    // This returns the nose angle (between two end plates) for the window when viewed normal to it
    double actual_plate_angle = WindowAngle( EndPlateAngle[index]/2.0 , RegionTilt[index] );
 
+
    // nose height cut from triangular tip.
    double nose_width  =  NoseWidthInside[index]/2.0;
    double nose_height =  nose_width/TMath::Tan(EndPlateAngle[index]/2.0);
-   double nose_side   = TMath::Sqrt(nose_width*nose_width + nose_height*nose_height);
+   //double nose_side   = TMath::Sqrt(nose_width*nose_width + nose_height*nose_height);
 
    double h1 = l1*TMath::Cos(actual_plate_angle);
    double x1 = l1*TMath::Sin(actual_plate_angle);
    double h2 = l2*TMath::Cos(actual_plate_angle);
    double x2 = l2*TMath::Sin(actual_plate_angle);
 
-   std::cout << "Rough check : " << extra_back << " vs " << l2-l1 << std::endl;
+   //std::cout << "Rough check : " << extra_back << " vs " << l2-l1 << std::endl;
 
    Hep2Vector p0(  nose_width, nose_height );
    Hep2Vector p1( -nose_width, nose_height );
    Hep2Vector p2( -x1,  h1);
    Hep2Vector p3(  x1,  h1);
 
-   double dx = RegionLength*TMath::Tan( RegionTilt[index]  );
+   double dx = extra_back;//RegionLength*TMath::Tan( RegionTilt[index]  );
 
    Hep2Vector p4(  nose_width, nose_height-dx );
    Hep2Vector p5( -nose_width, nose_height-dx );
@@ -175,7 +182,7 @@ CLHEP::HepRotation clas12::geo::LayerWireRotation(int sl)
 {
    using namespace clas12::geo::DC;
    HepRotation  rot;
-   rot.rotateZ( ThetaStero[sl-1] );
+   rot.rotateZ( ThetaStereo[sl-1] );
    return rot;
 }
 //______________________________________________________________________________
@@ -184,7 +191,9 @@ CLHEP::Hep3Vector clas12::geo::ToWireMidPlane(int sl, int layer, int wire)
 {
    using namespace clas12::geo::DC;
    using namespace CLHEP;
-//   SuperLayerZOffset
+   // Returns vector that translates the midplane location 
+   // relative to the refernece which is the upstream vertex of the front window
+   // plane. 
 
    int index = SuperLayerRegionIndex.at(sl-1);
    double RegionLength = FrontGap[index] + MidGap[index] + BackGap[index];
@@ -196,14 +205,171 @@ CLHEP::Hep3Vector clas12::geo::ToWireMidPlane(int sl, int layer, int wire)
    double y = arb_offset + (0.5*double(i) + double(wire-1))*LayerWireSpacing[sl-1];
    double z = -RegionLength/2.0;
    z += SuperLayerZOffset.at(sl-1);
-   z += double(layer)*3.0*LayerSep[sl-1];
-   Hep3Vector  vec(   0.0, y, z);
+   z += double(layer)*3.0*LayerSep[sl-1]; Hep3Vector  vec(   0.0, y, z);
    Hep3Vector  offset(0.0, RefWireOffset.at(sl-1).y(), RefWireOffset.at(sl-1).x());
    vec += offset;
    return vec;
 }
 //______________________________________________________________________________
 
+double  clas12::geo::WireLength(int sl,int layer,int wire)
+{
+   using namespace clas12::geo::DC;
+   using namespace CLHEP;
+   using namespace TMath;
+
+   int region = (sl-1)/2 + 1;
+   int index  = (sl-1)/2;
+   if( index < 0 || index >= 3 )
+   {
+      std::cout << "clas12::geo::WireLength(region=" << region << ") : Region out of range\n";
+      return  0.0;
+   }
+
+   Hep3Vector wire_position = ToWireMidPlane(sl,layer,wire);
+
+   //double x       = wire_position.x() // zero
+   double y1      = wire_position.y();
+   double z_depth = wire_position.z();
+   double RegionLength = FrontGap[index] + MidGap[index] + BackGap[index];
+   RegionLength += 21.0*LayerSep.at( RegionSuperLayerIndex[index][0] ) ;
+   RegionLength += 21.0*LayerSep.at( RegionSuperLayerIndex[index][1] ) ;
+
+   // The mid plane cross section is a rectangle plus a right triangle. 
+   // extra_back is the length of the triangle on the back window plane
+   //    ______
+   //   /| 
+   //  /_|_____ 
+   //   e        
+   // The line segment above e is extra_back
+   // coordinate system is normal to the window faces
+   //double extra_back = RegionLength*Tan(RegionTilt[index]);
+   double y0 = z_depth*Tan(RegionTilt[index]);
+
+   // This returns the nose angle (between two end plates) for the window when viewed normal to it
+   double actual_plate_angle = WindowAngle( EndPlateAngle[index]/2.0 , RegionTilt[index] );
+   std::cout << " actual_plate_angle " << actual_plate_angle/CLHEP::degree << std::endl;
+
+   double l_total  = (y1 + y0)*Tan(actual_plate_angle);
+   
+   // Now we rotate the wire by the stereo angle.
+   double th_stereo = ThetaStereo[sl-1];
+   double phi_1     = pi/2.0 - actual_plate_angle - th_stereo;
+   double phi_2     = pi/2.0 + actual_plate_angle - th_stereo;
+
+   double w1 = l_total*( Cos(th_stereo) + Sin(th_stereo)/Tan(phi_1) );
+   double w2 = l_total*( Cos(th_stereo) + Sin(th_stereo)/Tan(phi_2) );
+
+   return(w1 + w2);
+}
+//______________________________________________________________________________
+
+double  clas12::geo::WireShift(int sl,int layer,int wire)
+{
+   // shift of wire center along wire due to stereo angle
+   using namespace clas12::geo::DC;
+   using namespace CLHEP;
+   using namespace TMath;
+
+   int region = (sl-1)/2 + 1;
+   int index  = (sl-1)/2;
+   if( index < 0 || index >= 3 )
+   {
+      std::cout << "clas12::geo::WireLength(region=" << region << ") : Region out of range\n";
+      return  0.0;
+   }
+
+   Hep3Vector wire_position = ToWireMidPlane(sl,layer,wire);
+
+   //double x       = wire_position.x() // zero
+   double y1      = wire_position.y();
+   double z_depth = wire_position.z();
+   double RegionLength = FrontGap[index] + MidGap[index] + BackGap[index];
+   RegionLength += 21.0*LayerSep.at( RegionSuperLayerIndex[index][0] ) ;
+   RegionLength += 21.0*LayerSep.at( RegionSuperLayerIndex[index][1] ) ;
+
+   // The mid plane cross section is a rectangle plus a right triangle. 
+   // extra_back is the length of the triangle on the back window plane
+   //    ______
+   //   /| 
+   //  /_|_____ 
+   //   e        
+   // The line segment above e is extra_back
+   // coordinate system is normal to the window faces
+   //double extra_back = RegionLength*Tan(RegionTilt[index]);
+   double y0 = z_depth*Tan(RegionTilt[index]);
+
+   // This returns the nose angle (between two end plates) for the window when viewed normal to it
+   double actual_plate_angle = WindowAngle( EndPlateAngle[index]/2.0 , RegionTilt[index] );
+   std::cout << " actual_plate_angle " << actual_plate_angle/CLHEP::degree << std::endl;
+
+   double l_total  = (y1 + y0)*Tan(actual_plate_angle);
+   
+   // Now we rotate the wire by the stereo angle.
+   double th_stereo = ThetaStereo[sl-1];
+   double phi_1     = pi/2.0 - actual_plate_angle - th_stereo;
+   double phi_2     = pi/2.0 + actual_plate_angle - th_stereo;
+
+   double w1 = l_total*( Cos(th_stereo) + Sin(th_stereo)/Tan(phi_1) );
+   double w2 = l_total*( Cos(th_stereo) + Sin(th_stereo)/Tan(phi_2) );
+
+   return(w1 - w2);
+}
+//______________________________________________________________________________
+
+CLHEP::Hep3Vector  clas12::geo::WireStereoShift(int sl,int layer,int wire)
+{
+   // shift of wire center along wire due to stereo angle
+   using namespace clas12::geo::DC;
+   using namespace CLHEP;
+   using namespace TMath;
+
+   int region = (sl-1)/2 + 1;
+   int index  = (sl-1)/2;
+   if( index < 0 || index >= 3 )
+   {
+      std::cout << "clas12::geo::WireLength(region=" << region << ") : Region out of range\n";
+      return  {0.0,0.0,0.0};
+   }
+
+   Hep3Vector wire_position = ToWireMidPlane(sl,layer,wire);
+
+   //double x       = wire_position.x() // zero
+   double y1      = wire_position.y();
+   double z_depth = wire_position.z();
+   double RegionLength = FrontGap[index] + MidGap[index] + BackGap[index];
+   RegionLength += 21.0*LayerSep.at( RegionSuperLayerIndex[index][0] ) ;
+   RegionLength += 21.0*LayerSep.at( RegionSuperLayerIndex[index][1] ) ;
+
+   // The mid plane cross section is a rectangle plus a right triangle. 
+   // extra_back is the length of the triangle on the back window plane
+   //    ______
+   //   /| 
+   //  /_|_____ 
+   //   e        
+   // The line segment above e is extra_back
+   // coordinate system is normal to the window faces
+   //double extra_back = RegionLength*Tan(RegionTilt[index]);
+   double y0 = z_depth*Tan(RegionTilt[index]);
+
+   // This returns the nose angle (between two end plates) for the window when viewed normal to it
+   double actual_plate_angle = WindowAngle( EndPlateAngle[index]/2.0 , RegionTilt[index] );
+   std::cout << " actual_plate_angle " << actual_plate_angle/CLHEP::degree << std::endl;
+
+   double l_total  = (y1 + y0)*Tan(actual_plate_angle);
+   
+   // Now we rotate the wire by the stereo angle.
+   double th_stereo = ThetaStereo[sl-1];
+   double phi_1     = pi/2.0 - actual_plate_angle - th_stereo;
+   double phi_2     = pi/2.0 + actual_plate_angle - th_stereo;
+
+   double w1 = l_total*( Cos(th_stereo) + Sin(th_stereo)/Tan(phi_1) );
+   double w2 = l_total*( Cos(th_stereo) + Sin(th_stereo)/Tan(phi_2) );
+   double shift = (w1 - w2)/2.0;
+   Hep3Vector res = {shift*Cos(th_stereo),shift*Sin(th_stereo), 0};
+   return(res);
+}
+//______________________________________________________________________________
 CLHEP::HepRotation clas12::geo::RegionRotation(int sec, int region)
 {
    using namespace clas12::geo::DC;

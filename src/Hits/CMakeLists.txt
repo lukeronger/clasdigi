@@ -30,6 +30,9 @@ set(lib_files
    HTCCHitsEvent
    DCHitsEvent
    RCHitsEvent
+   RecoilScintHit
+   RecoilScintEvent
+   PhotonHit
 )
 
 set(lib_Fortran_files
