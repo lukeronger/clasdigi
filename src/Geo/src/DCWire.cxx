@@ -248,7 +248,7 @@ double  clas12::geo::WireLength(int sl,int layer,int wire)
 
    // This returns the nose angle (between two end plates) for the window when viewed normal to it
    double actual_plate_angle = WindowAngle( EndPlateAngle[index]/2.0 , RegionTilt[index] );
-   std::cout << " actual_plate_angle " << actual_plate_angle/CLHEP::degree << std::endl;
+   //std::cout << " actual_plate_angle " << actual_plate_angle/CLHEP::degree << std::endl;
 
    double l_total  = (y1 + y0)*Tan(actual_plate_angle);
    
@@ -301,7 +301,7 @@ double  clas12::geo::WireShift(int sl,int layer,int wire)
 
    // This returns the nose angle (between two end plates) for the window when viewed normal to it
    double actual_plate_angle = WindowAngle( EndPlateAngle[index]/2.0 , RegionTilt[index] );
-   std::cout << " actual_plate_angle " << actual_plate_angle/CLHEP::degree << std::endl;
+   //std::cout << " actual_plate_angle " << actual_plate_angle/CLHEP::degree << std::endl;
 
    double l_total  = (y1 + y0)*Tan(actual_plate_angle);
    
@@ -354,7 +354,7 @@ CLHEP::Hep3Vector  clas12::geo::WireStereoShift(int sl,int layer,int wire)
 
    // This returns the nose angle (between two end plates) for the window when viewed normal to it
    double actual_plate_angle = WindowAngle( EndPlateAngle[index]/2.0 , RegionTilt[index] );
-   std::cout << " actual_plate_angle " << actual_plate_angle/CLHEP::degree << std::endl;
+   //std::cout << " actual_plate_angle " << actual_plate_angle/CLHEP::degree << std::endl;
 
    double l_total  = (y1 + y0)*Tan(actual_plate_angle);
    
@@ -404,10 +404,10 @@ double  clas12::geo::WindowAngle(double th, double th_tilt)
    Hep3Vector X1(1,0,0);
    X1.setRThetaPhi(1.0,90*degree,90*degree - th);
    Hep3Vector dz(0,0,TMath::Tan(th_tilt)) ;
-   std::cout << " Angle between Y and vector is " << X1.angle(Y1)/degree << std::endl;
+   //std::cout << " Angle between Y and vector is " << X1.angle(Y1)/degree << std::endl;
    Hep3Vector X2  = X1 + dz;
    Hep3Vector Y2  = Y1 + dz;
-   std::cout << " Now angle is " << X2.angle(Y2)/degree << std::endl;
+   //std::cout << " Now angle is " << X2.angle(Y2)/degree << std::endl;
    return X2.angle(Y2);
 }
 //______________________________________________________________________________
