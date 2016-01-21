@@ -19,7 +19,9 @@ namespace clas12 {
 
             double       fAccumulated;  // An accumlated quantity
             int          fCounted;      // A counted quantity (eg photons)
+            double       fLastCountTime;// time from the previous call to count
             double       fTimeFired;    // The time fired
+
 
             bool         fLatched;      // The discriminator has been triggerd and is output a pulse still
 

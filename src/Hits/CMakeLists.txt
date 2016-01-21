@@ -30,6 +30,7 @@ set(lib_files
    HTCCHitsEvent
    DCHitsEvent
    RCHitsEvent
+   RecoilChamberParticleHit
    RecoilScintHit
    RecoilScintEvent
    PhotonHit

@@ -9,8 +9,8 @@ clas12::hits::RCHitsEvent::RCHitsEvent() : fRunNumber(0), fEventNumber(0),
    fADCHits  = new TClonesArray("clas12::hits::ADCHit",48);
    fTDCHits  = new TClonesArray("clas12::hits::TDCHit",10);
    fIonPairs = new TClonesArray("clas12::hits::DriftChamberIonPairHit",10);
-   fParticleHits = new TClonesArray("clas12::hits::DriftChamberParticleHit",10);
-   fRegionHits = new TClonesArray("clas12::hits::DriftChamberParticleHit",10);
+   fParticleHits = new TClonesArray("clas12::hits::RecoilChamberParticleHit",10);
+   fRegionHits = new TClonesArray("clas12::hits::RecoilChamberParticleHit",10);
 } 
 //______________________________________________________________________________
 
@@ -44,35 +44,35 @@ clas12::hits::DriftChamberIonPairHit * clas12::hits::RCHitsEvent::AddIonPairHit(
 }
 //______________________________________________________________________________
 
-clas12::hits::DriftChamberParticleHit * clas12::hits::RCHitsEvent::AddParticleHit()
+clas12::hits::RecoilChamberParticleHit * clas12::hits::RCHitsEvent::AddParticleHit()
 {
-   DriftChamberParticleHit * ahit = new ((*fParticleHits)[fNParticleHits]) DriftChamberParticleHit();
+   RecoilChamberParticleHit * ahit = new ((*fParticleHits)[fNParticleHits]) RecoilChamberParticleHit();
    fNParticleHits++;
    return ahit;
 }
 //______________________________________________________________________________
 
-clas12::hits::DriftChamberParticleHit * clas12::hits::RCHitsEvent::GetParticleHit(int i)
+clas12::hits::RecoilChamberParticleHit * clas12::hits::RCHitsEvent::GetParticleHit(int i)
 {
    if( i < fNParticleHits ) {
-      return (DriftChamberParticleHit*)((*fParticleHits)[i]) ;
+      return (RecoilChamberParticleHit*)((*fParticleHits)[i]) ;
    }
    return nullptr;
 }
 //______________________________________________________________________________
 
-clas12::hits::DriftChamberParticleHit * clas12::hits::RCHitsEvent::AddRegionHit()
+clas12::hits::RecoilChamberParticleHit * clas12::hits::RCHitsEvent::AddRegionHit()
 {
-   DriftChamberParticleHit * ahit = new ((*fRegionHits)[fNRegionHits]) DriftChamberParticleHit();
+   RecoilChamberParticleHit * ahit = new ((*fRegionHits)[fNRegionHits]) RecoilChamberParticleHit();
    fNRegionHits++;
    return ahit;
 }
 //______________________________________________________________________________
 
-clas12::hits::DriftChamberParticleHit * clas12::hits::RCHitsEvent::GetRegionHit(int i)
+clas12::hits::RecoilChamberParticleHit * clas12::hits::RCHitsEvent::GetRegionHit(int i)
 {
    if( i < fNRegionHits ) {
-      return (DriftChamberParticleHit*)((*fRegionHits)[i]) ;
+      return (RecoilChamberParticleHit*)((*fRegionHits)[i]) ;
    }
    return nullptr;
 }

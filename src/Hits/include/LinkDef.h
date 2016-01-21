@@ -28,6 +28,7 @@
 
 #pragma link C++ class clas12::hits::DriftChamberIonPairHit+;
 #pragma link C++ class clas12::hits::DriftChamberParticleHit+;
+#pragma link C++ class clas12::hits::RecoilChamberParticleHit+;
 
 //#pragma link C++ class clas12::DriftChamberIonPairHit+;
 

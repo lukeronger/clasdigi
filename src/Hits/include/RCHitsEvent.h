@@ -7,7 +7,7 @@
 #include "TDCHit.h"
 #include "FlashADCHit.h"
 #include "DriftChamberIonPairHit.h"
-#include "DriftChamberParticleHit.h"
+#include "RecoilChamberParticleHit.h"
 
 namespace clas12 {
 
@@ -38,11 +38,11 @@ namespace clas12 {
             TDCHit                  * AddTDCHit(int ch, int v, double t) ;
             ADCHit                  * AddADCHit(int ch, int v) ;
             DriftChamberIonPairHit  * AddIonPairHit(double x, double y, double z, double t);
-            DriftChamberParticleHit * AddParticleHit();
-            DriftChamberParticleHit * AddRegionHit();
+            RecoilChamberParticleHit * AddParticleHit();
+            RecoilChamberParticleHit * AddRegionHit();
 
-            DriftChamberParticleHit * GetParticleHit(int );
-            DriftChamberParticleHit * GetRegionHit(int );
+            RecoilChamberParticleHit * GetParticleHit(int );
+            RecoilChamberParticleHit * GetRegionHit(int );
 
             void Clear(Option_t * opt = "") override ;
             void Print(Option_t * opt = "") const override ;

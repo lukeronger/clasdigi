@@ -6,7 +6,7 @@
 //______________________________________________________________________________
 clas12::DAQ::Discriminator::Discriminator(int ch, double thr) : 
    ModuleChannel(ch), fThreshold(thr), fGateWidth(1.0),
-   fAccumulated(0.0), fCounted(0.0),
+   fAccumulated(0.0), fCounted(0.0),fLastCountTime(0.0),
    fTimeFired(0.0), fLatched(false)
 { }
 //______________________________________________________________________________
@@ -22,7 +22,7 @@ bool clas12::DAQ::Discriminator::Count(double time){
    //
    // Subsequent calls to count after it has fired will return false until :
    //  - gatewidth amount time has passed
-   //  - it was manually reset
+   //  - or it was manually reset
    // 
    // Currently the following is assumed:
    //  - Count is called with increasing time (ie order in time)
