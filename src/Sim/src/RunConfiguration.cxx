@@ -24,10 +24,9 @@ clas12::sim::RunConfiguration::~RunConfiguration()
 { } 
 //______________________________________________________________________________
 
-void clas12::sim::RunConfiguration::Print(Option_t * opt) const
+void clas12::sim::RunConfiguration::Print(std::ostream& s) const
 {
-   std::cout 
-      << std::right << std::setw(10) << "N events" << " : " 
+   s  << std::right << std::setw(10) << "N events" << " : " 
       << std::left  << std::setw(60) << fNSimulated << "\n"
       << std::right << std::setw(10) << "input file" << " : " 
       << std::left  << std::setw(60) << fInputFileName << "\n"
@@ -37,6 +36,12 @@ void clas12::sim::RunConfiguration::Print(Option_t * opt) const
       << std::left  << std::setw(60) << fOutputFileName << "\n"
       << std::right << std::setw(10) << "output tree" << " : " 
       << std::left  << std::setw(60) << fOutputTreeName << "\n";
+}
+//______________________________________________________________________________
+
+void clas12::sim::RunConfiguration::Print(Option_t * opt) const
+{
+   Print(std::cout);
 }
 //______________________________________________________________________________
 

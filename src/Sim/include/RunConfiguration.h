@@ -4,6 +4,7 @@
 #include "TNamed.h"
 #include "TBrowser.h"
 #include <string>
+#include <iostream>
 
 namespace clas12 {
 
@@ -25,6 +26,7 @@ namespace clas12 {
             RunConfiguration(int run);
             virtual ~RunConfiguration();
 
+            void Print(std::ostream& s) const ;
             void Print(Option_t * opt = "") const override;
 
             Bool_t IsFolder() const override
