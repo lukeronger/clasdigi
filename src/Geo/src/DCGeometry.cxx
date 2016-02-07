@@ -291,8 +291,6 @@ namespace clas12 {
 
          int index = SuperLayerRegionIndex.at(sl-1);
          double RegionLength = RegionDepth(index+1);//FrontGap[index] + MidGap[index] + BackGap[index];
-         RegionLength += 21.0*LayerSep.at( RegionSuperLayerIndex[index][0] ) ;
-         RegionLength += 21.0*LayerSep.at( RegionSuperLayerIndex[index][1] ) ;
 
          double arb_offset = 4*cm;
          int    i = (layer%2);
