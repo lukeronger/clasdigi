@@ -183,25 +183,25 @@ namespace clas12 {
          // Nose piece dimensions (width inside gas volue)
          // and width outside the gas volume (nearest to beam)
          const std::array<double,3> NoseWidthInside  = { 
-            4.25*2.54*cm, 
-            20.7467*cm,
+            4.25*inch, 
+            5.47*inch, // at it largest point. Need to cut out SL areas
             20.7467*cm
          };
          const std::array<double,3> NoseWidthOutside = {
-            1.987*2.54*cm,
-            12.1260*cm,
+            1.987*inch,
+            1.772*inch,
             12.1260*cm
          };
 
          // the depth along z in the untilted frame
          const std::array<double,3> NoseDepth = {
             (12.405 - 2.0*Tan(RegionTilt.at(0)) + (1.547*Tan(RegionTilt.at(0))-0.311) )*2.54*cm,
-            25.419*2.54*cm,
-            23.419*2.54*cm  // from drawing 01-10-0201
+            21.152*inch,
+            23.419*inch  // from drawing 01-10-0201
          };
          const std::array<double,3> NoseHeight = {
             2.0*2.54*cm,
-            3.0*2.54*cm,
+            3.156*inch,
             3.0*2.54*cm
          };
          const std::array<double,3> NoseTiltShift = {
@@ -349,36 +349,48 @@ namespace clas12 {
          };
 
          const std::array<double,3> EndPlateLongSideLength  = {
-            81.305 *2.54*cm,
-            319.2000*cm +50.0*cm,      // Wrong
-            478.00*cm   +50.0*cm      // Wrong
+            81.305*inch,
+            (125.468+8.00)*inch,
+            191.275*inch
          };
          const std::array<double,3> EndPlateShortSideLength = {
-            (80.130-4.468)*2.54*cm,
-            306.5281*cm+50.0*cm,      // Wrong
-            437.00*cm  +50.0*cm       // Wrong
+            (80.130-4.468)*inch,
+            (123.432+0.551)*inch,
+            (187.59+2.308)*inch // Here we don't cut the corner at 20 degrees
          };
          const std::array<double,3> EndPlateWidth  = {
             11.01*inch,
-            15.375*inch,
-            15.375*inch
+            (18.102+0.335)*inch,
+            21.78*inch
          };
          const std::array<double,3> EndPlateTiltAngle  = {
             ATan(4.468/11.01),
-            ATan(4.468/11.01),
-            ATan(4.468/11.01)
+            ATan((8.0-0.551)/(18.102+0.335)),
+            ATan(8.839/21.78)
          };
          const std::array<double,3> EndPlateThickness  = {
             0.375*inch,
-            0.375*inch,
+            0.432*inch,
             0.375*inch
          };
 
          // Extra gap between endplate and container volume
          const std::array<double,3> EndPlateExtraGap  = {
             0.5*inch,
-            0.5*inch,
-            0.5*inch
+            1.0*inch,
+            1.0*inch
+         };
+         // top/Back plate extra gap between the gas and container volumes
+         const std::array<double,3> BackPlateExtraGap  = {
+            4.0*inch,
+            8.0*inch,
+            10.0*inch
+         };
+         // 
+         const std::array<double,3> FrontBackExtraGap  = {
+            3.0*inch,
+            5.0*inch,
+            8.0*inch
          };
 
       }
@@ -409,7 +421,9 @@ namespace clas12 {
       double                  WireShift(int sl,int layer,int wire);
       Hep3Vector              WireStereoShift(int sl, int layer, int wire);
 
+      HepRotation             GetLeftEndplateRotation(int region);
       Hep3Vector              GetLeftEndplatePosition( int sec, int region);
+      HepRotation             GetRightEndplateRotation(int region);
       Hep3Vector              GetRightEndplatePosition(int sec, int region);
       std::vector<Hep2Vector> EndplateTrapPoints(int region);
 

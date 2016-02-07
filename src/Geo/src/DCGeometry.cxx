@@ -34,7 +34,7 @@ namespace clas12 {
             std::cout << "clas12::geo::RegionTrapPoints(region=" << region << ") : Region out of range\n";
             return  points;
          }
-         double RegionLength = RegionDepth(region);
+         double RegionLength = RegionDepth(region) + FrontBackExtraGap.at(region-1);
 
          // The mid plane cross section is a rectangle plus a right triangle. 
          // extra_back is the length of the triangle on the back window plane
@@ -49,11 +49,11 @@ namespace clas12 {
          double actual_plate_angle = WindowAngle( RegionAngle[index]/2.0 , RegionTilt[index] ) ;
 
          // this is the shift along with the desired gap in the top end plate
-         double a_shift = ContainerExtraShift(region) + 5.0*EndPlateExtraGap.at(index);
-         double extra_side_length = a_shift/Cos(actual_plate_angle);
+         double db_plus_G = ContainerExtraShift(region) + BackPlateExtraGap.at(index);
+         double delta_l   = db_plus_G/Cos(actual_plate_angle);
 
-         double l1 = EndPlateShortSideLength[index] + extra_side_length;
-         double l2 = EndPlateLongSideLength[index] + extra_side_length;
+         double l1 = EndPlateShortSideLength[index] + delta_l;
+         double l2 = EndPlateLongSideLength[index] + delta_l;
 
          // nose height cut from triangular tip.
          double nose_width  =  NoseWidthOutside[index]/2.0;
@@ -97,7 +97,7 @@ namespace clas12 {
          }
          using namespace clas12::geo::DC;
          double width = RegionDepth(region);
-         width += 2.54*cm;
+         width += FrontBackExtraGap.at(region-1);
          return width/2.0;
       }
       //______________________________________________________________________________
@@ -460,37 +460,90 @@ namespace clas12 {
       }
       //______________________________________________________________________________
 
-      Hep3Vector  GetLeftEndplatePosition(int sec, int region)
+      HepRotation  GetLeftEndplateRotation(int region)
       {
          using namespace clas12::geo::DC;
-         Hep3Vector  ref = {0.0, RegionTrapCorner_y(region), RegionTrapCorner_z(region)};
-         Hep3Vector  to_endplate_center = {
-            0.0,//EndPlateWidth.at(region-1)/2.0,
-            ContainerExtraShift(region)+NoseHeight.at(region-1),
-            0.0
-         };
-         // rotate the 
-         to_endplate_center.rotateX(-1.0*RegionTilt.at(region-1));
-         Hep3Vector pos = ref + to_endplate_center;
-         pos.rotateZ(1.0*RegionAngle.at(region-1)/2.0);
-         return( SectorZRotation(sec)*pos );
+         int index = region-1;
+         HepRotation rot           = HepRotation::IDENTITY;
+         double RegionLength       = RegionDepth(region);
+         double actual_plate_angle = WindowAngle( RegionAngle[index]/2.0 , RegionTilt[index] );
+         //    ______
+         //   /| 
+         //  /_|_____ 
+         //   e        
+         // The line segment above e is extra_back
+         double e_extra            = RegionLength*TMath::Tan(RegionTilt[index]);
+         double eta = ATan( (e_extra/RegionLength)*Tan(actual_plate_angle)*Sin(90.0*degree-actual_plate_angle));
+         double nx = (NoseWidthInside[index]/2.0);
+         double ny = (NoseWidthInside[index]/2.0)/TMath::Tan(actual_plate_angle);
+         Hep3Vector n_rotation = {nx, ny, 0.0};
+         // First orient the trap z direction 
+         rot.rotateY(-90*degree);
+         rot.rotateZ(-actual_plate_angle);
+         rot.rotate(eta,n_rotation);
+         return( rot );
       }
       //______________________________________________________________________________
 
+      Hep3Vector  GetLeftEndplatePosition(int sec, int region)
+      {
+         using namespace clas12::geo::DC;
+         int index = region-1;
+         double actual_plate_angle = WindowAngle( RegionAngle[index]/2.0 , RegionTilt[index] );
+         double x_pos = (NoseWidthOutside[index]/2.0) + EndPlateThickness.at(index)/2.0;
+         double y_pos = (NoseWidthOutside[index]/2.0)/TMath::Tan(actual_plate_angle) + ContainerExtraShift(region);
+         double z_pos = (ContainerTrapWidth(region)-RegionTrapWidth(region))/2.0;
+         // This is the position of the upstream corner
+         Hep3Vector  endplate_pos = {
+            x_pos,
+            y_pos,
+            z_pos,
+         };
+         // rotate the 
+         return( endplate_pos );
+      }
+      //______________________________________________________________________________
+
+      HepRotation  GetRightEndplateRotation(int region)
+      {
+         using namespace clas12::geo::DC;
+         int index = region-1;
+         HepRotation rot           = HepRotation::IDENTITY;
+         double RegionLength       = RegionDepth(region);
+         double actual_plate_angle = WindowAngle( RegionAngle[index]/2.0 , RegionTilt[index] );
+         //    ______
+         //   /| 
+         //  /_|_____ 
+         //   e        
+         // The line segment above e is extra_back
+         double e_extra            = RegionLength*TMath::Tan(RegionTilt[index]);
+         double eta = ATan( (e_extra/RegionLength)*Tan(actual_plate_angle)*Sin(90.0*degree-actual_plate_angle));
+         double nx = (NoseWidthInside[index]/2.0);
+         double ny = (NoseWidthInside[index]/2.0)/TMath::Tan(actual_plate_angle);
+         Hep3Vector n_rotation = {-nx, ny, 0.0};
+         // First orient the trap z direction 
+         rot.rotateY(-90*degree);
+         rot.rotateZ(actual_plate_angle);
+         rot.rotate(-eta,n_rotation);
+         return( rot );
+      }
+      //______________________________________________________________________________
       Hep3Vector  GetRightEndplatePosition(int sec, int region)
       {
          using namespace clas12::geo::DC;
-         Hep3Vector  ref = {0.0, RegionTrapCorner_y(region), RegionTrapCorner_z(region)};
-         Hep3Vector  to_endplate_center = {
-            0.0,
-            EndPlateShortSideLength.at(region-1)/2.0,
-            RegionDepth(region)/2.0
+         int index = region-1;
+         double actual_plate_angle = WindowAngle( RegionAngle[index]/2.0 , RegionTilt[index] );
+         double x_pos = (NoseWidthOutside[index]/2.0) + EndPlateThickness.at(index)/2.0;
+         double y_pos = (NoseWidthOutside[index]/2.0)/TMath::Tan(actual_plate_angle) + ContainerExtraShift(region);
+         double z_pos = (ContainerTrapWidth(region)-RegionTrapWidth(region))/2.0;
+         // This is the position of the upstream corner
+         Hep3Vector  endplate_pos = {
+            -x_pos,
+            y_pos,
+            z_pos
          };
          // rotate the 
-         to_endplate_center.rotateX(-1.0*RegionTilt.at(region-1));
-         Hep3Vector pos = ref + to_endplate_center;
-         pos.rotateZ(-1.0*RegionAngle.at(region-1)/2.0);
-         return( SectorZRotation(sec)*pos );
+         return( endplate_pos );
       }
       //______________________________________________________________________________
 
