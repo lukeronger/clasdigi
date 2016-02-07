@@ -33,10 +33,8 @@ namespace clas12 {
          const std::array<double,3> MidGap        = {2.500*cm, 7.1613*cm, 2.5*cm};
          const std::array<double,3> BackGap       = {2.500*cm, 2.5000*cm, 2.5*cm};
 
-         //const std::array<double,3> RegionWidth   = {59.0*degree, 60.0*degree, 59.0*degree};
-
          // This is the angle as viewed look down the beampipe
-         const std::array<double,3> EndPlateAngle = {59.0*degree, 60.0*degree, 59.0*degree};
+         const std::array<double,3> RegionAngle = {59.0*degree, 60.0*degree, 59.0*degree};
 
          const std::array<double,3> RegionTilt    = {25.0*degree, 25.0*degree, 25.0*degree};
 
@@ -170,7 +168,6 @@ namespace clas12 {
                   Sin(RegionTilt.at(2))*(DistanceToRefWire.at(5)*Sin( ThetaMin.at(5) ) - SuperLayerXOffset.at(5)) )
          };
 
-
          const std::array<double,6> LeftFeedThruOffset = {
             0.4745*cm, 0.5254*cm,
             0.0282*cm, 0.0789*cm,
@@ -214,9 +211,9 @@ namespace clas12 {
          };
          // Opening shift is the x length looking down beam pipe
          const std::array<double,3> NoseOpeningShift = {
-            NoseHeight.at(0)*Tan(EndPlateAngle.at(0)/2.0), 
-            NoseHeight.at(1)*Tan(EndPlateAngle.at(1)/2.0), 
-            NoseHeight.at(2)*Tan(EndPlateAngle.at(2)/2.0)
+            NoseHeight.at(0)*Tan(RegionAngle.at(0)/2.0), 
+            NoseHeight.at(1)*Tan(RegionAngle.at(1)/2.0), 
+            NoseHeight.at(2)*Tan(RegionAngle.at(2)/2.0)
          };
          const std::array<double,3> NoseSideLength = {
             Sqrt(NoseHeight.at(0)*NoseHeight.at(0)+ 
@@ -351,27 +348,57 @@ namespace clas12 {
             Hep2Vector(2.0*0.163*2.54*cm, 0.042*2.54*cm)
          };
 
-         // This should be 6 in length
          const std::array<double,3> EndPlateLongSideLength  = {
-            81.305 *2.54*cm+20.0*cm,
+            81.305 *2.54*cm,
             319.2000*cm +50.0*cm,      // Wrong
             478.00*cm   +50.0*cm      // Wrong
          };
          const std::array<double,3> EndPlateShortSideLength = {
-            (80.130-4.468)*2.54*cm+20.0*cm,
+            (80.130-4.468)*2.54*cm,
             306.5281*cm+50.0*cm,      // Wrong
             437.00*cm  +50.0*cm       // Wrong
+         };
+         const std::array<double,3> EndPlateWidth  = {
+            11.01*inch,
+            15.375*inch,
+            15.375*inch
+         };
+         const std::array<double,3> EndPlateTiltAngle  = {
+            ATan(4.468/11.01),
+            ATan(4.468/11.01),
+            ATan(4.468/11.01)
+         };
+         const std::array<double,3> EndPlateThickness  = {
+            0.375*inch,
+            0.375*inch,
+            0.375*inch
+         };
+
+         // Extra gap between endplate and container volume
+         const std::array<double,3> EndPlateExtraGap  = {
+            0.5*inch,
+            0.5*inch,
+            0.5*inch
          };
 
       }
       //________________________________________________________________________
 
-      std::vector<Hep2Vector> RegionTrapPoints(int region);
+      std::vector<Hep2Vector> ContainerTrapPoints(int region);
+      double                  ContainerTrapWidth(int region);
 
+      // This is the shift in the y direciont added to the continer so that 
+      // there is a gap (EndPlateExtraGap) on the side.
+      double                  ContainerExtraShift(int region);
+
+      std::vector<Hep2Vector> RegionTrapPoints(int region);
       double                  RegionTrapWidth(int region);
+
       double                  RegionTrapOffset(int region);
       double                  RegionTrapCorner_z(int region);
       double                  RegionTrapCorner_y(int region);
+      HepRotation             RegionRotation(int sec, int region);
+      Hep3Vector              RegionTranslation(int sec, int region);
 
       double                  SuperLayerRefWire_z(int sl);
       double                  SuperLayerRefWire_y(int sl);
@@ -382,13 +409,11 @@ namespace clas12 {
       double                  WireShift(int sl,int layer,int wire);
       Hep3Vector              WireStereoShift(int sl, int layer, int wire);
 
-      Hep3Vector              GetLeftEndplatePosition( int sec, int sl);
-      Hep3Vector              GetRightEndplatePosition(int sec, int sl);
+      Hep3Vector              GetLeftEndplatePosition( int sec, int region);
+      Hep3Vector              GetRightEndplatePosition(int sec, int region);
+      std::vector<Hep2Vector> EndplateTrapPoints(int region);
 
-      //std::vector<Hep2Vector> RegionTrapPoints(int region);
       HepRotation             SectorZRotation(int sec);
-      HepRotation             RegionRotation(int sec, int region);
-      Hep3Vector              RegionTranslation(int sec, int region);
 
       // th is the sector angle (eg 59 deg)
       double  WindowAngle(double th, double th_tilt=25*CLHEP::degree);

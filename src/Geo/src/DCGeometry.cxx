@@ -16,6 +16,103 @@ namespace clas12 {
       }
       //______________________________________________________________________________
 
+      std::vector<Hep2Vector> ContainerTrapPoints(int region)
+      {
+         // returns the 8 points defining a trapezoid that contains all parts of a 
+         // given region's drift chamber. This includes the 
+         // endplates, the front and back windows, and noseplate..
+         // The first point is "nose" point were the endplates meet 
+         // closest to the z axis and furthest upstream towards the target.
+         // The origin of the solid's  coordinate system is this first gaurd wire
+         // in the midplane (used to define theta_min).
+         using namespace clas12::geo::DC;
+
+         int index = region-1;
+         std::vector<Hep2Vector> points;
+         if( index < 0 || index >= 3 )
+         {
+            std::cout << "clas12::geo::RegionTrapPoints(region=" << region << ") : Region out of range\n";
+            return  points;
+         }
+         double RegionLength = RegionDepth(region);
+
+         // The mid plane cross section is a rectangle plus a right triangle. 
+         // extra_back is the length of the triangle on the back window plane
+         //    ______
+         //   /| 
+         //  /_|_____ 
+         //   e        
+         // The line segment above e is extra_back
+         double extra_back = RegionLength*TMath::Tan(RegionTilt[index]);
+
+         // This returns the nose angle (between two end plates) for the window when viewed normal to it
+         double actual_plate_angle = WindowAngle( RegionAngle[index]/2.0 , RegionTilt[index] ) ;
+
+         // this is the shift along with the desired gap in the top end plate
+         double a_shift = ContainerExtraShift(region) + 5.0*EndPlateExtraGap.at(index);
+         double extra_side_length = a_shift/Cos(actual_plate_angle);
+
+         double l1 = EndPlateShortSideLength[index] + extra_side_length;
+         double l2 = EndPlateLongSideLength[index] + extra_side_length;
+
+         // nose height cut from triangular tip.
+         double nose_width  =  NoseWidthOutside[index]/2.0;
+         double nose_height =  nose_width/TMath::Tan(actual_plate_angle);
+         double nose_side   = TMath::Sqrt(nose_width*nose_width + nose_height*nose_height);
+
+         double inside_nose_width  =  NoseWidthInside[index]/2.0;
+         double inside_nose_height =  inside_nose_width/TMath::Tan(actual_plate_angle);
+         double inside_nose_side   = TMath::Sqrt(inside_nose_width*inside_nose_width + inside_nose_height*inside_nose_height);
+
+         double h1 = (l1+nose_side)*TMath::Cos(actual_plate_angle);
+         double x1 = (l1+nose_side)*TMath::Sin(actual_plate_angle);
+         double h2 = (l2+nose_side)*TMath::Cos(actual_plate_angle);
+         double x2 = (l2+nose_side)*TMath::Sin(actual_plate_angle);
+
+         Hep2Vector p0(  nose_width, nose_height );
+         Hep2Vector p1( -nose_width, nose_height );
+         Hep2Vector p2( -x1,  h1);
+         Hep2Vector p3(  x1,  h1);
+
+         double dx = extra_back;//RegionLength*TMath::Tan( RegionTilt[index]  );
+
+         Hep2Vector p4(  nose_width, nose_height-dx );
+         Hep2Vector p5( -nose_width, nose_height-dx );
+         Hep2Vector p6( -x2, h2-dx);
+         Hep2Vector p7(  x2, h2-dx);
+
+         points = { p1, p2, p3, p0, p5, p6, p7, p4 };
+
+         return points;
+      }
+      //______________________________________________________________________________
+
+      double  ContainerTrapWidth(int region)
+      {
+         int index = region-1;
+         if( index < 0 || index >= 3 )
+         {
+            std::cout << "clas12::geo::RegionTrapWidth(region=" << region << ") : Region out of range\n";
+            return  0.0;
+         }
+         using namespace clas12::geo::DC;
+         double width = RegionDepth(region);
+         width += 2.54*cm;
+         return width/2.0;
+      }
+      //______________________________________________________________________________
+
+      double  ContainerExtraShift(int region)
+      {
+         // This is the shift in the y direciont added to the continer so that 
+         // there is a gap (EndPlateExtraGap) on the side.
+         using namespace clas12::geo::DC;
+         int index = region-1;
+         double actual_plate_angle = WindowAngle( RegionAngle[index]/2.0 , RegionTilt[index] ) ;
+         return( EndPlateExtraGap.at(index)/Sin(actual_plate_angle) );
+      }
+      //______________________________________________________________________________
+
       std::vector<Hep2Vector> RegionTrapPoints(int region)
       {
          // returns the 8 points defining a trapezoid volume defined by the two 
@@ -48,29 +145,35 @@ namespace clas12 {
          double l2 = EndPlateLongSideLength[index];
 
          // This returns the nose angle (between two end plates) for the window when viewed normal to it
-         double actual_plate_angle = WindowAngle( EndPlateAngle[index]/2.0 , RegionTilt[index] );
+         double actual_plate_angle = WindowAngle( RegionAngle[index]/2.0 , RegionTilt[index] );
+
+         //std::cout << actual_plate_angle/degree << " vs " << RegionAngle[index]/degree << std::endl;
 
          // nose height cut from triangular tip.
-         double nose_width  =  NoseWidthInside[index]/2.0;
-         double nose_height =  nose_width/TMath::Tan(EndPlateAngle[index]/2.0);
-         //double nose_side   = TMath::Sqrt(nose_width*nose_width + nose_height*nose_height);
+         double nose_width  = NoseWidthOutside[index]/2.0;
+         double nose_height = nose_width/TMath::Tan(actual_plate_angle);
+         double nose_side   = TMath::Sqrt(nose_width*nose_width + nose_height*nose_height);
 
-         double h1 = l1*TMath::Cos(actual_plate_angle);
-         double x1 = l1*TMath::Sin(actual_plate_angle);
-         double h2 = l2*TMath::Cos(actual_plate_angle);
-         double x2 = l2*TMath::Sin(actual_plate_angle);
+         double inside_nose_width  =  NoseWidthInside[index]/2.0;
+         double inside_nose_height =  inside_nose_width/TMath::Tan(actual_plate_angle);
+         double inside_nose_side   = TMath::Sqrt(inside_nose_width*inside_nose_width + inside_nose_height*inside_nose_height);
+
+         double h1 = (l1+inside_nose_side)*TMath::Cos(actual_plate_angle);
+         double x1 = (l1+inside_nose_side)*TMath::Sin(actual_plate_angle);
+         double h2 = (l2+inside_nose_side)*TMath::Cos(actual_plate_angle);
+         double x2 = (l2+inside_nose_side)*TMath::Sin(actual_plate_angle);
 
          //std::cout << "Rough check : " << extra_back << " vs " << l2-l1 << std::endl;
 
-         Hep2Vector p0(  nose_width, nose_height );
-         Hep2Vector p1( -nose_width, nose_height );
+         Hep2Vector p0(  inside_nose_width, inside_nose_height );
+         Hep2Vector p1( -inside_nose_width, inside_nose_height );
          Hep2Vector p2( -x1,  h1);
          Hep2Vector p3(  x1,  h1);
 
          double dx = extra_back;//RegionLength*TMath::Tan( RegionTilt[index]  );
 
-         Hep2Vector p4(  nose_width, nose_height-dx );
-         Hep2Vector p5( -nose_width, nose_height-dx );
+         Hep2Vector p4(  inside_nose_width, inside_nose_height-dx );
+         Hep2Vector p5( -inside_nose_width, inside_nose_height-dx );
          Hep2Vector p6( -x2, h2-dx);
          Hep2Vector p7(  x2, h2-dx);
 
@@ -82,7 +185,7 @@ namespace clas12 {
 
       double  RegionTrapWidth(int region)
       {
-
+         // returns the half length of the region's trapezoid
          int index = region-1;
          if( index < 0 || index >= 3 )
          {
@@ -91,7 +194,6 @@ namespace clas12 {
          }
          using namespace clas12::geo::DC;
          double RegionLength = RegionDepth(region);
-
          return RegionLength/2.0;
       }
       //______________________________________________________________________________
@@ -101,11 +203,33 @@ namespace clas12 {
          int index = region-1;
          if( index < 0 || index >= 3 )
          {
-            std::cout << "clas12::geo::RegionTrapWidth(region=" << region << ") : Region out of range\n";
+            std::cout << "clas12::geo::RegionTrapOffset(region=" << region << ") : Region out of range\n";
             return  0.0;
          }
          double RegionLength = RegionDepth(region);
          return RegionLength/2.0;
+      }
+      //______________________________________________________________________________
+      HepRotation RegionRotation(int sec, int region)
+      {
+         using namespace clas12::geo::DC;
+         HepRotation  rot;
+         rot.rotateX( - RegionTilt[region-1] );
+         rot.rotateZ( SectorRotation[sec-1] );
+         return rot;
+      }
+      //______________________________________________________________________________
+
+      Hep3Vector RegionTranslation(int sec, int region)
+      {
+         using namespace clas12::geo::DC;
+         CLHEP::Hep3Vector  vec(
+               0.0,
+               RegionTrapCorner_y(region) - ContainerExtraShift(region) ,
+               RegionTrapCorner_z(region)
+               );
+         vec.rotateZ( SectorRotation[sec-1] );
+         return vec;
       }
       //______________________________________________________________________________
 
@@ -166,7 +290,7 @@ namespace clas12 {
          using namespace CLHEP;
 
          int index = SuperLayerRegionIndex.at(sl-1);
-         double RegionLength = FrontGap[index] + MidGap[index] + BackGap[index];
+         double RegionLength = RegionDepth(index+1);//FrontGap[index] + MidGap[index] + BackGap[index];
          RegionLength += 21.0*LayerSep.at( RegionSuperLayerIndex[index][0] ) ;
          RegionLength += 21.0*LayerSep.at( RegionSuperLayerIndex[index][1] ) ;
 
@@ -202,9 +326,7 @@ namespace clas12 {
          //double x       = wire_position.x() // zero
          double y1      = wire_position.y();
          double z_depth = wire_position.z();
-         double RegionLength = FrontGap[index] + MidGap[index] + BackGap[index];
-         RegionLength += 21.0*LayerSep.at( RegionSuperLayerIndex[index][0] ) ;
-         RegionLength += 21.0*LayerSep.at( RegionSuperLayerIndex[index][1] ) ;
+         double RegionLength = RegionDepth(region);
 
          // The mid plane cross section is a rectangle plus a right triangle. 
          // extra_back is the length of the triangle on the back window plane
@@ -218,7 +340,7 @@ namespace clas12 {
          double y0 = z_depth*Tan(RegionTilt[index]);
 
          // This returns the nose angle (between two end plates) for the window when viewed normal to it
-         double actual_plate_angle = WindowAngle( EndPlateAngle[index]/2.0 , RegionTilt[index] );
+         double actual_plate_angle = WindowAngle( RegionAngle[index]/2.0 , RegionTilt[index] );
          //std::cout << " actual_plate_angle " << actual_plate_angle/CLHEP::degree << std::endl;
 
          double l_total  = (y1 + y0)*Tan(actual_plate_angle);
@@ -269,7 +391,7 @@ namespace clas12 {
          double y0 = z_depth*Tan(RegionTilt[index]);
 
          // This returns the nose angle (between two end plates) for the window when viewed normal to it
-         double actual_plate_angle = WindowAngle( EndPlateAngle[index]/2.0 , RegionTilt[index] );
+         double actual_plate_angle = WindowAngle( RegionAngle[index]/2.0 , RegionTilt[index] );
          //std::cout << " actual_plate_angle " << actual_plate_angle/CLHEP::degree << std::endl;
 
          double l_total  = (y1 + y0)*Tan(actual_plate_angle);
@@ -320,7 +442,7 @@ namespace clas12 {
          double y0 = z_depth*Tan(RegionTilt[index]);
 
          // This returns the nose angle (between two end plates) for the window when viewed normal to it
-         double actual_plate_angle = WindowAngle( EndPlateAngle[index]/2.0 , RegionTilt[index] );
+         double actual_plate_angle = WindowAngle( RegionAngle[index]/2.0 , RegionTilt[index] );
          //std::cout << " actual_plate_angle " << actual_plate_angle/CLHEP::degree << std::endl;
 
          double l_total  = (y1 + y0)*Tan(actual_plate_angle);
@@ -338,28 +460,26 @@ namespace clas12 {
       }
       //______________________________________________________________________________
 
-      Hep3Vector  GetLeftEndplatePosition(int sec, int sl)
+      Hep3Vector  GetLeftEndplatePosition(int sec, int region)
       {
          using namespace clas12::geo::DC;
-         int region = (sl-1)/2 +1;
          Hep3Vector  ref = {0.0, RegionTrapCorner_y(region), RegionTrapCorner_z(region)};
          Hep3Vector  to_endplate_center = {
-            0.0,
-            EndPlateShortSideLength.at(region-1)/2.0,
-            RegionDepth(region)/2.0
+            0.0,//EndPlateWidth.at(region-1)/2.0,
+            ContainerExtraShift(region)+NoseHeight.at(region-1),
+            0.0
          };
          // rotate the 
          to_endplate_center.rotateX(-1.0*RegionTilt.at(region-1));
          Hep3Vector pos = ref + to_endplate_center;
-         pos.rotateZ(1.0*EndPlateAngle.at(region-1)/2.0);
+         pos.rotateZ(1.0*RegionAngle.at(region-1)/2.0);
          return( SectorZRotation(sec)*pos );
       }
       //______________________________________________________________________________
 
-      Hep3Vector  GetRightEndplatePosition(int sec, int sl)
+      Hep3Vector  GetRightEndplatePosition(int sec, int region)
       {
          using namespace clas12::geo::DC;
-         int region = (sl-1)/2 +1;
          Hep3Vector  ref = {0.0, RegionTrapCorner_y(region), RegionTrapCorner_z(region)};
          Hep3Vector  to_endplate_center = {
             0.0,
@@ -369,8 +489,35 @@ namespace clas12 {
          // rotate the 
          to_endplate_center.rotateX(-1.0*RegionTilt.at(region-1));
          Hep3Vector pos = ref + to_endplate_center;
-         pos.rotateZ(-1.0*EndPlateAngle.at(region-1)/2.0);
+         pos.rotateZ(-1.0*RegionAngle.at(region-1)/2.0);
          return( SectorZRotation(sec)*pos );
+      }
+      //______________________________________________________________________________
+
+      std::vector<Hep2Vector> EndplateTrapPoints(int region)
+      {
+         // origin will be the upstream corner
+         // coordinates are y perp to wires, x goes with along increaseing layer number
+         // z is normal to plate
+         using namespace TMath;
+         using namespace DC;
+         int index = region-1;
+         double bottom_extra = EndPlateWidth.at(index)*Tan(EndPlateTiltAngle.at(index));
+         double top_extra = EndPlateLongSideLength.at(index) - (EndPlateShortSideLength.at(index)+bottom_extra);
+         if(top_extra<0) std::cout << top_extra << " ERROR TOP EXTRA SHOULD BE POSITIVE\n";
+
+         double w = EndPlateWidth.at(index);
+         std::vector<Hep2Vector> points = {
+            {0.0,0.0},
+            {0.0, EndPlateShortSideLength[index]}, 
+            {w  , EndPlateShortSideLength.at(index)+top_extra},
+            {w  , -bottom_extra},
+            {0.0,0.0},
+            {0.0, EndPlateShortSideLength[index]}, 
+            {w  , EndPlateShortSideLength.at(index)+top_extra},
+            {w  , -bottom_extra}
+         };
+         return points;
       }
       //______________________________________________________________________________
 
@@ -380,29 +527,6 @@ namespace clas12 {
          HepRotation  rot;
          rot.rotateZ( SectorRotation[sec-1] );
          return rot;
-      }
-      //______________________________________________________________________________
-
-      HepRotation RegionRotation(int sec, int region)
-      {
-         using namespace clas12::geo::DC;
-         HepRotation  rot;
-         rot.rotateX( - RegionTilt[region-1] );
-         rot.rotateZ( SectorRotation[sec-1] );
-         return rot;
-      }
-      //______________________________________________________________________________
-
-      Hep3Vector RegionTranslation(int sec, int region)
-      {
-         using namespace clas12::geo::DC;
-         CLHEP::Hep3Vector  vec(
-               0.0,
-               RegionTrapCorner_y(region),
-               RegionTrapCorner_z(region)
-               );
-         vec.rotateZ( SectorRotation[sec-1] );
-         return vec;
       }
       //______________________________________________________________________________
 
