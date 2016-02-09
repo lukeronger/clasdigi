@@ -376,7 +376,7 @@ namespace clas12 {
 
          // Extra gap between endplate and container volume
          const std::array<double,3> EndPlateExtraGap  = {
-            0.5*inch,
+            0.1*inch,
             1.0*inch,
             1.0*inch
          };
@@ -388,7 +388,7 @@ namespace clas12 {
          };
          // 
          const std::array<double,3> FrontBackExtraGap  = {
-            3.0*inch,
+            1.0*inch,
             5.0*inch,
             8.0*inch
          };
