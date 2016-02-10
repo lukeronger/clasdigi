@@ -376,19 +376,19 @@ namespace clas12 {
 
          // Extra gap between endplate and container volume
          const std::array<double,3> EndPlateExtraGap  = {
-            0.1*inch,
+            0.3*inch,
             1.0*inch,
             1.0*inch
          };
          // top/Back plate extra gap between the gas and container volumes
          const std::array<double,3> BackPlateExtraGap  = {
-            4.0*inch,
+            2.0*inch,
             8.0*inch,
             10.0*inch
          };
          // 
          const std::array<double,3> FrontBackExtraGap  = {
-            1.0*inch,
+            3.0*inch,
             5.0*inch,
             8.0*inch
          };
