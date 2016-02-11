@@ -15,6 +15,7 @@ namespace clas12 {
 
          public : 
             int             fPDGCode;        // PDG code of particle.
+            int             fTrackID;        //
             TLorentzVector  fPosition;       // Location where ion pair was produced position and time 
             TLorentzVector  fGlobalPosition; // Location where ion pair was produced position and time 
             TLorentzVector  fMomentum;       // Momentum vector
@@ -25,7 +26,7 @@ namespace clas12 {
 
             void Print();
 
-            ClassDef(DriftChamberParticleHit,1)
+            ClassDef(DriftChamberParticleHit,2)
       };
 
    }
