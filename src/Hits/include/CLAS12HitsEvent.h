@@ -6,6 +6,8 @@
 #include "HTCCHitsEvent.h"
 #include "DCHitsEvent.h"
 #include "RCHitsEvent.h"
+#include "ECHitsEvent.h"
+#include "RecoilScintEvent.h"
 
 namespace clas12 {
 
@@ -18,8 +20,10 @@ namespace clas12 {
             int              fEventNumber;
 
             HTCCHitsEvent    fHTCCEvent;
+            ECHitsEvent      fECEvent;
             DCHitsEvent      fDCEvent;
             RCHitsEvent      fRCEvent;
+            RecoilScintEvent fRecoilScintEvent;
 
          public:
             CLAS12HitsEvent();
@@ -28,7 +32,7 @@ namespace clas12 {
             void Clear(Option_t * opt = "" ) override;
             void Print(Option_t * opt = "" ) const override;
 
-         ClassDef(CLAS12HitsEvent,1)
+         ClassDef(CLAS12HitsEvent,4)
       };
 
    }

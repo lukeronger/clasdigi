@@ -45,39 +45,39 @@ int main( int argc, char **argv )
    opterr    = 1; //turn off getopt error message
 
 
-   while(iarg != -1) {
-      iarg = getopt_long(argc, argv, "n:r:o:h", longopts, &index);
+   //while(iarg != -1) {
+   //   iarg = getopt_long(argc, argv, "n:r:o:h", longopts, &index);
 
-      switch (iarg)
-      {
-         case 'n':
-            n_events =  atoi(optarg);
-            break;
+   //   switch (iarg)
+   //   {
+   //      case 'n':
+   //         n_events =  atoi(optarg);
+   //         break;
 
-         case 'r':
-            run_number =  atoi(optarg);
-            break;
+   //      case 'r':
+   //         run_number =  atoi(optarg);
+   //         break;
 
-         case 'o':
-            output_file_name = optarg;
-            if( fexists(output_file_name) ) {
-               std::cout << "Error : " << output_file_name << " already exist"  << std::endl;
-            }
-            exit(EXIT_FAILURE);
-            break;
+   //      case 'o':
+   //         output_file_name = optarg;
+   //         if( fexists(output_file_name) ) {
+   //            std::cout << "Error : " << output_file_name << " already exist"  << std::endl;
+   //         }
+   //         exit(EXIT_FAILURE);
+   //         break;
 
-         case 'h':
-            //print_usage();
-            std::cout << " todo: implement print help " << std::endl;
-            exit(0);
-            break;
-      }
-   }
+   //      case 'h':
+   //         //print_usage();
+   //         std::cout << " todo: implement print help " << std::endl;
+   //         exit(0);
+   //         break;
+   //   }
+   //}
 
    std::string theRest  = "";
-   for (int i = optind; i < argc; i++) {
-      theRest        += argv[i];
-   }
+   //for (int i = optind; i < argc; i++) {
+   //   theRest        += argv[i];
+   //}
    std::cout << " the rest of the arguments: " << theRest << std::endl;
    std::cout << "output : " << output_file_name << std::endl;
 
@@ -86,12 +86,17 @@ int main( int argc, char **argv )
    using namespace clas12::sigs;
 
    // --------------------------------------------------------------
+   CLAS12HitsEvent * events = new CLAS12HitsEvent();
+
+   events->fDCEvent.Dump();
+
+   return 0;
 
    TFile * fout = new TFile(output_file_name.c_str(),"RECREATE");
    fout->cd();
    TTree * tree = new TTree("clasdidig","test data");
 
-   CLAS12HitsEvent * events = new CLAS12HitsEvent();
+
    tree->Branch("HitsEvent","clas12::hits::CLAS12HitsEvent",&events);
 
    HTCCHitsEvent * htcc_event    = &(events->fHTCCEvent);

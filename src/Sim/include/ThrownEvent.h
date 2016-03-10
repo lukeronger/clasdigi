@@ -4,8 +4,8 @@
 #include "TObject.h"
 #include <iostream>
 
-class TParticle;
-class TClonesArray;
+#include "TParticle.h"
+#include "TClonesArray.h"
 
 namespace clas12 {
 
@@ -41,7 +41,7 @@ namespace clas12 {
             //void LundHeaderFormat( InSANE_EG_Event& eg_event, std::ostream& s = std::cout) ;
             //void LundEventFormat( int           i, InSANE_EG_Event& eg_event, std::ostream& s = std::cout) ;
 
-            ClassDef(ThrownEvent,1)
+            ClassDef(ThrownEvent,2)
       };
 
    }

@@ -26,14 +26,17 @@ set(lib_files
    FlashADCHit
    DriftChamberIonPairHit
    DriftChamberParticleHit
+   ParticleHit
    CLAS12HitsEvent
    HTCCHitsEvent
    DCHitsEvent
+   ECHitsEvent
    RCHitsEvent
    RecoilChamberParticleHit
    RecoilScintHit
    RecoilScintEvent
    PhotonHit
+   ForwardHitMask
 )
 
 set(lib_Fortran_files

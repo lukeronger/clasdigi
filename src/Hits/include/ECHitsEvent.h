@@ -1,19 +1,19 @@
-#ifndef clas12_hits_RCHitsEvent_HH
-#define clas12_hits_RCHitsEvent_HH 1
+#ifndef clas12_hits_ECHitsEvent_HH
+#define clas12_hits_ECHitsEvent_HH 1
 
 #include "TObject.h"
 #include "TClonesArray.h"
 #include "ADCHit.h"
 #include "TDCHit.h"
 #include "FlashADCHit.h"
-#include "DriftChamberIonPairHit.h"
-#include "RecoilChamberParticleHit.h"
+//#include "DriftChamberIonPairHit.h"
+#include "DriftChamberParticleHit.h"
 
 namespace clas12 {
 
    namespace hits {
 
-      class RCHitsEvent : public TObject {
+      class ECHitsEvent : public TObject {
 
          public:
             int            fRunNumber;
@@ -21,34 +21,33 @@ namespace clas12 {
 
             int            fNADCHits;
             int            fNTDCHits;
-            int            fNIonPairs;
+            //int            fNIonPairs;
             int            fNParticleHits;
             int            fNRegionHits;
 
-
             TClonesArray * fADCHits;   //->
             TClonesArray * fTDCHits;   //->
-            TClonesArray * fIonPairs;  //->
+            //TClonesArray * fIonPairs;  //->
             TClonesArray * fParticleHits;  //->
             TClonesArray * fRegionHits;  //->
 
          public:
-            RCHitsEvent();
-            virtual ~RCHitsEvent();
+            ECHitsEvent();
+            virtual ~ECHitsEvent();
 
             TDCHit                  * AddTDCHit(int ch, int v, double t) ;
             ADCHit                  * AddADCHit(int ch, int v) ;
-            DriftChamberIonPairHit  * AddIonPairHit(double x, double y, double z, double t);
-            RecoilChamberParticleHit * AddParticleHit();
-            RecoilChamberParticleHit * AddRegionHit();
+            //DriftChamberIonPairHit  * AddIonPairHit(double x, double y, double z, double t);
+            DriftChamberParticleHit * AddParticleHit();
+            DriftChamberParticleHit * AddRegionHit();
 
-            RecoilChamberParticleHit * GetParticleHit(int );
-            RecoilChamberParticleHit * GetRegionHit(int );
+            DriftChamberParticleHit * GetParticleHit(int );
+            DriftChamberParticleHit * GetRegionHit(int );
 
             void Clear(Option_t * opt = "") override ;
             void Print(Option_t * opt = "") const override ;
 
-         ClassDef(RCHitsEvent,4)
+         ClassDef(ECHitsEvent,3)
       };
 
    }
