@@ -13,8 +13,8 @@ namespace clas12 {
       class RunConfiguration : public TNamed {
 
          public:
-            int          fRunNumber;
-            int          fNSimulated;
+            int          fRunNumber    = 0;
+            int          fNSimulated   = 0;
             std::string  fInputFileName;
             std::string  fInputTreeName;
             std::string  fOutputFileName;
