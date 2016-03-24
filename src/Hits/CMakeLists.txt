@@ -34,8 +34,10 @@ set(lib_files
    RCHitsEvent
    RecoilChamberParticleHit
    RecoilScintHit
+   ScintChannelHit
    RecoilScintEvent
    PhotonHit
+   PhotonCounterHit
    ForwardHitMask
 )
 

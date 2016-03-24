@@ -6,6 +6,9 @@
 #include "RecoilScintHit.h"
 #include "PhotonHit.h"
 #include "ParticleHit.h"
+#include "ScintChannelHit.h"
+#include "PhotonCounterHit.h"
+#include <map>
 
 namespace clas12 {
 
@@ -16,12 +19,18 @@ namespace clas12 {
          public:
             int            fRunNumber;
             int            fEventNumber;
+
             int            fNHits;
             int            fNParticleHits;
             int            fNPhotonHits;
+            int            fNChannelHits;
             TClonesArray * fHits;           //->
             TClonesArray * fParticleHits;   //->
             TClonesArray * fPhotonHits;     //->
+            TClonesArray * fChannelHits;    //->
+
+            std::map<int,PhotonCounterHit>  fPhotonCounterHits;
+            std::map<int,ScintChannelHit>   fScintChannelHits;
 
          public:
             RecoilScintEvent();
@@ -36,11 +45,13 @@ namespace clas12 {
             PhotonHit * AddPhotonHit(int chan = 0);
             PhotonHit * GetPhotonHit(int i);
 
+            ScintChannelHit * AddChannelHit(int chan = 0);
+            ScintChannelHit * GetChannelHit(int i);
 
             void Clear(Option_t * opt = "") override ;
             void Print(Option_t * opt = "") const override ;
 
-         ClassDef(RecoilScintEvent,4)
+         ClassDef(RecoilScintEvent,6)
       };
 
    }

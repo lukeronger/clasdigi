@@ -32,7 +32,7 @@ namespace clas12 {
             void Clear(Option_t * opt = "" ) override;
             void Print(Option_t * opt = "" ) const override;
 
-         ClassDef(CLAS12HitsEvent,4)
+         ClassDef(CLAS12HitsEvent,5)
       };
 
    }
