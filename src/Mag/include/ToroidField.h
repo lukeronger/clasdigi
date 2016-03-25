@@ -8,6 +8,17 @@
 //#include "TObject.h"
 #include "TVector3.h"
 
+// with gzstream
+//real    0m23.287s
+//user    0m22.932s
+//sys     0m0.372s
+
+// without gzstream
+//real    0m25.139s
+//user    0m24.660s
+//sys     0m0.472s
+
+
 namespace clas12 {
 
    namespace mag {

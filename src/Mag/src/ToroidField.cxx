@@ -28,7 +28,8 @@ clas12::mag::ToroidField::ToroidField() :
    fr_offset(0.0),
    fz_offset(-100.0)
 {
-   fMapFileName = ClasDigi_DATA_DIR"/clas12TorusOriginalMap.dat";
+   fMapFileName = ClasDigi_DATA_DIR"/clas12TorusOriginalMap.dat.gz";
+   //fMapFileName = ClasDigi_DATA_DIR"/clas12TorusOriginalMap.dat";
    //clas12SolenoidFieldMap.dat  clas12TorusOriginalMap.dat
 
 } 
@@ -54,7 +55,7 @@ void clas12::mag::ToroidField::ReadMap()
    std::cout << "Reading Toroid Field Map : \n";
    std::cout << fMapFileName << std::endl;
 
-   fMapFile.open(fMapFileName);
+   fMapFile.open(fMapFileName.c_str());
    std::string line;
 
    for(int i = 0;i<20;i++) {

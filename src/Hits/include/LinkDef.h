@@ -41,4 +41,8 @@
 //#pragma link C++ class HistogramManager+;
 //#pragma link C++ class Track+;
 
+#pragma link C++ class std::map<int,clas12::hits::PhotonCounterHit>+;
+#pragma link C++ class std::map<int,clas12::hits::ScintChannelHit>+;
+ 
+ 
 #endif
