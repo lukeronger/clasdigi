@@ -28,7 +28,7 @@ clas12::mag::ToroidField::ToroidField() :
    fr_offset(0.0),
    fz_offset(-100.0)
 {
-   fMapFileName = ClasDigi_DATA_DIR"/clas12TorusOriginalMap.dat.gz";
+   fMapFileName = ClasDigi_DATA_DIR"/clas12TorusOriginalMap.dat";
    //fMapFileName = ClasDigi_DATA_DIR"/clas12TorusOriginalMap.dat";
    //clas12SolenoidFieldMap.dat  clas12TorusOriginalMap.dat
 
