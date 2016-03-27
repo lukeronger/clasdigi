@@ -9,11 +9,11 @@ namespace clas12 {
 
       using namespace CLHEP;
 
-      Hep2Vector ApplyRotation(Hep2Vector v, double angle)
-      {
-         v.rotate(angle);
-         return v;
-      }
+      //Hep2Vector ApplyRotation(Hep2Vector v, double angle)
+      //{
+      //   v.rotate(angle);
+      //   return v;
+      //}
       //______________________________________________________________________________
 
       std::vector<Hep2Vector> ContainerTrapPoints(int region)

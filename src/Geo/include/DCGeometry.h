@@ -9,6 +9,7 @@
 #include <map>
 #include <tuple>
 #include <unordered_map>
+#include "GeoUtil.h"
 
 namespace clas12 {
 
@@ -20,7 +21,7 @@ namespace clas12 {
       const double  inch = 2.54*cm;
 
       // rotate a two vector
-      Hep2Vector ApplyRotation(Hep2Vector v, double angle);
+      //Hep2Vector ApplyRotation(Hep2Vector v, double angle);
 
       namespace DC {
 

@@ -12,12 +12,14 @@
 
 #pragma link C++ class clas12::geo::DCWire+;
 #pragma link C++ class clas12::geo::DCSuperLayer+;
-//#pragma link C++ class std::set<clas12::geo::DCSuperLayer, TH2Poly*>+;
-//#pragma link C++ class std::unordered_set<clas12::geo::DCSuperLayer, TH2Poly*>+;
+
 #pragma link C++ class std::map<clas12::geo::DCSuperLayer, TH2Poly*>+;
 #pragma link C++ class std::unordered_map<clas12::geo::DCSuperLayer, TH2Poly*>+;
 
 #pragma link C++ function clas12::geo::CosAngle2( double , double , double , double , double , double );
+
+#pragma link C++ class clas12::geo::RCWire+;
+
 
 //#pragma link C++ function clas12::DriftChamber::P_j_ion_pair(double, int, double);
 //
