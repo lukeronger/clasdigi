@@ -21,6 +21,10 @@ namespace clas12 {
          public :
             RecoilChamberParticleHit();
             virtual ~RecoilChamberParticleHit();
+            RecoilChamberParticleHit(const RecoilChamberParticleHit&) = default;
+            RecoilChamberParticleHit(RecoilChamberParticleHit&&)      = default;
+            RecoilChamberParticleHit& operator=(const RecoilChamberParticleHit&) = default;
+            RecoilChamberParticleHit& operator=(RecoilChamberParticleHit&&)      = default;
 
             void Print();
 

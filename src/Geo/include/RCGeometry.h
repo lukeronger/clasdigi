@@ -5,6 +5,7 @@
 #include "CLHEP/Vector/TwoVector.h"
 #include "CLHEP/Units/SystemOfUnits.h"
 #include "CLHEP/Vector/Rotation.h"
+#include "CLHEP/Geometry/Transform3D.h"
 #include "GeoUtil.h"
 #include <array>
 #include <map>
@@ -17,6 +18,7 @@ namespace clas12 {
 
       using namespace CLHEP;
       using namespace TMath;
+      //using namespace HepGeom;
 
       /*! Recoil Chamber Geometry.
           Numbering conventions:
@@ -64,6 +66,7 @@ namespace clas12 {
             std::array<double, 8>   fCellDeltaPhi;
             std::array<double, 8>   fCellStereoAngle;
             std::array<double, 8>   fCellCentralRadius;
+            double fNChannels   ;
 
          public:
             RCGeometry();
@@ -71,13 +74,22 @@ namespace clas12 {
 
             int        GetWireLayer(int channel) const ;
 
-            double GetSenseWireRadius(int channel) const ;
+            double     GetSenseWireRadius(int channel) const ;
+            double     GetSenseWirePhi(int channel) const ;
+            double     GetSenseWireStereoAngle(int channel) const ;
 
-            double GetSenseWirePhi(int channel) const ;
+            Hep3Vector  GetFirstCellPosition(int layer, int subcell=-1) const ;
+            HepRotation GetFirstCellRotation(int layer, int subcell=-1) const ;
+            HepGeom::Transform3D GetFirstCellTransform(int layer, int subcell=-1) const ;
 
-            Hep3Vector GetSenseWirePosition(int channel) const ;
+            Hep3Vector  GetSenseWirePerp(int channel) const ;
+
+            Hep3Vector  GetSenseWirePosition(int channel) const ;
+            HepRotation GetSenseWireRotation(int channel) const ;
+            HepGeom::Transform3D GetSenseWireTransform(int channel) const ;
 
             Hep3Vector GetUpstreamSenseWirePosition(int channel) const ;
+            Hep3Vector GetDownstreamSenseWirePosition(int channel) const ;
 
             Hep3Vector GetUnitSubCellPoint(int layer,int subcell, int point) const ;
 

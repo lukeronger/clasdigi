@@ -25,20 +25,19 @@ namespace clas12 {
             int            fNParticleHits;
             int            fNRegionHits;
 
-
-            TClonesArray * fADCHits;   //->
-            TClonesArray * fTDCHits;   //->
-            TClonesArray * fIonPairs;  //->
+            TClonesArray * fADCHits;       //->
+            TClonesArray * fTDCHits;       //->
+            TClonesArray * fIonPairs;      //->
             TClonesArray * fParticleHits;  //->
-            TClonesArray * fRegionHits;  //->
+            TClonesArray * fRegionHits;    //->
 
          public:
             RCHitsEvent();
             virtual ~RCHitsEvent();
 
-            TDCHit                  * AddTDCHit(int ch, int v, double t) ;
-            ADCHit                  * AddADCHit(int ch, int v) ;
-            DriftChamberIonPairHit  * AddIonPairHit(double x, double y, double z, double t);
+            TDCHit                   * AddTDCHit(int ch, int v, double t) ;
+            ADCHit                   * AddADCHit(int ch, int v) ;
+            DriftChamberIonPairHit   * AddIonPairHit(double x, double y, double z, double t);
             RecoilChamberParticleHit * AddParticleHit();
             RecoilChamberParticleHit * AddRegionHit();
 
