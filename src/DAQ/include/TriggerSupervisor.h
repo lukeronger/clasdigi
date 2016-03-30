@@ -29,7 +29,7 @@ namespace clas12 {
             TriggerSupervisor() : fInhibit(false) { }
             virtual ~TriggerSupervisor() { }
 
-            void Print(Option_t * opt = "") const override;
+            void Print(Option_t * opt = "") const ;
 
             void Fire(double t) {
                for(auto ts : fTimingCallbacks) {

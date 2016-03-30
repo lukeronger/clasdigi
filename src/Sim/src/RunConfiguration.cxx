@@ -1,6 +1,6 @@
 #include "RunConfiguration.h"
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 
 clas12::sim::RunConfiguration::RunConfiguration(const char * n, const char * t, int run) : 
@@ -21,7 +21,7 @@ clas12::sim::RunConfiguration::RunConfiguration(int run) : fRunNumber(run)
 //______________________________________________________________________________
 
 clas12::sim::RunConfiguration::~RunConfiguration()
-{ } 
+= default; 
 //______________________________________________________________________________
 
 void clas12::sim::RunConfiguration::Print(std::ostream& s) const
@@ -39,7 +39,7 @@ void clas12::sim::RunConfiguration::Print(std::ostream& s) const
 }
 //______________________________________________________________________________
 
-void clas12::sim::RunConfiguration::Print(Option_t * opt) const
+void clas12::sim::RunConfiguration::Print(Option_t *  /*opt*/) const
 {
    Print(std::cout);
 }

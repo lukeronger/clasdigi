@@ -27,14 +27,14 @@ namespace clas12 {
             virtual ~RunConfiguration();
 
             void Print(std::ostream& s) const ;
-            void Print(Option_t * opt = "") const override;
+            void Print(Option_t * opt = "") const ;
 
-            Bool_t IsFolder() const override
+            Bool_t IsFolder() const 
             {
                return kTRUE;
             }
 
-            void Browse(TBrowser* b) override
+            void Browse(TBrowser* b) 
             {
                //b->Add(&fAsymmetries, "Asymmetries");
                //b->Add(&fApparatus, "Apparatus");

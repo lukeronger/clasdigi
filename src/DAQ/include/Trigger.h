@@ -28,8 +28,8 @@ namespace clas12 {
             Trigger(int ch = 0, int ps = 1);
             virtual ~Trigger();
 
-            void Clear(Option_t * opt = "") override;
-            void Print(Option_t * opt = "") const override;
+            void Clear(Option_t * opt = "") ;
+            void Print(Option_t * opt = "") const ;
 
             void Fire(double t) ;
             bool IsTriggered() const { return fTriggered; }

@@ -22,9 +22,9 @@ namespace clas12 {
 
             int    Readout() { return( fPedestal + fValue ); }
 
-            virtual void Reset(Option_t * o = "") override { Clear(o); }
-            virtual void Clear(Option_t * opt = "") override;
-            virtual void Print(Option_t * opt = "") const override;
+            virtual void Reset(Option_t * o = "")  { Clear(o); }
+            virtual void Clear(Option_t * opt = "") ;
+            virtual void Print(Option_t * opt = "") const ;
 
             int  Pedestal() const   { return fPedestal; } 
             void SetPedestal(int p) { fPedestal = p; } 

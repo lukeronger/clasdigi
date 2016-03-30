@@ -42,14 +42,14 @@ namespace clas12 {
 
             virtual ~Module() { }
 
-            virtual void Reset(Option_t * opt = "") override
+            virtual void Reset(Option_t * opt = "") 
             {
                for( auto ch : fChannels ) {
                   ch->Reset(opt);
                }
             }
 
-            virtual void Clear(Option_t * opt = "") override 
+            virtual void Clear(Option_t * opt = "")  
             {
                //std::cout << "clearing Module\n";
                for( auto ch : fChannels ) {
@@ -85,7 +85,7 @@ namespace clas12 {
                return *(fChannels[fNChannels-1]);
             }
 
-            void Print(Option_t * opt = "") const  override
+            void Print(Option_t * opt = "") const  
             {
                std::cout << " Module ("  
                   << fNChannels << ") : " 

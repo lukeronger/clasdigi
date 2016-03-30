@@ -53,9 +53,9 @@ namespace clas12 {
             void PrintBuffer() const;
             void PrintBufferHist(int nY = 10, int peak = 1000) const;
 
-            void Print(Option_t * opt = "") const override;
-            void Clear(Option_t * opt = "") override;
-            void Reset(Option_t * opt = "") override { Clear(opt); }
+            void Print(Option_t * opt = "") const ;
+            void Clear(Option_t * opt = "") ;
+            void Reset(Option_t * opt = "")  { Clear(opt); }
 
             FlashADC& operator<<(Discriminator& rhs)
             {

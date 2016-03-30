@@ -30,8 +30,8 @@ namespace clas12 {
             TParticle * GetParticle(int i);
             int         GetNParticles() const {return fNParticles;}
 
-            virtual void Print(Option_t * opt = "") const override;
-            virtual void Clear(Option_t * opt = "") override;
+            virtual void Print(Option_t * opt = "") const ;
+            virtual void Clear(Option_t * opt = "") ;
 
             void ReadLundEvent(   std::ifstream& in);
             int  ReadLundHeader(  std::ifstream& in);

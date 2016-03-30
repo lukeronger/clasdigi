@@ -37,7 +37,7 @@ namespace clas12 {
 
             void AddModule(int slot, CrateModule * m) ;
 
-            virtual void Clear(Option_t * opt = "") override
+            virtual void Clear(Option_t * opt = "") 
             {
                //std::cout << "clearing Crate\n";
                for(auto mod : fModules ) {
@@ -57,7 +57,7 @@ namespace clas12 {
                //}
             }
 
-            void Print(Option_t * opt = "") const override;
+            void Print(Option_t * opt = "") const ;
 
             template <typename T>
             void AddCrateModule(int slot, Module<T> * m )

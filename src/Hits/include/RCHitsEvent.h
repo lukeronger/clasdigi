@@ -44,8 +44,8 @@ namespace clas12 {
             RecoilChamberParticleHit * GetParticleHit(int );
             RecoilChamberParticleHit * GetRegionHit(int );
 
-            void Clear(Option_t * opt = "") override ;
-            void Print(Option_t * opt = "") const override ;
+            void Clear(Option_t * opt = "")  ;
+            void Print(Option_t * opt = "") const  ;
 
          ClassDef(RCHitsEvent,4)
       };

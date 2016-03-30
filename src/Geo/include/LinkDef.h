@@ -19,6 +19,7 @@
 #pragma link C++ function clas12::geo::CosAngle2( double , double , double , double , double , double );
 
 #pragma link C++ class clas12::geo::RCWire+;
+#pragma link C++ class CLAS12EventDisplay+;
 
 
 //#pragma link C++ function clas12::DriftChamber::P_j_ion_pair(double, int, double);

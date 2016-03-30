@@ -24,6 +24,10 @@ set(lib_files
    DCGeometry
    DCWire
    RCGeometry
+   MultiView
+   HtmlSummary
+   CLAS12EventDisplay
+   EventNavHandler
 )
 
 set(lib_Fortran_files

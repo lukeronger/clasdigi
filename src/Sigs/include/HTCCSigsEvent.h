@@ -29,8 +29,8 @@ namespace clas12 {
             TDCSignal * AddTDCSignal(int ch, int v) ;
             ADCSignal * AddADCSignal(int ch, int v) ;
 
-            void Clear(Option_t * opt = "") override ;
-            void Print(Option_t * opt = "") const override ;
+            void Clear(Option_t * opt = "")  ;
+            void Print(Option_t * opt = "") const  ;
 
          ClassDef(HTCCSigsEvent,1)
       };

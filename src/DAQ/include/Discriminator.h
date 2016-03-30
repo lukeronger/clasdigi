@@ -32,9 +32,9 @@ namespace clas12 {
             virtual bool Count(double time); 
 
 
-            virtual void Reset(Option_t * o = "") override { Clear(o); }
-            virtual void Clear(Option_t * o = "") override;
-            virtual void Print(Option_t * o = "") const  override;
+            virtual void Reset(Option_t * o = "")  { Clear(o); }
+            virtual void Clear(Option_t * o = "") ;
+            virtual void Print(Option_t * o = "") const  ;
 
             std::vector< std::function<void()> >       fCallbacks;
             std::vector< std::function<void(double)> > fTriggerCallbacks;

@@ -24,8 +24,8 @@ namespace clas12 {
             ForwardHitMask();
             virtual ~ForwardHitMask();
 
-            void Clear(Option_t * opt = "" ) override;
-            void Print(Option_t * opt = "" ) const override;
+            void Clear(Option_t * opt = "" ) ;
+            void Print(Option_t * opt = "" ) const ;
 
          ClassDef(ForwardHitMask,1)
       };

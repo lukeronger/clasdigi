@@ -37,7 +37,7 @@ namespace clas12 {
 
             virtual ~CrateModule() { }
 
-            virtual void Clear(Option_t * opt = "") override { }
+            virtual void Clear(Option_t * opt = "")  { }
             virtual void Reset(Option_t * opt = "")  = 0;
 
             ClassDef(CrateModule,1)

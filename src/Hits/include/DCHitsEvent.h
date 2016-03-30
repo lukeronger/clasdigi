@@ -44,8 +44,8 @@ namespace clas12 {
             DriftChamberParticleHit * GetParticleHit(int );
             DriftChamberParticleHit * GetRegionHit(int );
 
-            void Clear(Option_t * opt = "") override ;
-            void Print(Option_t * opt = "") const override ;
+            void Clear(Option_t * opt = "")  ;
+            void Print(Option_t * opt = "") const  ;
 
          ClassDef(DCHitsEvent,3)
       };

@@ -19,8 +19,8 @@ namespace clas12 {
             virtual ~ModuleChannel();
 
             virtual void Reset(Option_t * o = ""){ Clear(o); }
-            virtual void Clear(Option_t * o = "") override ;
-            virtual void Print(Option_t * o = "") const  override ;
+            virtual void Clear(Option_t * o = "")  ;
+            virtual void Print(Option_t * o = "") const   ;
 
             ClassDef(ModuleChannel,1)
       };

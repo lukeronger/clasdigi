@@ -23,8 +23,8 @@ namespace clas12 {
             CLAS12SigsEvent();
             virtual ~CLAS12SigsEvent();
 
-            void Clear(Option_t * opt = "" ) override;
-            void Print(Option_t * opt = "" ) const override;
+            void Clear(Option_t * opt = "" ) ;
+            void Print(Option_t * opt = "" ) const ;
 
          ClassDef(CLAS12SigsEvent,1)
       };
