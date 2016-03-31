@@ -28,7 +28,7 @@ namespace clas12 {
             PhotonCounterHit& operator=(const PhotonCounterHit&) = default;
             PhotonCounterHit& operator=(PhotonCounterHit&&)      = default;
 
-            virtual void Print(Option_t * opt = "");
+            virtual void Print(Option_t * option = "");
 
             ClassDef(PhotonCounterHit,2)
       };

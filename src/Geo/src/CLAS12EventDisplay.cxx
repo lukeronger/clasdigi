@@ -93,17 +93,6 @@ void CLAS12EventDisplay::run_alice_esd()
 
    TEveManager::Create();
 
-   //--- define some materials
-   //TGeoMaterial *matVacuum = new TGeoMaterial("Vacuum", 0,0,0);
-   //TGeoMaterial *matAl = new TGeoMaterial("Al", 26.98,13,2.7);
-   ////   //--- define some media
-   //TGeoMedium *Vacuum = new TGeoMedium("Vacuum",1, matVacuum);
-   //TGeoMedium *Al = new TGeoMedium("Root Material",2, matAl);
-   //TGeoVolume *top = gGeoManager->MakeBox("TOP", Vacuum, 270., 270., 120.);
-   //gGeoManager->SetTopVolume(top);
-   //TGeoVolume *tub1 = gGeoManager->MakeTubs("tub1", Al, 5., 15., 5., 90., 270.);
-   //top->SetVisibility(kFALSE);
-   //top->AddNode(tub1, 1);
    TGeoManager::Import(esd_geom_file_name);
    //gGeoManager->DefaultColors();
 
@@ -112,33 +101,9 @@ void CLAS12EventDisplay::run_alice_esd()
    TEveGeoTopNode * anode = new TEveGeoTopNode(gGeoManager, node1);
    gEve->AddGlobalElement(anode);
 
-   //TEveGeoNode * anode = new TEveGeoNode(node1);
-   //TEveGeoShapeExtract* gse0 = new TEveGeoShapeExtract();
-   //gse0->SetShape(node1->->GetVolume()->GetShape());
-   //TEveGeoShape * anode = TEveGeoShape::ImportShapeExtract(gse, 0);
-   //anode->GetNode()->GetVolume()->SetVisibility(kFALSE);
-
    gMultiView = new MultiView;
 
-   //anode->ExpandIntoListTrees();
-   //if( anode->HasChildren() ) {
-   //   std::cout << " HASSSSSSSSSSSSSSSS\n";
-   //}
-   //gEve->Redraw3D(kTRUE); // Reset camera after the first event has been shown.
-   //anode->SaveExtract("test.root","alert",true);
-
-   //TEveGeoTopNode * bnode = new TEveGeoTopNode(gGeoManager, node1);
-   //gEve->AddGlobalElement(bnode);
-
-   //// Simple geometry
-   //TFile* geom = TFile::Open("test.root");
-   //if (!geom)
-   //   return;
-   //TEveGeoShapeExtract* gse = (TEveGeoShapeExtract*) geom->Get("alert");
-   //gGeomGentle = TEveGeoShape::ImportShapeExtract(gse, 0);
-   //gEve->AddGlobalElement(gGeomGentle);
-   //geom->Close();
-
+   TList * derp_list = new TList();
    //node1->GetVolume()->PrintNodes();
    TEveElementListProjected * an_element_list = new TEveElementListProjected();
    for(int iNode = 0; iNode<node1->GetNdaughters(); iNode++) {
@@ -146,10 +111,30 @@ void CLAS12EventDisplay::run_alice_esd()
          TEveGeoShapeExtract* gse = new TEveGeoShapeExtract( node1->GetDaughter(iNode)->GetName() );
          gse->SetShape(node1->GetDaughter(iNode)->GetVolume()->GetShape());
          TEveGeoShape * aGeo = TEveGeoShape::ImportShapeExtract(gse, 0);
+         aGeo->SetMainColor(2+iNode);
+         aGeo->SetMainTransparency(50);
          an_element_list->AddElement(aGeo);
+         derp_list->Add(aGeo);
       }
    }
-   gEve->AddGlobalElement(an_element_list);
+
+   TFile geo_out("geometry/alert_projection.root","RECREATE");
+   geo_out.cd();
+   geo_out.WriteObject(derp_list,"alert",0);
+   //derp_list->Write("alert");
+   geo_out.Close();
+
+   // Simple geometry
+   //TFile* geom =  TFile::Open("geometry/alert_projection.root");
+   //if (!geom)
+   //   return;
+   //TEveGeoShapeExtract* gse = (TEveGeoShapeExtract*) geom->Get("alert");
+   //gGeomGentle = TEveGeoShape::ImportShapeExtract(gse, 0);
+   //gEve->AddGlobalElement(gGeomGentle);
+   //geom->Close();
+
+   //gEve->AddGlobalElement(an_element_list);
+   gMultiView->f3DGeomScene->AddElement(an_element_list);
    gMultiView->ImportGeomRPhi(an_element_list);
    gMultiView->ImportGeomRhoZ(an_element_list);
 

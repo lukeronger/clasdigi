@@ -16,11 +16,13 @@ namespace clas12 {
          // Moving radial the structure goes like this:
          // window | gap | field wire | field gap | sense wire | field gap | field wire | gap | field wire ...
          // g fsf g ... g fsf g 
+         fNChannels = 0;
          for(int i = 0; i< NLayers; i++){
             // The inner radius for a given layer of wires
-            fCellInnerRadius[i] = (InnerRadius + InnerGap + double(i)*(2.0*DeltaR + LayerGap ));
-            fNCells[i]          = int(CLHEP::pi*fCellInnerRadius[i]/MaxWireSep);
-            fCellDeltaPhi[i]    = (2.*CLHEP::pi/double(fNCells[i]));
+            fCellInnerRadius[i]     = (InnerRadius + InnerGap + double(i)*(2.0*DeltaR + LayerGap ));
+            fNCells[i]              = int(CLHEP::pi*fCellInnerRadius[i]/MaxWireSep);
+            fCellDeltaPhi[i]        = (2.*CLHEP::pi/double(fNCells[i]));
+            fFirstChannelInLayer[i] = fNChannels;
             fNChannels += fNCells[i];
             double sign = 1.0;
             if(i%2==0) sign=1.;
@@ -34,11 +36,12 @@ namespace clas12 {
 
       void RCGeometry::Print()
       {
-         std::cout << "layer   Radius   cells   delta_phi   stereo"  << std::endl;
+         std::cout << "layer   Radius   cells  start_channel delta_phi   stereo"  << std::endl;
          for(int i = 0; i< NLayers; i++){
             std::cout << i << " "
               << fCellInnerRadius[i]/CLHEP::mm << " " 
               << fNCells[i]       << " " 
+              << fFirstChannelInLayer[i]       << " " 
               << fCellDeltaPhi[i]/CLHEP::degree << " " 
               << fCellStereoAngle[i]/CLHEP::degree << std::endl;
          }
@@ -46,7 +49,7 @@ namespace clas12 {
       //______________________________________________________________________________
 
       int  RCGeometry::GetWireLayer(int channel) const {
-         int res = 0;
+         int res  = 0;
          int chan = channel;
          for(auto n: fNCells) {
             //std::cout << n  << " cells" << std::endl;
@@ -70,7 +73,7 @@ namespace clas12 {
          //std::cout << " ch " << channel << std::endl;
          int     lay = GetWireLayer(channel);
          //std::cout << " lay " << lay << std::endl;
-         int     wire_number = channel - fNCells.at(lay);
+         int     wire_number = channel - fFirstChannelInLayer.at(lay);
          return wire_number*fCellDeltaPhi.at(lay);
       }
       //______________________________________________________________________________
@@ -80,7 +83,6 @@ namespace clas12 {
          return fCellStereoAngle.at(lay);
       }
       //______________________________________________________________________________
-
 
       Hep3Vector RCGeometry::GetFirstCellPosition(int layer, int subcell) const {
          double r    = fCellCentralRadius.at(layer);

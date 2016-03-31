@@ -34,6 +34,8 @@ class MultiView
    TEveViewer            *fRPhiView;
    TEveViewer            *fRhoZView;
 
+   TEveScene             *f3DGeomScene;
+   TEveScene             *f3DEventScene;
    TEveScene             *fRPhiGeomScene;
    TEveScene             *fRhoZGeomScene;
    TEveScene             *fRPhiEventScene;
@@ -49,6 +51,11 @@ class MultiView
       // Scenes
       //========
 
+
+      f3DGeomScene  = gEve->SpawnNewScene("3D Geometry",
+                                            "Scene holding projected geometry for the 3D view.");
+      f3DEventScene  = gEve->SpawnNewScene("3D event Geometry",
+                                            "Scene holding projected geometry for the 3D view.");
       fRPhiGeomScene  = gEve->SpawnNewScene("RPhi Geometry",
                                             "Scene holding projected geometry for the RPhi view.");
       fRhoZGeomScene  = gEve->SpawnNewScene("RhoZ Geometry",
@@ -98,8 +105,8 @@ class MultiView
       pack->SetShowTitleBar(kFALSE);
       pack->NewSlot()->MakeCurrent();
       f3DView = gEve->SpawnNewViewer("3D View", "");
-      f3DView->AddScene(gEve->GetGlobalScene());
-      f3DView->AddScene(gEve->GetEventScene());
+      f3DView->AddScene(f3DGeomScene);
+      f3DView->AddScene(f3DEventScene);
 
       pack = pack->NewSlot()->MakePack();
       pack->SetShowTitleBar(kFALSE);

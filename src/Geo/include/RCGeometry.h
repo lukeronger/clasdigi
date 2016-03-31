@@ -61,12 +61,14 @@ namespace clas12 {
             double InnerGap       = 1.0*mm;
             double LayerGap       = 1.4*mm;
 
-            std::array<double, 8>   fCellInnerRadius;
             std::array<int   , 8>   fNCells;
+            std::array<int   , 8>   fFirstChannelInLayer;
+            std::array<double, 8>   fCellInnerRadius;
             std::array<double, 8>   fCellDeltaPhi;
             std::array<double, 8>   fCellStereoAngle;
             std::array<double, 8>   fCellCentralRadius;
-            double fNChannels   ;
+
+            double fNChannels;
 
          public:
             RCGeometry();

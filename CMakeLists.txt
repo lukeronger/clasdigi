@@ -70,8 +70,8 @@ set(ClasDigi_CXX_LDFLAGS   "${ClasDigi_CXX_LDFLAGS} ${CMAKE_SHARED_LINKER_FLAGS}
 set(ClasDigi_CXX_INC_DIR   "-I${CMAKE_INSTALL_PREFIX}/include/ClasDigi ")
 
 #set (ClasDigi_COMPILER_FLAGS "-Wall")
-set(ClasDigi_COMPILER_FLAGS   "-Wno-unused-variable -Wno-unused-parameter")
-set(CMAKE_CXX_FLAGS         "-std=c++14 ${CMAKE_CXX_FLAGS} ${ClasDigi_COMPILER_FLAGS} ")
+set(ClasDigi_COMPILER_FLAGS   "-std=c++14 -Wno-unused-variable -Wno-unused-parameter -Wno-overloaded-virtual")
+
 
 set(ClasDigi_PDF_GRID_DIR     "${PROJECT_SOURCE_DIR}/main/grid")
 set(ClasDigi_GRID_DATA_DIR    "${ClasDigi_GRID_DATA_DIR} ${ClasDigi_PDF_GRID_DIR}")
@@ -137,7 +137,7 @@ find_package(CLHEP  REQUIRED)
 #  CLHEP_LIBRARIES    - libraries to link against
 set(CLHEP_LIBRARY_DIR $ENV{JLAB_PREFIX}/lib)
 include_directories(${CLHEP_INCLUDE_DIR})
-#message(" CLHEP_DEFINITIONS = ${CLHEP_DEFINITIONS} " )
+message(" CLHEP_DEFINITIONS = ${CLHEP_DEFINITIONS} " )
 
 # EVIO
 #set(EVIO_INCLUDE_DIR $ENV{JLAB_PREFIX}/include)
@@ -171,6 +171,9 @@ include_directories(
 
 #----------------------------------------------------------------------------
 # not sure this is the best way to do this....
+
+set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} ${ClasDigi_COMPILER_FLAGS} ")
+
 set(ClasDigi_FC_CFLAGS "${ClasDigi_FC_CFLAGS} ${CMAKE_Fortran_FLAGS}")
 #set(CMAKE_Fortran_FLAGS " -D\"ClasDigi_PDF_GRID_DIR='${ClasDigi_PDF_GRID_DIR}'\" -g -O2 -Wall -fPIC -Iinclude -ffixed-line-length-none -x f77-cpp-input ")
 set(CMAKE_Fortran_FLAGS " -D\"ClasDigi_PDF_GRID_DIR='${ClasDigi_PDF_GRID_DIR}'\" -g -O2 -Wall  -ffixed-line-length-none -x f77-cpp-input ")

@@ -24,6 +24,7 @@ set(lib_files
    DCGeometry
    DCWire
    RCGeometry
+   RHGeometry
    MultiView
    HtmlSummary
    CLAS12EventDisplay
