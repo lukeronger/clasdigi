@@ -19,6 +19,17 @@ namespace clas12 {
             int      fEC           = 0;
             int      fPC           = 0;
             int      fDC           = 0;
+            int      fSVT          = 0;
+            int      fBMT          = 0;
+            int      fRC           = 0;
+            int      fRH           = 0;
+
+            int      fStatus        = 0;
+            int      fFowardStatus  = 0;
+            int      fCentralStatus = 0;
+
+            int      fNGoodTracks   = 0;
+            int      fElectron      = 0;
 
          public:
             EventHitMask();

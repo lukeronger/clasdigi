@@ -13,13 +13,23 @@ clas12::hits::EventHitMask::~EventHitMask()
 //______________________________________________________________________________
 void clas12::hits::EventHitMask::Clear(Option_t * opt) 
 {
-   fRunNumber    = 0;
    fEventNumber  = 0;
 
    fHTCC         = 0;
    fEC           = 0;
    fPC           = 0;
    fDC           = 0;
+   fSVT          = 0;
+   fBMT          = 0;
+   fRC           = 0;
+   fRH           = 0;
+
+   fStatus        = 0;
+   fFowardStatus  = 0;
+   fCentralStatus = 0;
+
+   fNGoodTracks   = 0;
+   fElectron      = 0;
 }
 //______________________________________________________________________________
 
