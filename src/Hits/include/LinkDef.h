@@ -16,6 +16,8 @@
 #pragma link C++ class clas12::hits::DCHitsEvent+;
 #pragma link C++ class clas12::hits::RCHitsEvent+;
 #pragma link C++ class clas12::hits::ForwardHitMask+;
+#pragma link C++ class clas12::hits::EventHitMask+;
+#pragma link C++ class clas12::hits::SVTEvent+;
 
 #pragma link C++ class clas12::hits::RecoilScintHit+;
 #pragma link C++ class clas12::hits::PhotonHit+;

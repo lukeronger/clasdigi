@@ -4,7 +4,7 @@
 
 
 clas12::hits::ParticleHit::ParticleHit() : 
-   fChannel(0),fPDGCode(0) { }
+   fChannel(0),fPDGCode(0),fTrackID(0) { }
 //______________________________________________________________________________
 
 clas12::hits::ParticleHit::~ParticleHit() { }

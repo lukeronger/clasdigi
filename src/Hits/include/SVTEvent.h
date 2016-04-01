@@ -1,5 +1,5 @@
-#ifndef clas12_hits_RecoilScintEvent_HH
-#define clas12_hits_RecoilScintEvent_HH 1
+#ifndef clas12_hits_SVTEvent_HH
+#define clas12_hits_SVTEvent_HH 1
 
 #include "TObject.h"
 #include "TClonesArray.h"
@@ -14,7 +14,7 @@ namespace clas12 {
 
    namespace hits {
 
-      class RecoilScintEvent : public TObject {
+      class SVTEvent : public TObject {
 
          public:
             int            fRunNumber;
@@ -33,8 +33,8 @@ namespace clas12 {
             std::map<int,ScintChannelHit>   fScintChannelHits;
 
          public:
-            RecoilScintEvent();
-            virtual ~RecoilScintEvent();
+            SVTEvent();
+            virtual ~SVTEvent();
 
             RecoilScintHit * AddHit(int chan = 0);
             RecoilScintHit * GetHit(int i);
@@ -51,7 +51,7 @@ namespace clas12 {
             void Clear(Option_t * opt = "")  ;
             void Print(Option_t * opt = "") const  ;
 
-         ClassDef(RecoilScintEvent,7)
+         ClassDef(SVTEvent,6)
       };
 
    }

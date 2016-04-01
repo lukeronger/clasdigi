@@ -21,6 +21,7 @@ namespace clas12 {
             double          fStepLength;     // Step length used to determine ion pair probabilty
             int             fChannel;        // Channel number .
             int             fPDGCode;        // PDG code of particle.
+            int             fTrackID;        // track id of particle.
             TLorentzVector  fPosition;       // Location where ion pair was produced position and time 
             TLorentzVector  fGlobalPosition; // Global position in hall coordinates.
             DCWire          fDCWire;         // Wire 
@@ -29,7 +30,7 @@ namespace clas12 {
             virtual ~DriftChamberIonPairHit();
             void Print();
 
-            ClassDef(DriftChamberIonPairHit,2)
+            ClassDef(DriftChamberIonPairHit,3)
       };
 
    }

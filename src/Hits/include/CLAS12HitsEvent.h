@@ -8,6 +8,8 @@
 #include "RCHitsEvent.h"
 #include "ECHitsEvent.h"
 #include "RecoilScintEvent.h"
+#include "SVTEvent.h"
+#include "EventHitMask.h"
 
 namespace clas12 {
 
@@ -24,6 +26,9 @@ namespace clas12 {
             DCHitsEvent      fDCEvent;
             RCHitsEvent      fRCEvent;
             RecoilScintEvent fRecoilScintEvent;
+            SVTEvent         fSVTEvent;
+
+            EventHitMask     fHitMask;
 
          public:
             CLAS12HitsEvent();

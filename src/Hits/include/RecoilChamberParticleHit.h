@@ -14,6 +14,7 @@ namespace clas12 {
          public : 
             int             fChannel;        // Channel number .
             int             fPDGCode;        // PDG code of particle.
+            int             fTrackID;        // track id.
             TLorentzVector  fPosition;       //  
             TLorentzVector  fGlobalPosition; //  
             TLorentzVector  fMomentum;       // 

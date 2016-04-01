@@ -17,6 +17,9 @@ void clas12::hits::CLAS12HitsEvent::Clear(Option_t * opt)
    fDCEvent.Clear(opt);
    fRCEvent.Clear(opt);
    fECEvent.Clear(opt);
+   fRecoilScintEvent.Clear(opt);
+   fSVTEvent.Clear(opt);
+   fHitMask.Clear(opt);
 }
 //______________________________________________________________________________
 

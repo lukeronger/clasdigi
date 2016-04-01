@@ -39,6 +39,8 @@ set(lib_files
    PhotonHit
    PhotonCounterHit
    ForwardHitMask
+   EventHitMask
+   SVTEvent
 )
 
 set(lib_Fortran_files

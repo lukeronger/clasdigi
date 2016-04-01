@@ -13,16 +13,17 @@ namespace clas12 {
       class RecoilScintHit : public TObject {
          public: 
             int             fChannel;        // Channel number .
+            int             fPDGCode;        // PDG code of particle.
+            int             fTrackID;        // track id.
             double          fTime;
             double          fLambda;
-            int             fPDGCode;        // PDG code of particle.
 
          public: 
             RecoilScintHit();
             virtual ~RecoilScintHit();
             void Print();
 
-            ClassDef(RecoilScintHit,2)
+            ClassDef(RecoilScintHit,3)
       };
 
    }

@@ -29,6 +29,7 @@ set(lib_files
    HtmlSummary
    CLAS12EventDisplay
    EventNavHandler
+   SiVertexTrackerGeometry
 )
 
 set(lib_Fortran_files

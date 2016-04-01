@@ -10,6 +10,9 @@
 #pragma link C++ namespace clas12::geo;
 #pragma link C++ namespace clas12::geo::DC;
 
+#pragma link C++ namespace eic;
+#pragma link C++ namespace eic::geo;
+
 #pragma link C++ class clas12::geo::DCWire+;
 #pragma link C++ class clas12::geo::DCSuperLayer+;
 
