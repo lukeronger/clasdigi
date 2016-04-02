@@ -14,12 +14,11 @@
 #pragma link C++ namespace eic::geo;
 
 
-#pragma link C++ class std::map<clas12::geo::DCSuperLayer, TH2Poly*>+;
-#pragma link C++ class std::unordered_map<clas12::geo::DCSuperLayer, TH2Poly*>+;
 
 #pragma link C++ function clas12::geo::CosAngle2( double , double , double , double , double , double );
 
-#pragma link C++ class clas12::geo::RCWire+;
+//#pragma link C++ class clas12::geo::RCWire+;
+
 #pragma link C++ class CLAS12EventDisplay+;
 
 

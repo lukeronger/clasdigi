@@ -12,6 +12,9 @@
 #pragma link C++ class clas12::hits::DCWire+;
 #pragma link C++ class clas12::hits::DCSuperLayer+;
 
+#pragma link C++ class std::map<clas12::hits::DCSuperLayer, TH2Poly*>+;
+#pragma link C++ class std::unordered_map<clas12::hits::DCSuperLayer, TH2Poly*>+;
+
 #pragma link C++ class clas12::hits::TriggerEvent+;
 #pragma link C++ class clas12::hits::CLAS12HitsEvent+;
 #pragma link C++ class clas12::hits::HTCCHitsEvent+;
@@ -35,10 +38,10 @@
 #pragma link C++ function clas12::hits::P_j_ion_pair(double, int, double);
 #pragma link C++ function clas12::hits::does_step_create_ion_pair(double, int, double);
 
+#pragma link C++ class clas12::hits::ParticleHit+;
 #pragma link C++ class clas12::hits::DriftChamberIonPairHit+;
 #pragma link C++ class clas12::hits::DriftChamberParticleHit+;
 #pragma link C++ class clas12::hits::RecoilChamberParticleHit+;
-#pragma link C++ class clas12::hits::ParticleHit+;
 
 //#pragma link C++ class clas12::DriftChamberIonPairHit+;
 

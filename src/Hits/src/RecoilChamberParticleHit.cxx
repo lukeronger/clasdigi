@@ -3,8 +3,7 @@
 #include "TMath.h"
 
 
-clas12::hits::RecoilChamberParticleHit::RecoilChamberParticleHit() : 
-   fChannel(0),fPDGCode(0) { }
+clas12::hits::RecoilChamberParticleHit::RecoilChamberParticleHit() { }
 //______________________________________________________________________________
 
 clas12::hits::RecoilChamberParticleHit::~RecoilChamberParticleHit() { }
