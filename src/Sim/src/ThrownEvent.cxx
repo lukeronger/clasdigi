@@ -27,6 +27,14 @@ TParticle * clas12::sim::ThrownEvent::AddParticle()
 }
 //______________________________________________________________________________
 
+TParticle * clas12::sim::ThrownEvent::AddParticle(const TParticle* p)
+{
+   TParticle * part = AddParticle();
+   (*part) = (*p);
+   return part;
+}
+//______________________________________________________________________________
+
 TParticle * clas12::sim::ThrownEvent::GetParticle(int i)
 {
    if( i < fNParticles) {

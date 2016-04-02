@@ -24,6 +24,7 @@ namespace clas12 {
             int            fNParticleHits;
             int            fNPhotonHits;
             int            fNChannelHits;
+
             TClonesArray * fHits;           //->
             TClonesArray * fParticleHits;   //->
             TClonesArray * fPhotonHits;     //->

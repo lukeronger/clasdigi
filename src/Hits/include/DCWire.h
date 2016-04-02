@@ -1,5 +1,5 @@
-#ifndef clas12_geo_DCWire_HH
-#define clas12_geo_DCWire_HH 1
+#ifndef clas12_hits_DCWire_HH
+#define clas12_hits_DCWire_HH 1
 
 #include "TNamed.h"
 #include "TBrowser.h"
@@ -17,7 +17,7 @@
 
 namespace clas12 {
 
-   namespace geo {
+   namespace hits {
 
       class DCSuperLayer {
          public:

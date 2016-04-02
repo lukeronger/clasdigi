@@ -3,8 +3,7 @@
 #include "TMath.h"
 
 
-clas12::hits::DriftChamberParticleHit::DriftChamberParticleHit() : 
-   fPDGCode(0), fTrackID(0) { }
+clas12::hits::DriftChamberParticleHit::DriftChamberParticleHit() { }
 //______________________________________________________________________________
 
 clas12::hits::DriftChamberParticleHit::~DriftChamberParticleHit() { }

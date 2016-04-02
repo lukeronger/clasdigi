@@ -24,7 +24,7 @@ namespace clas12 {
 
             void Print();
 
-            ClassDef(ParticleHit,1)
+            ClassDef(ParticleHit,2)
       };
 
    }

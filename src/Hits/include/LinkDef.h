@@ -9,6 +9,9 @@
 #pragma link C++ namespace clas12;
 #pragma link C++ namespace clas12::hits;
 
+#pragma link C++ class clas12::hits::DCWire+;
+#pragma link C++ class clas12::hits::DCSuperLayer+;
+
 #pragma link C++ class clas12::hits::TriggerEvent+;
 #pragma link C++ class clas12::hits::CLAS12HitsEvent+;
 #pragma link C++ class clas12::hits::HTCCHitsEvent+;

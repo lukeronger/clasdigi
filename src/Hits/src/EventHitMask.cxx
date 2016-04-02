@@ -19,10 +19,16 @@ void clas12::hits::EventHitMask::Clear(Option_t * opt)
    fEC           = 0;
    fPC           = 0;
    fDC           = 0;
+   fFT           = 0;
+   fFTOF         = 0;
    fSVT          = 0;
    fBMT          = 0;
    fRC           = 0;
    fRH           = 0;
+
+   fDCSectors.clear();
+   fECSectors.clear();
+   fFTOFSectors.clear();
 
    fStatus        = 0;
    fFowardStatus  = 0;

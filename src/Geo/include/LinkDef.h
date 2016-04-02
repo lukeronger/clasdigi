@@ -13,8 +13,6 @@
 #pragma link C++ namespace eic;
 #pragma link C++ namespace eic::geo;
 
-#pragma link C++ class clas12::geo::DCWire+;
-#pragma link C++ class clas12::geo::DCSuperLayer+;
 
 #pragma link C++ class std::map<clas12::geo::DCSuperLayer, TH2Poly*>+;
 #pragma link C++ class std::unordered_map<clas12::geo::DCSuperLayer, TH2Poly*>+;

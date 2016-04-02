@@ -34,6 +34,9 @@ namespace clas12 {
             CLAS12HitsEvent();
             virtual ~CLAS12HitsEvent();
 
+            void SetRunNumber(  int n);
+            void SetEventNumber(int n);
+
             void Clear(Option_t * opt = "" ) ;
             void Print(Option_t * opt = "" ) const ;
 

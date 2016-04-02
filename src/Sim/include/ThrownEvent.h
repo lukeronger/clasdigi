@@ -24,9 +24,14 @@ namespace clas12 {
 
          public :
             ThrownEvent();
+            //ThrownEvent(const ThrownEvent&) = default;
+            //ThrownEvent(ThrownEvent&&)      = default;
+            //ThrownEvent& operator=(const ThrownEvent&) = default;
+            //ThrownEvent& operator=(ThrownEvent&&)      = default;
             virtual ~ThrownEvent();
 
             TParticle * AddParticle();
+            TParticle * AddParticle(const TParticle*);
             TParticle * GetParticle(int i);
             int         GetNParticles() const {return fNParticles;}
 

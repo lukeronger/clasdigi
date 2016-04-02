@@ -20,10 +20,10 @@ bool clas12::hits::does_step_create_ion_pair(double y, int j, double k) {
 //______________________________________________________________________________
 
 clas12::hits::DriftChamberIonPairHit::DriftChamberIonPairHit(
-      double x,double y,double z,double t) : 
-   fStepLength(0.0), fChannel(0), fPDGCode(0), fTrackID(0),
-   fPosition(x,y,z,t), fGlobalPosition(0,0,0,0)
-{ }
+      double x,double y,double z,double t) : fStepLength(0.0)
+{
+   fPosition = {x,y,z,t};
+}
 //______________________________________________________________________________
 
 clas12::hits::DriftChamberIonPairHit::~DriftChamberIonPairHit() { }

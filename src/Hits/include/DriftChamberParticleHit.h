@@ -4,21 +4,21 @@
 #include "TObject.h"
 #include "TLorentzVector.h"
 #include "DCWire.h"
+#include "ParticleHit.h"
 
 namespace clas12 {
 
    namespace hits {
 
-      using clas12::geo::DCWire;
-
-      class DriftChamberParticleHit : public TObject {
+      class DriftChamberParticleHit : public ParticleHit {
 
          public : 
-            int             fPDGCode;        // PDG code of particle.
-            int             fTrackID;        //
-            TLorentzVector  fPosition;       // Location where ion pair was produced position and time 
-            TLorentzVector  fGlobalPosition; // Location where ion pair was produced position and time 
-            TLorentzVector  fMomentum;       // Momentum vector
+            //int             fChannel;        // Channel number .
+            //int             fPDGCode;        // PDG code of particle.
+            //int             fTrackID;        // track id of particle.
+            //TLorentzVector  fPosition;       //  
+            //TLorentzVector  fGlobalPosition; //  
+            //TLorentzVector  fMomentum;       // 
             DCWire          fDCWire;         // Wire 
 
             DriftChamberParticleHit();
@@ -26,7 +26,7 @@ namespace clas12 {
 
             void Print();
 
-            ClassDef(DriftChamberParticleHit,2)
+            ClassDef(DriftChamberParticleHit,3)
       };
 
    }
