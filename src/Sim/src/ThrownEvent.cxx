@@ -149,7 +149,7 @@ int clas12::sim::ThrownEvent::ReadLundParticle(std::ifstream& in)
 
    part->SetPdgCode(pdg);
    part->SetMomentum(px,py,pz,E);
-   part->SetProductionVertex(vx,vy,vz,0.0);
+   part->SetProductionVertex(vx*100.0, vy*100.0, vz*100.0, 0.0);
    //part->Print();
 
    return iLund;

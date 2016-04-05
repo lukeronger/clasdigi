@@ -31,7 +31,7 @@ void clas12::hits::EventHitMask::Clear(Option_t * opt)
    fFTOFSectors.clear();
 
    fStatus        = 0;
-   fFowardStatus  = 0;
+   fForwardStatus  = 0;
    fCentralStatus = 0;
 
    fNGoodTracks   = 0;

@@ -6,11 +6,12 @@
 
 #pragma link C++ nestedclass;
 
-//#pragma link C++ namespace clas12;
-//#pragma link C++ namespace clas12::geo;
-//#pragma link C++ namespace clas12::geo::DC;
+#pragma link C++ namespace kinematics;
+
+#pragma link C++ class kinematics::ElectronKinematics+;
 
 #pragma link C++ class DVCSKinematics+;
+
 //#pragma link C++ class clas12::geo::DCSuperLayer+;
 ////#pragma link C++ class std::set<clas12::geo::DCSuperLayer, TH2Poly*>+;
 ////#pragma link C++ class std::unordered_set<clas12::geo::DCSuperLayer, TH2Poly*>+;

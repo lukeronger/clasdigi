@@ -33,7 +33,7 @@ namespace clas12 {
             std::map<int,int>   fFTOFSectors;
 
             int      fStatus        = 0;
-            int      fFowardStatus  = 0;
+            int      fForwardStatus = 0;
             int      fCentralStatus = 0;
 
             int      fNGoodTracks   = 0;

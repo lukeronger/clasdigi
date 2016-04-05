@@ -15,6 +15,7 @@ namespace clas12 {
          public:
             int          fRunNumber    = 0;
             int          fNSimulated   = 0;
+            double       fBeamEnergy   = 11.0;
             std::string  fInputFileName;
             std::string  fInputTreeName;
             std::string  fOutputFileName;
