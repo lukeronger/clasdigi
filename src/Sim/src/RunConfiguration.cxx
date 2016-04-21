@@ -2,46 +2,76 @@
 #include <iomanip>
 #include <iostream>
 
+//#include "json.hpp"
+//using json = nlohmann::json;
 
-clas12::sim::RunConfiguration::RunConfiguration(const char * n, const char * t, int run) : 
-   TNamed(n,t), fRunNumber(run), fNSimulated(0), 
-   fInputFileName(""),  fInputTreeName(""),
-   fOutputFileName(""), fOutputTreeName("")
-{ } 
-//______________________________________________________________________________
+namespace clas12 {
+   namespace sim {
 
-clas12::sim::RunConfiguration::RunConfiguration(const char * n, int run) : 
-   TNamed(n,n), fRunNumber(run)
-{ } 
-//______________________________________________________________________________
+      RunConfiguration::RunConfiguration(const char * n, const char * t, int run) : 
+         TNamed(n,t), fRunNumber(run), fNSimulated(0), 
+         fInputFileName(""),  fInputTreeName(""),
+         fOutputFileName(""), fOutputTreeName("")
+      {
+      } 
+      //______________________________________________________________________________
+
+      RunConfiguration::RunConfiguration(const char * n, int run) : 
+         TNamed(n,n), fRunNumber(run)
+      { } 
+      //______________________________________________________________________________
 
 
-clas12::sim::RunConfiguration::RunConfiguration(int run) : fRunNumber(run)
-{ } 
-//______________________________________________________________________________
+      RunConfiguration::RunConfiguration(int run) : fRunNumber(run)
+      { } 
+      //______________________________________________________________________________
 
-clas12::sim::RunConfiguration::~RunConfiguration()
-= default; 
-//______________________________________________________________________________
+      RunConfiguration::~RunConfiguration() = default; 
+      //______________________________________________________________________________
 
-void clas12::sim::RunConfiguration::Print(std::ostream& s) const
-{
-   s  << std::right << std::setw(10) << "N events" << " : " 
-      << std::left  << std::setw(60) << fNSimulated << "\n"
-      << std::right << std::setw(10) << "input file" << " : " 
-      << std::left  << std::setw(60) << fInputFileName << "\n"
-      << std::right << std::setw(10) << "input tree" << " : " 
-      << std::left  << std::setw(60) << fInputTreeName << "\n"
-      << std::right << std::setw(10) << "output file" << " : " 
-      << std::left  << std::setw(60) << fOutputFileName << "\n"
-      << std::right << std::setw(10) << "output tree" << " : " 
-      << std::left  << std::setw(60) << fOutputTreeName << "\n";
+      void RunConfiguration::Print(std::ostream& s) const
+      {
+         s  << std::right << std::setw(10) << "N events" << " : " 
+            << std::left  << std::setw(60) << fNSimulated << "\n"
+            << std::right << std::setw(10) << "input file" << " : " 
+            << std::left  << std::setw(60) << fInputFileName << "\n"
+            << std::right << std::setw(10) << "input tree" << " : " 
+            << std::left  << std::setw(60) << fInputTreeName << "\n"
+            << std::right << std::setw(10) << "output file" << " : " 
+            << std::left  << std::setw(60) << fOutputFileName << "\n"
+            << std::right << std::setw(10) << "output tree" << " : " 
+            << std::left  << std::setw(60) << fOutputTreeName << "\n";
+      }
+      //______________________________________________________________________________
+
+      void RunConfiguration::Print(Option_t *  /*opt*/) const
+      {
+         Print(std::cout);
+      }
+      //______________________________________________________________________________
+      
+      //void RunConfiguration::Additional(std::string name, std::string value)
+      //{
+      //   fAdditionalJSON[name] = value;
+      //}
+      ////______________________________________________________________________________
+
+      //json RunConfiguration::JSON()
+      //{
+      //   fJSON["run_number"]  = fRunNumber;
+      //   fJSON["input_file"]  = fInputFileName;
+      //   fJSON["input_tree"]  = fInputTreeName;
+      //   fJSON["output_file"] = fOutputFileName;
+      //   fJSON["output_tree"] = fOutputTreeName;
+      //   fJSON["n_events_simulated"]    = fNSimulated;
+      //   fJSON[""]    = fNSimulated;
+      //   for (json::iterator it = fAdditionalJSON.begin(); it != fAdditionalJSON.end(); ++it) {
+      //        std::cout << it.key() << " : " << it.value() << "\n";
+      //        fJSON[ it.key() ] =  it.value();
+      //   }
+      //   return & fJSON;
+      //}
+      //______________________________________________________________________________
+   }
 }
-//______________________________________________________________________________
-
-void clas12::sim::RunConfiguration::Print(Option_t *  /*opt*/) const
-{
-   Print(std::cout);
-}
-//______________________________________________________________________________
 

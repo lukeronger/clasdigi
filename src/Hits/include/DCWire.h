@@ -141,7 +141,7 @@ namespace clas12 {
 
             void Print(Option_t * opt = "") const;
 
-            ClassDef(DCWire,3)
+            ClassDef(DCWire,4)
       };
       //________________________________________________________________________
 

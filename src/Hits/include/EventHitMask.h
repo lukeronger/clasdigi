@@ -28,9 +28,9 @@ namespace clas12 {
             int      fRC           = 0;
             int      fRH           = 0;
 
-            std::map<int,int>   fDCSectors;
-            std::map<int,int>   fECSectors;
-            std::map<int,int>   fFTOFSectors;
+            //std::map<int,int>   fDCSectors;
+            //std::map<int,int>   fECSectors;
+            //std::map<int,int>   fFTOFSectors;
 
             int      fStatus        = 0;
             int      fForwardStatus = 0;
@@ -46,7 +46,7 @@ namespace clas12 {
             void Clear(Option_t * opt = "" ) ;
             void Print(Option_t * opt = "" ) const ;
 
-         ClassDef(EventHitMask,1)
+         ClassDef(EventHitMask,3)
       };
 
    }

@@ -72,7 +72,8 @@ if(PROJECT_USE_ROOT6)
 endif(PROJECT_USE_ROOT6)
 
 file(GLOB template_headers ${PROJECT_SOURCE_DIR}/src/${aname}/include/*.hxx)
-SET(lib_HEADERS ${lib_HEADERS} ${template_headers})
+file(GLOB headeronly_headers ${PROJECT_SOURCE_DIR}/src/${aname}/include/*.hpp)
+SET(lib_HEADERS ${lib_HEADERS} ${template_headers} ${headeronly_headers})
 install(
    FILES ${lib_HEADERS} 
    DESTINATION include/${PROJECT_NAME} )

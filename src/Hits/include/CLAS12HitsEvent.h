@@ -29,6 +29,8 @@ namespace clas12 {
             SVTEvent         fSVTEvent;
 
             EventHitMask     fHitMask;
+            int              fNTrackHitMasks;
+            TClonesArray   * fTrackHitMasks; //->
 
          public:
             CLAS12HitsEvent();
@@ -40,7 +42,11 @@ namespace clas12 {
             void Clear(Option_t * opt = "" ) ;
             void Print(Option_t * opt = "" ) const ;
 
-         ClassDef(CLAS12HitsEvent,5)
+            EventHitMask * AddTrackHitMask();
+            EventHitMask * GetTrackHitMask(int );
+            EventHitMask * TrackHitMask(int );
+
+         ClassDef(CLAS12HitsEvent,7)
       };
 
    }

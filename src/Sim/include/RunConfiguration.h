@@ -6,18 +6,25 @@
 #include <string>
 #include <iostream>
 
+
 namespace clas12 {
 
    namespace sim {
 
       class RunConfiguration : public TNamed {
 
+//#include "json.hpp"
+//         using json = nlohmann::json;
+//         protected:
+//            json         fJSON;
+//            json         fAdditionalJSON;
+
          public:
             int          fRunNumber    = 0;
             int          fNSimulated   = 0;
             double       fBeamEnergy   = 11.0;
-            std::string  fInputFileName;
-            std::string  fInputTreeName;
+            std::string  fInputFileName ;
+            std::string  fInputTreeName ;
             std::string  fOutputFileName;
             std::string  fOutputTreeName;
 
@@ -45,7 +52,11 @@ namespace clas12 {
                //b->Add(&fDetectors, "Detectors");
             }
 
-            ClassDef(RunConfiguration,2)
+            // Todo: make template
+            //void Additional(std::string name, std::string value);
+            //void JSON();
+
+            ClassDef(RunConfiguration,4)
       };
 
    }

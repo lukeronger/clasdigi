@@ -10,16 +10,15 @@
 #pragma link C++ namespace clas12::geo;
 #pragma link C++ namespace clas12::geo::DC;
 
-#pragma link C++ namespace eic;
-#pragma link C++ namespace eic::geo;
-
-
 
 #pragma link C++ function clas12::geo::CosAngle2( double , double , double , double , double , double );
 
 //#pragma link C++ class clas12::geo::RCWire+;
 
 #pragma link C++ class CLAS12EventDisplay+;
+
+#pragma link C++ namespace eic;
+#pragma link C++ namespace eic::geo;
 
 
 //#pragma link C++ function clas12::DriftChamber::P_j_ion_pair(double, int, double);

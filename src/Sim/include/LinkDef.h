@@ -9,6 +9,9 @@
 #pragma link C++ namespace clas12;
 #pragma link C++ namespace clas12::sim;
 
+//#pragma link C++ namespace nlohmann;
+//#pragma link C++ class nlohmann::json+;
+
 #pragma link C++ class clas12::sim::ThrownEvent+;
 #pragma link C++ class clas12::sim::RunConfiguration+;
 

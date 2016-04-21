@@ -16,7 +16,6 @@
 #pragma link C++ class std::unordered_map<clas12::hits::DCSuperLayer, TH2Poly*>+;
 
 #pragma link C++ class clas12::hits::TriggerEvent+;
-#pragma link C++ class clas12::hits::CLAS12HitsEvent+;
 #pragma link C++ class clas12::hits::HTCCHitsEvent+;
 #pragma link C++ class clas12::hits::ECHitsEvent+;
 #pragma link C++ class clas12::hits::DCHitsEvent+;
@@ -43,14 +42,10 @@
 #pragma link C++ class clas12::hits::DriftChamberParticleHit+;
 #pragma link C++ class clas12::hits::RecoilChamberParticleHit+;
 
-//#pragma link C++ class clas12::DriftChamberIonPairHit+;
-
-//#pragma link C++ class Event+;
-//#pragma link C++ class HistogramManager+;
-//#pragma link C++ class Track+;
-
 #pragma link C++ class std::map<int,clas12::hits::PhotonCounterHit>+;
 #pragma link C++ class std::map<int,clas12::hits::ScintChannelHit>+;
+
+#pragma link C++ class clas12::hits::CLAS12HitsEvent+;
  
  
 #endif

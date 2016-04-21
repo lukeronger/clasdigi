@@ -11,6 +11,7 @@ clas12::hits::EventHitMask::EventHitMask() :
 clas12::hits::EventHitMask::~EventHitMask()
 { } 
 //______________________________________________________________________________
+
 void clas12::hits::EventHitMask::Clear(Option_t * opt) 
 {
    fEventNumber  = 0;
@@ -26,9 +27,9 @@ void clas12::hits::EventHitMask::Clear(Option_t * opt)
    fRC           = 0;
    fRH           = 0;
 
-   fDCSectors.clear();
-   fECSectors.clear();
-   fFTOFSectors.clear();
+   //fDCSectors.clear();
+   //fECSectors.clear();
+   //fFTOFSectors.clear();
 
    fStatus        = 0;
    fForwardStatus  = 0;
