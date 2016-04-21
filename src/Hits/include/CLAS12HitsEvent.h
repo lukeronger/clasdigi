@@ -25,7 +25,7 @@ namespace clas12 {
             ECHitsEvent      fECEvent;
             DCHitsEvent      fDCEvent;
             RCHitsEvent      fRCEvent;
-            RecoilScintEvent fRecoilScintEvent;
+            RecoilScintEvent fRHEvent;
             SVTEvent         fSVTEvent;
 
             EventHitMask     fHitMask;
@@ -46,7 +46,7 @@ namespace clas12 {
             EventHitMask * GetTrackHitMask(int );
             EventHitMask * TrackHitMask(int );
 
-         ClassDef(CLAS12HitsEvent,7)
+         ClassDef(CLAS12HitsEvent,8)
       };
 
    }

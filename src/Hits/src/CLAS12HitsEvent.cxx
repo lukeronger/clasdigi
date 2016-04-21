@@ -23,7 +23,7 @@ void clas12::hits::CLAS12HitsEvent::SetRunNumber(int n)
    fDCEvent.fRunNumber          = n;
    fRCEvent.fRunNumber          = n;
    fECEvent.fRunNumber          = n;
-   fRecoilScintEvent.fRunNumber = n;
+   fRHEvent.fRunNumber = n;
    fSVTEvent.fRunNumber         = n;
    fHitMask.fRunNumber          = n;
 }
@@ -36,7 +36,7 @@ void clas12::hits::CLAS12HitsEvent::SetEventNumber(int n)
    fDCEvent.fEventNumber          = n;
    fRCEvent.fEventNumber          = n;
    fECEvent.fEventNumber          = n;
-   fRecoilScintEvent.fEventNumber = n;
+   fRHEvent.fEventNumber = n;
    fSVTEvent.fEventNumber         = n;
    fHitMask.fEventNumber          = n;
 }
@@ -48,7 +48,7 @@ void clas12::hits::CLAS12HitsEvent::Clear(Option_t * opt)
    fDCEvent.Clear(opt);
    fRCEvent.Clear(opt);
    fECEvent.Clear(opt);
-   fRecoilScintEvent.Clear(opt);
+   fRHEvent.Clear(opt);
    fSVTEvent.Clear(opt);
    fHitMask.Clear(opt);
    fEventNumber    = 0;
@@ -75,8 +75,7 @@ clas12::hits::EventHitMask * clas12::hits::CLAS12HitsEvent::AddTrackHitMask()
 
 clas12::hits::EventHitMask * clas12::hits::CLAS12HitsEvent::GetTrackHitMask(int i)
 {
-   int nhit = fNTrackHitMasks;
-   if( i < fNTrackHitMasks ){
+   if( (i < fNTrackHitMasks) && (i >= 0) ){
       return( (EventHitMask*)((*fTrackHitMasks)[i]) );
    } else {
       return nullptr;
@@ -89,6 +88,13 @@ clas12::hits::EventHitMask * clas12::hits::CLAS12HitsEvent::TrackHitMask(int i)
    //std::cout << " get track hit mask " << i << std::endl;
    int nhit = fNTrackHitMasks;
    //std::cout << " nhit " << nhit << std::endl;
+   if( i<0 ) {
+      Error("TrackHitMask","Index i=%d, is out of range.",i);
+      return nullptr;
+   }
+   if( i>100 ) {
+      Warning("TrackHitMask","Index i=%d, is way too big!",i);
+   }
    if( i < fNTrackHitMasks ){
       //std::cout << "mask exists\n";
       return( (clas12::hits::EventHitMask*)(*fTrackHitMasks)[i] );
