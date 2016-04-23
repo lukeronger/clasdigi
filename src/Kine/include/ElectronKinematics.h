@@ -55,6 +55,13 @@ namespace kinematics {
          TVector3       q_vector() const { return((fk1-fk2).Vect()); }
          double         theta_q()  const { return(q_vector().Theta()); }
 
+         // target in moving frame
+         double         x_true()  const  { return( Q2()/(2.0*(fp1*q())));}
+         double         t_true()  const { return( (fp1-fp2)*(fp1-fp2) ); }
+
+         // target in rest frame
+         //double         t_approx()  const { TLorentzVector p1_rest(fM1,0,0,0); return( (p1_rest-fp2)*(p1_rest-fp2) ); }
+         double         t_approx()  const { return( (q()-fp0)*(q()-fp0) ); }
          double         x()  const  { return( Q2()/(2.0*(fM1*nu())) );}
          double         y()  const  { return( nu()/E1() ) ;}
          double         W()  const  { return( TMath::Sqrt( (TLorentzVector(0,0,0,fM1)+q()).Mag2() ) ) ;}
