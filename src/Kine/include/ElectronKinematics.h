@@ -60,9 +60,10 @@ namespace kinematics {
          double         t_true()  const { return( (fp1-fp2)*(fp1-fp2) ); }
 
          // target in rest frame
-         //double         t_approx()  const { TLorentzVector p1_rest(fM1,0,0,0); return( (p1_rest-fp2)*(p1_rest-fp2) ); }
-         double         t_approx()  const { return( (q()-fp0)*(q()-fp0) ); }
-         double         x()  const  { return( Q2()/(2.0*(fM1*nu())) );}
+         double         t_approx()  const { TLorentzVector p1_rest(fM1,0,0,0); return( (p1_rest-fp2)*(p1_rest-fp2) ); }
+         //double         t_approx()  const { return( (q()-fp0)*(q()-fp0) ); }
+         double         x()  const  { return( Q2()/(2.0*((0.938)*nu())) );}
+         double         xA() const  { return( Q2()/(2.0*(fM1*nu())) );}
          double         y()  const  { return( nu()/E1() ) ;}
          double         W()  const  { return( TMath::Sqrt( (TLorentzVector(0,0,0,fM1)+q()).Mag2() ) ) ;}
 
@@ -71,6 +72,18 @@ namespace kinematics {
          TVector3       beta_CM_ep() const { return( -1.0*(k1() + p1()).BoostVector() ); }
          TVector3       beta_CM_qp() const { return( -1.0*(q() + p1()).BoostVector() ); }
 
+         double         phi_dvcs() const {
+            TVector3 n1 = fk1.Vect().Cross(fk2.Vect());
+            TVector3 n2 = fp2.Vect().Cross(fp0.Vect());
+            // positive if q2 projection along (k1xk2) is positive. Otherwise it is negative
+            double sign = n1*(fp0.Vect());
+            if(sign > 0.0 ){
+               sign = 1.0;
+            }else {
+               sign = -1.0;
+            }
+            return( sign*(n1.Angle(n2)));
+         }
          double         t_min() const { return(fM0*fM0 - Q2() + 2.0*E1()*nu() + - 2.0*(q().Vect()*fp0.Vect()));}
          double         t_ion() const { return( t() ); }
          double         t_max() const {
