@@ -58,6 +58,7 @@ namespace kinematics {
          // target in moving frame
          double         x_true()  const  { return( Q2()/(2.0*(fp1*q())));}
          double         t_true()  const { return( (fp1-fp2)*(fp1-fp2) ); }
+         double         t_q1q2()  const { return( (q()-fp0)*(q()-fp0) ); }
 
          // target in rest frame
          double         t_approx()  const { TLorentzVector p1_rest(fM1,0,0,0); return( (p1_rest-fp2)*(p1_rest-fp2) ); }
