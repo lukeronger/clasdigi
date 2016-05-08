@@ -105,7 +105,9 @@ int clas12::sim::ThrownEvent::ReadLundHeader(std::ifstream& in)
    ss >> fBeamPol;
    double temp;
    if(ss.eof()){
-      std::cout << "error: end of sstream\n";
+
+      std::cout << "error: end of sstream on line\n";
+      std::cout << line << std::endl;
       return 0;
    }
    for(int i = 5; i<10; i++) {
