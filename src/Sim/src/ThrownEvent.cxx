@@ -105,9 +105,10 @@ int clas12::sim::ThrownEvent::ReadLundHeader(std::ifstream& in)
    double temp;
    if(ss.eof()){
       std::cout << "error: end of sstream\n";
-   }
-   for(int i = 5; i<10; i++) {
-      ss >> temp;
+   } else {
+      for(int i = 5; i<10; i++) {
+         ss >> temp;
+      }
    }
    //std::cout << "ipart = " << ipart <<std::endl;
    return ipart;
