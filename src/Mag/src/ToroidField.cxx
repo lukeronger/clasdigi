@@ -103,6 +103,7 @@ void clas12::mag::ToroidField::ReadMap()
    std::cout << " fStride_phi*fStride_r*fStride_z   : " << fStride_phi*fStride_r*fStride_z << std::endl;
    //fParticles->Clear();
    //fNParticles = 0;
+   fMapFile.close();
 } 
 //______________________________________________________________________________
 TVector3 clas12::mag::ToroidField::GetField(const TVector3& v) const

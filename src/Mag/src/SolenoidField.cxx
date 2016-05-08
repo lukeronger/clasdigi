@@ -98,6 +98,7 @@ void clas12::mag::SolenoidField::ReadMap()
    std::cout << "done reading solenoid field map \n";
    //fParticles->Clear();
    //fNParticles = 0;
+   fMapFile.close();
 } 
 //______________________________________________________________________________
 
