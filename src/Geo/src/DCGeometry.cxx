@@ -177,7 +177,8 @@ namespace clas12 {
          Hep2Vector p6( -x2, h2-dx);
          Hep2Vector p7(  x2, h2-dx);
 
-         points = { p1, p2, p3, p0, p5, p6, p7, p4 };
+         //points = { p1, p2, p3, p0, p5, p6, p7, p4 };
+         points = { p0, p3, p2, p1, p4, p7, p6, p5 };
 
          return points;
       }
