@@ -81,6 +81,7 @@ int clas12::sim::ThrownEvent::ReadLundHeader(std::ifstream& in)
    std::getline(in, line);
    std::stringstream ss;
    ss << line;
+   //std::cout << line;
 
    // Lund format reference: https://gemc.jlab.org/gemc/Documentation/Entries/2011/3/18_The_LUND_Format.html
    // Header:
@@ -105,10 +106,10 @@ int clas12::sim::ThrownEvent::ReadLundHeader(std::ifstream& in)
    double temp;
    if(ss.eof()){
       std::cout << "error: end of sstream\n";
-   } else {
-      for(int i = 5; i<10; i++) {
-         ss >> temp;
-      }
+      return 0;
+   }
+   for(int i = 5; i<10; i++) {
+      ss >> temp;
    }
    //std::cout << "ipart = " << ipart <<std::endl;
    return ipart;
