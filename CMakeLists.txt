@@ -111,7 +111,7 @@ set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin")
 list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
 list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS}/etc/cmake)
 find_package(ROOT REQUIRED COMPONENTS MathCore RIO Hist MathMore Graf Graf3d
-   Gpad GX11 GeomPainter X3d Gviz3d RGL Html GuiHtml
+   Gpad GeomPainter X3d Gviz3d RGL Html GuiHtml
    Eve EG Foam GenVector Geom GLEW Gui HistPainter MathCore Matrix MLP Net
    Physics Spectrum Thread Tree TreeViewer)
 include(${ROOT_USE_FILE})

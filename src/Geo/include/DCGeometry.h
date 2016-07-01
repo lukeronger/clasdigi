@@ -132,6 +132,17 @@ namespace clas12 {
             FrontGap.at(2) + SuperLayerWidth.at(4) + MidGap.at(2)+1.5*LayerSep.at(5)
          };
 
+         // Offset of superlayer moving up (larger angle) in gas volume .
+         // *needs attention*  these were arbitrarily set. 
+         const std::array<double,6> SuperLayerYOffset = {
+            8.0*cm,
+            4.0*cm,
+            8.0*cm,
+            4.0*cm,
+            14.0*cm,
+            4.0*cm
+         };
+
 
          // Distance from target to first guard wire (at ThetaMin)
          const std::array<double,6> CenterToRefWire = {
@@ -383,7 +394,7 @@ namespace clas12 {
          };
          // top/Back plate extra gap between the gas and container volumes
          const std::array<double,3> BackPlateExtraGap  = {
-            2.0*inch,
+            5.0*inch,
             8.0*inch,
             10.0*inch
          };

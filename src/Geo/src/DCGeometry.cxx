@@ -250,6 +250,7 @@ namespace clas12 {
       {
          // coordinate to place the geant4 trap
          // note this is the front corner of the edge where the endplates would meet
+         // if they kept going past the nose plate.
          using namespace clas12::geo::DC;
          int index = region-1;
          return( RegionXOffset[index] );
@@ -293,12 +294,13 @@ namespace clas12 {
          int index = SuperLayerRegionIndex.at(sl-1);
          double RegionLength = RegionDepth(index+1);//FrontGap[index] + MidGap[index] + BackGap[index];
 
-         double arb_offset = 4*cm;
+         double arb_offset = SuperLayerYOffset.at(sl-1);
          int    i = (layer%2);
          double y = arb_offset + (0.5*double(i) + double(wire-1))*LayerWireSpacing[sl-1];
          double z = -RegionLength/2.0;
          z += SuperLayerZOffset.at(sl-1);
-         z += double(layer)*3.0*LayerSep[sl-1]; Hep3Vector  vec(   0.0, y, z);
+         z += double(layer)*3.0*LayerSep[sl-1]; 
+         Hep3Vector  vec(   0.0, y, z);
          Hep3Vector  offset(0.0, RefWireOffset.at(sl-1).y(), RefWireOffset.at(sl-1).x());
          vec += offset;
          return vec;
