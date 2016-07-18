@@ -23,7 +23,7 @@ void clas12::hits::CLAS12HitsEvent::SetRunNumber(int n)
    fDCEvent.fRunNumber          = n;
    fRCEvent.fRunNumber          = n;
    fECEvent.fRunNumber          = n;
-   fRHEvent.fRunNumber = n;
+   fRHEvent.fRunNumber 		= n;
    fSVTEvent.fRunNumber         = n;
    fHitMask.fRunNumber          = n;
 }
@@ -36,7 +36,7 @@ void clas12::hits::CLAS12HitsEvent::SetEventNumber(int n)
    fDCEvent.fEventNumber          = n;
    fRCEvent.fEventNumber          = n;
    fECEvent.fEventNumber          = n;
-   fRHEvent.fEventNumber = n;
+   fRHEvent.fEventNumber 	  = n;
    fSVTEvent.fEventNumber         = n;
    fHitMask.fEventNumber          = n;
 }

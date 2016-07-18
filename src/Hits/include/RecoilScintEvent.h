@@ -29,8 +29,11 @@ namespace clas12 {
             TClonesArray * fPhotonHits;     //->
             TClonesArray * fChannelHits;    //->
 
-            std::map<int,PhotonCounterHit>  fPhotonCounterHits;
+	    std::map<int,PhotonCounterHit>  fPhotonCounterHits0;
+            std::map<int,PhotonCounterHit>  fPhotonCounterHits1;
+            std::map<int,PhotonCounterHit>  fPhotonCounterHitsTile;
             std::map<int,ScintChannelHit>   fScintChannelHits;
+
 
          public:
             RecoilScintEvent();

@@ -106,8 +106,10 @@ void clas12::hits::RecoilScintEvent::Clear(Option_t * opt)
    fParticleHits->Clear();
    fChannelHits->Clear();
    fScintChannelHits.clear();
-   fPhotonCounterHits.clear();
-}
+   fPhotonCounterHits0.clear();
+   fPhotonCounterHits1.clear();
+   fPhotonCounterHitsTile.clear();
+  }
 //______________________________________________________________________________
 
 void clas12::hits::RecoilScintEvent::Print(Option_t * opt) const
