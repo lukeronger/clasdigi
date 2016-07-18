@@ -54,7 +54,7 @@ namespace clas12 {
             void Clear(Option_t * opt = "")  ;
             void Print(Option_t * opt = "") const  ;
 
-         ClassDef(RecoilScintEvent,7)
+         ClassDef(RecoilScintEvent,8)
       };
 
    }

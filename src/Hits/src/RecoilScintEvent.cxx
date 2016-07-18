@@ -6,10 +6,11 @@
 clas12::hits::RecoilScintEvent::RecoilScintEvent() : fRunNumber(0), fEventNumber(0),
    fNHits(0),  fNPhotonHits(0), fNParticleHits(0),fNChannelHits(0)
 {
-   fHits  = new TClonesArray("clas12::hits::RecoilScintHit",5);
-   fPhotonHits  = new TClonesArray("clas12::hits::PhotonHit",5);
-   fParticleHits  = new TClonesArray("clas12::hits::ParticleHit",5);
+   fHits         = new TClonesArray("clas12::hits::RecoilScintHit",5);
+   fPhotonHits   = new TClonesArray("clas12::hits::PhotonHit",5);
+   fParticleHits = new TClonesArray("clas12::hits::ParticleHit",5);
    fChannelHits  = new TClonesArray("clas12::hits::ScintChannelHit",5);
+   Clear();
 } 
 //______________________________________________________________________________
 
