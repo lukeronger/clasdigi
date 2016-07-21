@@ -31,15 +31,15 @@ namespace clas12 {
 
       void RunConfiguration::Print(std::ostream& s) const
       {
-         s  << std::right << std::setw(10) << "N events" << " : " 
+         s  << std::right << std::setw(20) << "N events" << " : " 
             << std::left  << std::setw(60) << fNSimulated << "\n"
-            << std::right << std::setw(10) << "input file" << " : " 
+            << std::right << std::setw(20) << "input file" << " : " 
             << std::left  << std::setw(60) << fInputFileName << "\n"
-            << std::right << std::setw(10) << "input tree" << " : " 
+            << std::right << std::setw(20) << "input tree" << " : " 
             << std::left  << std::setw(60) << fInputTreeName << "\n"
-            << std::right << std::setw(10) << "output file" << " : " 
+            << std::right << std::setw(20) << "output file" << " : " 
             << std::left  << std::setw(60) << fOutputFileName << "\n"
-            << std::right << std::setw(10) << "output tree" << " : " 
+            << std::right << std::setw(20) << "output tree" << " : " 
             << std::left  << std::setw(60) << fOutputTreeName << "\n";
       }
       //______________________________________________________________________________
