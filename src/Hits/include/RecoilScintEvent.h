@@ -32,7 +32,8 @@ namespace clas12 {
 	    std::map<int,PhotonCounterHit>  fPhotonCounterHits0;
             std::map<int,PhotonCounterHit>  fPhotonCounterHits1;
             std::map<int,PhotonCounterHit>  fPhotonCounterHitsTile;
-            std::map<int,ScintChannelHit>   fScintChannelHits;
+            std::map<int,ScintChannelHit>   fScintChannelHitsBar;
+            std::map<int,ScintChannelHit>   fScintChannelHitsTile;
 
 
          public:
