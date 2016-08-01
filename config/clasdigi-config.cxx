@@ -13,7 +13,7 @@ void print_cflags();
 void print_ldflags();
 void print_inc();
 void print_version();
-void print_grid();
+void print_data();
 void print_prefix();
 
 int main(int argc, char * argv[]) {
@@ -31,7 +31,7 @@ int main(int argc, char * argv[]) {
       {"cflags",    no_argument,  0, 'c'},
       {"ldflags",   no_argument,  0, 'd'},
       {"inc",       no_argument,  0, 'i'},
-      {"grid",      no_argument,  0, 'g'},
+      {"data",      no_argument,  0, 'D'},
       {"prefix",    no_argument,  0, 'p'},
       {0,0,0,0}
    };
@@ -44,7 +44,7 @@ int main(int argc, char * argv[]) {
 
    while(iarg != -1)
    {
-      iarg = getopt_long(argc, argv, "vhlcpd", longopts, &index);
+      iarg = getopt_long(argc, argv, "vhlcpdD", longopts, &index);
 
       switch (iarg)
       {
@@ -76,9 +76,10 @@ int main(int argc, char * argv[]) {
             print_prefix();
             break;
 
-         case 'g':
-            print_grid();
+         case 'D':
+            print_data();
             break;
+
 
 
       }
@@ -94,7 +95,7 @@ void print_version(){
 }
 
 void print_usage(){
-   std::cout << "ClasDigi-config --libs --cflags --ldflags --inc --grid" << " ";
+   std::cout << "ClasDigi-config --libs --cflags --ldflags --inc --data" << " ";
 }
 
 void print_libs(){
@@ -113,7 +114,7 @@ void print_ldflags(){
    std::cout << ClasDigi_CXX_LDFLAGS << " ";
 }
 
-void print_grid(){
+void print_data(){
    std::cout << ClasDigi_DATA_DIR << " ";
 }
 
