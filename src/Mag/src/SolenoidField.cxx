@@ -14,21 +14,21 @@ clas12::mag::SolenoidField::SolenoidField() :
    fz_min(-3.0), fz_max(3.0),  fStride_r(601), fStride_z(1201),
    fr_offset(0.0), fz_offset(3.0) 
 {
-   fMapFileName = ClasDigi_DATA_DIR"/clas12SolenoidFieldMap.dat";
+   fMapFileName = ClasDigi_DATA_DIR "/clas12SolenoidFieldMap.dat";
    //clas12SolenoidFieldMap.dat  clas12TorusOriginalMap.dat
    //fr_min = 0.0;     // m
    //fr_max = 3.0 ;    // m
    //fz_min = -3.0;    // m
    //fz_max = 3.0;     // m
 
-   std::cout << " fz_min " << fz_min << std::endl;
-   std::cout << " fz_max " << fz_max << std::endl;
-   std::cout << " fr_min " << fr_min << std::endl;
-   std::cout << " fr_max " << fr_max << std::endl;
-   std::cout << " fStride_z " << fStride_z << std::endl;
-   std::cout << " fStride_r " << fStride_r << std::endl;
-   std::cout << " fz_offset " << fz_offset << std::endl;
-   std::cout << " fr_offset " << fr_offset << std::endl;
+   //std::cout << " fz_min " << fz_min << std::endl;
+   //std::cout << " fz_max " << fz_max << std::endl;
+   //std::cout << " fr_min " << fr_min << std::endl;
+   //std::cout << " fr_max " << fr_max << std::endl;
+   //std::cout << " fStride_z " << fStride_z << std::endl;
+   //std::cout << " fStride_r " << fStride_r << std::endl;
+   //std::cout << " fz_offset " << fz_offset << std::endl;
+   //std::cout << " fr_offset " << fr_offset << std::endl;
 
 
 } 
@@ -52,10 +52,20 @@ void clas12::mag::SolenoidField::Print(const char * opt) const
 } 
 //______________________________________________________________________________
 
-void clas12::mag::SolenoidField::ReadMap()
+void clas12::mag::SolenoidField::ReadMap(const char * opt)
 {
+   std::string option = opt;
+   bool verbose_printing = false;
+   if( option.find('v') != std::string::npos ){
+      verbose_printing = true;
+   }
+
+
+   if( verbose_printing ) {
    std::cout << "Reading Solenoid Field Map : \n";
    std::cout << fMapFileName << std::endl;
+   }
+
 
    fMapFile.open(fMapFileName);
    std::string line;
@@ -67,7 +77,9 @@ void clas12::mag::SolenoidField::ReadMap()
       ss << line;
       std::string temp;
       ss >> temp;
-      std::cout << line << "\n";
+      if( verbose_printing ) {
+         std::cout << line << "\n";
+      }
       if( temp == "</mfield>" ) break;
 
    }
@@ -92,10 +104,10 @@ void clas12::mag::SolenoidField::ReadMap()
       //std::cout << r << " " << z << " " << Br << " " << Bz << "\n";
       //if(n_lines > 20) break;
    }
-   std::cout << "Field has " << n_lines << " data points\n";
-
-
-   std::cout << "done reading solenoid field map \n";
+   if( verbose_printing ) {
+      std::cout << "Field has " << n_lines << " data points\n";
+      std::cout << "done reading solenoid field map \n";
+   }
    //fParticles->Clear();
    //fNParticles = 0;
    fMapFile.close();

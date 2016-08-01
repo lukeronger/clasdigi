@@ -87,7 +87,7 @@ namespace clas12 {
       Hep3Vector RCGeometry::GetFirstCellPosition(int layer, int subcell) const {
          double r    = fCellCentralRadius.at(layer);
          double dphi = 0.0;
-         std::cout << " subcell " << subcell << std::endl;
+         //std::cout << " subcell " << subcell << std::endl;
          if( subcell != -1 ){
             if( (subcell == 1) || (subcell == 2) ) {
                dphi = fCellDeltaPhi.at(layer)/4.0;
