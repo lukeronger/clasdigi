@@ -65,7 +65,7 @@ namespace clas12 {
             void Print(const char * opt = "") const;
             void Clear(const char * opt = "") ;
 
-            void ReadMap();
+            void ReadMap(const char * opt = "");
 
             TVector3 GetField(double x, double y, double z) const ;
             TVector3 GetField(const TVector3& v) const ;

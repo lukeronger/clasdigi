@@ -50,10 +50,18 @@ void clas12::mag::ToroidField::Print(const char * opt) const
 } 
 //______________________________________________________________________________
 
-void clas12::mag::ToroidField::ReadMap()
+void clas12::mag::ToroidField::ReadMap(const char * opt)
 {
-   std::cout << "Reading Toroid Field Map : \n";
-   std::cout << fMapFileName << std::endl;
+   std::string option = opt;
+   bool verbose_printing = false;
+   if( option.find('v') != std::string::npos ){
+      verbose_printing = true;
+   }
+
+   if( verbose_printing ) {
+      std::cout << "Reading Toroid Field Map : \n";
+      std::cout << fMapFileName << std::endl;
+   }
 
    fMapFile.open(fMapFileName.c_str());
    std::string line;
@@ -65,7 +73,9 @@ void clas12::mag::ToroidField::ReadMap()
       ss << line;
       std::string temp;
       ss >> temp;
-      std::cout << line << "\n";
+      if( verbose_printing ) {
+         std::cout << line << "\n";
+      }
       if( temp == "</mfield>" ) break;
 
    }
@@ -95,12 +105,14 @@ void clas12::mag::ToroidField::ReadMap()
       //   std::cout << phi << " " << r << " " << z << " " << Bphi << " " << Br << " " << Bz << "\n";
       //}
    }
-   std::cout << "ToroidField has " << n_lines << " data points\n";
-   std::cout << "done reading solenoid field map \n";
-   std::cout << " n_phi : " << fBphi.size() << std::endl;
-   std::cout << " n_r   : " << fBr.size() << std::endl;
-   std::cout << " n_z   : " << fBz.size() << std::endl;
-   std::cout << " fStride_phi*fStride_r*fStride_z   : " << fStride_phi*fStride_r*fStride_z << std::endl;
+   if( verbose_printing ) {
+      std::cout << "ToroidField has " << n_lines << " data points\n";
+      std::cout << "done reading solenoid field map \n";
+      std::cout << " n_phi : " << fBphi.size() << std::endl;
+      std::cout << " n_r   : " << fBr.size() << std::endl;
+      std::cout << " n_z   : " << fBz.size() << std::endl;
+      std::cout << " fStride_phi*fStride_r*fStride_z   : " << fStride_phi*fStride_r*fStride_z << std::endl;
+   }
    //fParticles->Clear();
    //fNParticles = 0;
    fMapFile.close();

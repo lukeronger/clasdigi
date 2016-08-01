@@ -60,10 +60,9 @@ void clas12::mag::SolenoidField::ReadMap(const char * opt)
       verbose_printing = true;
    }
 
-
    if( verbose_printing ) {
-   std::cout << "Reading Solenoid Field Map : \n";
-   std::cout << fMapFileName << std::endl;
+      std::cout << "Reading Solenoid Field Map : \n";
+      std::cout << fMapFileName << std::endl;
    }
 
 
