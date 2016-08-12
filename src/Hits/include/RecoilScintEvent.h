@@ -21,11 +21,13 @@ namespace clas12 {
             int            fEventNumber;
 
             int            fNHits;
-            int            fNParticleHits;
+            int            fNParticleHitsBar;
+            int            fNParticleHitsTile;
             int            fNPhotonHits;
             int            fNChannelHits;
             TClonesArray * fHits;           //->
-            TClonesArray * fParticleHits;   //->
+            TClonesArray * fParticleHitsBar;   //->
+            TClonesArray * fParticleHitsTile;   //->
             TClonesArray * fPhotonHits;     //->
             TClonesArray * fChannelHits;    //->
 
@@ -43,8 +45,11 @@ namespace clas12 {
             RecoilScintHit * AddHit(int chan = 0);
             RecoilScintHit * GetHit(int i);
 
-            ParticleHit * AddParticleHit(int chan = 0);
-            ParticleHit * GetParticleHit(int i);
+            ParticleHit * AddParticleHitBar(int chan = 0);
+            ParticleHit * GetParticleHitBar(int i);
+
+            ParticleHit * AddParticleHitTile(int chan = 0);
+            ParticleHit * GetParticleHitTile(int i);
 
             PhotonHit * AddPhotonHit(int chan = 0);
             PhotonHit * GetPhotonHit(int i);
@@ -55,7 +60,7 @@ namespace clas12 {
             void Clear(Option_t * opt = "")  ;
             void Print(Option_t * opt = "") const  ;
 
-         ClassDef(RecoilScintEvent,9)
+         ClassDef(RecoilScintEvent,10)
       };
 
    }
