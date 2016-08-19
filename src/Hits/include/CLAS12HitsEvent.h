@@ -27,6 +27,7 @@ namespace clas12 {
             RCHitsEvent      fRCEvent;
             RecoilScintEvent fRHEvent;
             SVTEvent         fSVTEvent;
+            //HodoEvent        fHodoEvent;
 
             EventHitMask     fHitMask;
             int              fNTrackHitMasks;

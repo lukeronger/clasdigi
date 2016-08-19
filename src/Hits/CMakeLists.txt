@@ -42,6 +42,7 @@ set(lib_files
    ForwardHitMask
    EventHitMask
    SVTEvent
+   RHHit
 )
 
 set(lib_Fortran_files

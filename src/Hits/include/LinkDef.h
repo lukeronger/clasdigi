@@ -29,6 +29,7 @@
 #pragma link C++ class clas12::hits::PhotonCounterHit+;
 #pragma link C++ class clas12::hits::RecoilScintEvent+;
 #pragma link C++ class clas12::hits::ScintChannelHit+;
+#pragma link C++ class clas12::hits::RHHit+;
 
 #pragma link C++ class clas12::hits::ADCHit+;
 #pragma link C++ class clas12::hits::TDCHit+;
