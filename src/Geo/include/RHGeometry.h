@@ -55,9 +55,9 @@ namespace clas12 {
             double       GetChannelPhi(int channel) const ;
             double       GetChannelZ(int channel) const ;
             double       GetChannelRadius(int channel) const ;
-            double       GetTilePhi(int channel) const;
-            double       GetTileZ(int channel) const;
-            double       GetTileR(int channel) const;
+            //double       GetTilePhi(int channel) const;
+            //double       GetTileZ(int channel) const;
+            //double       GetTileR(int channel) const;
 
 
             //int        GetWireLayer(int channel) const ;
@@ -82,6 +82,7 @@ namespace clas12 {
 
             //std::vector<Hep2Vector> GetSubCellTrapPoints(int layer, int subcell) ;
 
+        ClassDef(RHGeometry,1)
       };
 
    }

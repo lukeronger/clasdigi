@@ -20,6 +20,7 @@
 #pragma link C++ namespace eic;
 #pragma link C++ namespace eic::geo;
 
+#pragma link C++ class clas12::geo::RHGeometry+;
 
 //#pragma link C++ function clas12::DriftChamber::P_j_ion_pair(double, int, double);
 //
