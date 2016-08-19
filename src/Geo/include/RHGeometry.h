@@ -55,6 +55,10 @@ namespace clas12 {
             double       GetChannelPhi(int channel) const ;
             double       GetChannelZ(int channel) const ;
             double       GetChannelRadius(int channel) const ;
+            double       GetTilePhi(int channel) const;
+            double       GetTileZ(int channel) const;
+            double       GetTileR(int channel) const;
+
 
             //int        GetWireLayer(int channel) const ;
             //double     GetSenseWireRadius(int channel) const ;

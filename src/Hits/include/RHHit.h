@@ -29,8 +29,8 @@ namespace clas12 {
         double fRatioTileBar;
 
       public:
-        RHHit();
-        virtual ~RHHit();
+        RHHit(){}
+        virtual ~RHHit(){}
 
         //void Clear(Option_t * opt = "");
         //void Print(Option_t * opt = "") const;
