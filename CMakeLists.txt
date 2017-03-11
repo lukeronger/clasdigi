@@ -114,6 +114,7 @@ find_package(ROOT REQUIRED COMPONENTS MathCore RIO Hist MathMore Graf Graf3d
    Gpad GeomPainter Gviz3d RGL Html GuiHtml
    Eve EG Foam GenVector Geom GLEW Gui HistPainter MathCore Matrix MLP Net
    Physics Spectrum Thread Tree TreeViewer)
+message("ROOT_USE_FILE ${ROOT_USE_FILE}")
 include(${ROOT_USE_FILE})
 include_directories(${CMAKE_SOURCE_DIR} ${ROOT_INCLUDE_DIRS})
 message("ROOT_CXX_FLAGS : ${ROOT_CXX_FLAGS}")
@@ -130,14 +131,16 @@ include(cmake/root.cmake)
 
 # ----------
 # CLHEP
-#set (CLHEP_CONFIG_DEBUG 1)
-find_package(CLHEP  REQUIRED)
+set (CLHEP_CONFIG_DEBUG 1)
+find_package(CLHEP  REQUIRED COMPONENTS Vector Evaluator GenericFunctions Geometry Random Matrix RandomObjects Cast RefCount Exceptions)
 #  CLHEP_INCLUDE_DIRS - include directories for CLHEP
 #  CLHEP_DEFINITIONS  - compile definitions needed to use CLHEP
 #  CLHEP_LIBRARIES    - libraries to link against
 set(CLHEP_LIBRARY_DIR $ENV{JLAB_PREFIX}/lib)
 include_directories(${CLHEP_INCLUDE_DIR})
 message(" CLHEP_DEFINITIONS = ${CLHEP_DEFINITIONS} " )
+message(" CLHEP_INCLUDE_DIRS = ${CLHEP_INCLUDE_DIRS} " )
+message(" CLHEP_LIBRARIES = ${CLHEP_LIBRARIES} " )
 
 # EVIO
 #set(EVIO_INCLUDE_DIR $ENV{JLAB_PREFIX}/include)
@@ -192,14 +195,14 @@ endforeach(aSharedLib)
 
 # configure a header file to pass some of the CMake settings to the source code
 configure_file (
-   "${PROJECT_SOURCE_DIR}/ClasDigiConfig.h.in"
+   "${PROJECT_SOURCE_DIR}/src/config/ClasDigiConfig.h.in"
    "${PROJECT_BINARY_DIR}/ClasDigiConfig.h"
    )
 
 #----------------------------------------------------------------------------
 # Add the executable
 #add_executable(ClasDigi-config ClasDigi-config.cxx )
-add_subdirectory(config)
+add_subdirectory(src/config)
 
 set(ClasDigi_SHARED_LIBS)
 set(ClasDigi_LIBRARIES)
@@ -326,13 +329,18 @@ set(CONF_LIBRARY_DIRS
    ${CMAKE_INSTALL_PREFIX}/lib
    )
 
-configure_file(${PROJECT_NAME}Config.cmake.in "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}Config.cmake" @ONLY)
-configure_file(${PROJECT_NAME}ConfigVersion.cmake.in "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}ConfigVersion.cmake" @ONLY)
+configure_file(src/config/${PROJECT_NAME}Config.cmake.in 
+  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}Config.cmake" @ONLY)
+configure_file(src/config/${PROJECT_NAME}ConfigVersion.cmake.in 
+  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}ConfigVersion.cmake" @ONLY)
+configure_file(src/config/${PROJECT_NAME}UseFile.cmake.in 
+  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}UseFile.cmake" @ONLY)
 
 # Install the FooBarConfig.cmake and FooBarConfigVersion.cmake
 install(FILES
   "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}Config.cmake"
   "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}ConfigVersion.cmake"
+  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}UseFile.cmake"
   DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT dev)
 
 # Install the export set for use with the install-tree
