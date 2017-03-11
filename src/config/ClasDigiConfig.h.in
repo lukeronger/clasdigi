@@ -1,0 +1,12 @@
+// the configured options and settings for Tutorial
+#define ClasDigi_MAJOR_VERSION @ClasDigi_MAJOR_VERSION@
+#define ClasDigi_MINOR_VERSION @ClasDigi_MINOR_VERSION@
+#define ClasDigi_PATCH_VERSION @ClasDigi_PATCH_VERSION@
+
+#define ClasDigi_DATA_DIR      "@ClasDigi_DATA_DIR@"
+#define ClasDigi_CXX_CFLAGS    "@ClasDigi_CXX_CFLAGS@"
+#define ClasDigi_CXX_LDFLAGS   "@ClasDigi_CXX_LDFLAGS@"
+#define ClasDigi_CXX_LIBS      "@ClasDigi_CXX_LIBS@"
+#define ClasDigi_CXX_INC_DIR   "@ClasDigi_CXX_INC_DIR@"
+#define ClasDigi_PREFIX        "@CMAKE_INSTALL_PREFIX@"
+
