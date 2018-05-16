@@ -13,6 +13,9 @@ namespace clas12 {
       class RecoilChamberParticleHit : public ParticleHit {
 
          public : 
+           double fDeltaE      = 0.0;
+           double fTrackLength = 0.0;
+
             //int             fChannel;        // Channel number .
             //int             fPDGCode;        // PDG code of particle.
             //int             fTrackID;        // track id.

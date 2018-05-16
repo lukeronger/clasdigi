@@ -25,11 +25,15 @@ namespace clas12 {
             int            fNParticleHits;
             int            fNRegionHits;
 
+
             TClonesArray * fADCHits;       //->
             TClonesArray * fTDCHits;       //->
             TClonesArray * fIonPairs;      //->
             TClonesArray * fParticleHits;  //->
             TClonesArray * fRegionHits;    //->
+
+            double          fTotalTrackLength = 0.0;
+            double          fTotalDeltaE      = 0.0;
 
          public:
             RCHitsEvent();

@@ -85,6 +85,8 @@ void clas12::hits::RCHitsEvent::Clear(Option_t * opt)
    fNIonPairs = 0;
    fNParticleHits = 0;
    fNRegionHits = 0;
+   fTotalTrackLength = 0.0;
+   fTotalDeltaE      = 0.0;
    fADCHits->Clear();
    fTDCHits->Clear();
    fIonPairs->Clear();
