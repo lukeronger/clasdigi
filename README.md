@@ -4,13 +4,13 @@ clasdigi : Clas12 digitizer
 Installing
 ----------
 
-###Requirements
+### Requirements
 
 - Modern C++ compiler with c++11/14 support
 - CLHEP
 - ROOT6
 
-###Building
+### Building
 
 ```
 git clone git@github.com:whit2333/clasdigi.git
@@ -19,7 +19,7 @@ cmake ../clasdigi/. -DCMAKE_INSTALL_PREFIX=$HOME
 make install
 ```
 
-###Using with root
+### Using with root
 
 To use these libraries seamlessly in root add this to your rootlogon.C
    gInterpreter->AddIncludePath("$HOME/include/ClasDigi");
@@ -35,7 +35,7 @@ To use these libraries seamlessly in root add this to your rootlogon.C
 Status
 ------
 
-This project is very much in its infancy.
+Mostly used for ALERT simulation.
 
 Send questions to Whitney Armstrong ( whit@jlab.org )
 
